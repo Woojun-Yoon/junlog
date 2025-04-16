@@ -1,6 +1,7 @@
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 
 import { buildConfig } from "payload";
+import { payloadTotp } from "payload-totp";
 import sharp from "sharp";
 
 import { Categories } from "@/payload/collections/Categories";
@@ -71,5 +72,18 @@ export default buildConfig({
   typescript: {
     outputFile: "src/payload-types.ts",
   },
-  plugins: [...plugins],
+  plugins: [
+    ...plugins,
+    payloadTotp({
+      collection: "users",
+      forceSetup: true,
+      disableAccessWrapper: true,
+      totp: {
+        issuer: "junlog admin dashboard",
+        algorithm: "SHA256",
+        digits: 6,
+        period: 30,
+      },
+    }),
+  ],
 });

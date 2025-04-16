@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "start": "next start",
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap",
@@ -39,6 +39,7 @@
     "next-sitemap": "^4.2.3",
     "nodemailer": "^6.10.1",
     "payload": "^3.24.0",
+    "payload-totp": "3.0.0-beta.0",
     "prism-react-renderer": "^2.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
