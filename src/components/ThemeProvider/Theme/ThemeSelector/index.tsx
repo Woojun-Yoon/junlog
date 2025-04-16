@@ -34,7 +34,10 @@ export const ThemeSelector: React.FC = () => {
       type="single"
       size="sm"
       value={value}
-      onValueChange={(value: Theme) => onThemeChange(value)}
+      onValueChange={(value) => {
+        if (!value) return;
+        onThemeChange(value as Theme);
+      }}
     >
       <ToggleGroupItem
         value="auto"
