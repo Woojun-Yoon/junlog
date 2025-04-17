@@ -74,6 +74,7 @@ export default function ContactPage() {
                 id="name"
                 name="name"
                 type="text"
+                autoComplete="name"
                 required
                 placeholder="name"
                 className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
@@ -82,6 +83,7 @@ export default function ContactPage() {
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="email"
                 required
                 placeholder="email"
                 className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
@@ -90,6 +92,7 @@ export default function ContactPage() {
                 id="subject"
                 name="subject"
                 type="text"
+                autoComplete="off"
                 required
                 placeholder="subject"
                 className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
@@ -97,6 +100,7 @@ export default function ContactPage() {
               <textarea
                 id="message"
                 name="message"
+                autoComplete="off"
                 rows={5}
                 required
                 placeholder="message"
