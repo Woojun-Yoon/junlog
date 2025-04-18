@@ -1,13 +1,10 @@
 import type { Metadata } from "next/types";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
-import Link from "next/link";
 import PageClient from "./page.client";
-import { cn } from "@/lib/utils"; // tailwind-merge helper if needed
-import { Button } from "@/components/ui/button"; // from shadcn/ui
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
-export const POSTS_SIZE = 5;
+const POSTS_SIZE = 5;
 
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise });
@@ -27,62 +24,42 @@ export default async function HomePage() {
   });
 
   return (
-    <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
+    <>
       <PageClient />
 
-      {/* Hero Section */}
-      <section className="relative py-32 text-center bg-gradient-to-br from-indigo-900/80 to-black/90 dark:from-zinc-900 dark:to-zinc-950 text-white">
-        <div className="max-w-4xl mx-auto px-6">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-            Junlog
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300">
-            백엔드 개발자의 성장과 실무 기록. 트렌디한 개발 이야기들을
-            공유합니다.
-          </p>
-        </div>
-      </section>
-
-      {/* Posts Section */}
-      <section className="py-20 px-4 max-w-6xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          ✨ 최신 포스트
+      {/* Latest Section */}
+      <section className="w-full max-w-4xl px-4 sm:px-8 md:px-12 mx-auto py-12">
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+          Latest
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+        <div className="divide-y divide-border">
           {posts.map((post) => (
-            <Card key={post.slug} className="hover:shadow-xl transition-shadow">
-              <CardHeader>
-                <CardTitle className="text-lg md:text-xl">
-                  <Link
-                    href={`/posts/${post.slug}`}
-                    className="hover:underline text-foreground"
-                  >
-                    {post.title}
-                  </Link>
-                </CardTitle>
+            <Link
+              key={post.slug}
+              href={`/posts/${post.slug}`}
+              className="block group transition-all duration-300 hover:bg-muted/80 hover:shadow-sm rounded-md px-2 sm:px-4 -mx-2 sm:-mx-4"
+            >
+              <div className="py-6 space-y-2 text-left">
+                <h3 className="text-3xl font-semibold text-foreground">
+                  {post.title}
+                </h3>
+
                 <p className="text-sm text-muted-foreground">
                   {new Date(post.createdAt).toLocaleDateString("ko-KR")}
                 </p>
-              </CardHeader>
-              <CardContent>
+
                 {post.summary && (
-                  <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                  <p className="text-lg text-muted-foreground line-clamp-3">
                     {post.summary}
                   </p>
                 )}
-                <Button
-                  variant="link"
-                  className="text-indigo-600 dark:text-indigo-400 p-0 h-auto text-sm"
-                  asChild
-                >
-                  <Link href={`/posts/${post.slug}`}>더보기 →</Link>
-                </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
-    </main>
+    </>
   );
 }
 
