@@ -336,6 +336,7 @@ export interface HighImpactHeroBlock {
 export interface Post {
   id: string;
   title: string;
+  summary: string;
   heroImage?: (string | null) | Media;
   content: {
     root: {
@@ -1117,6 +1118,7 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  summary?: T;
   heroImage?: T;
   content?: T;
   relatedPosts?: T;
