@@ -73,6 +73,7 @@ export const Posts: CollectionConfig<"posts"> = {
       name: "title",
       type: "text",
       required: true,
+      unique: true,
     },
     {
       name: "summary",
