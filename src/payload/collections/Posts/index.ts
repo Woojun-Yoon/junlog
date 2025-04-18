@@ -130,15 +130,6 @@ export const Posts: CollectionConfig<"posts"> = {
               hasMany: true,
               relationTo: "posts",
             },
-            {
-              name: "categories",
-              type: "relationship",
-              admin: {
-                position: "sidebar",
-              },
-              hasMany: true,
-              relationTo: "categories",
-            },
           ],
           label: "Meta",
         },
@@ -199,6 +190,15 @@ export const Posts: CollectionConfig<"posts"> = {
       },
       hasMany: true,
       relationTo: "users",
+    },
+    {
+      name: "categories",
+      type: "relationship",
+      admin: {
+        position: "sidebar",
+      },
+      hasMany: true,
+      relationTo: "categories",
     },
     // This field is only used to populate the user data via the `populateAuthors` hook
     // This is because the `user` collection has access control locked to protect user privacy
