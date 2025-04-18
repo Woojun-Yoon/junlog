@@ -64,15 +64,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   );
 }
 
-export async function generateMetadata({
-  params: paramsPromise,
-}: Args): Promise<Metadata> {
-  const { pageNumber } = await paramsPromise;
-  return {
-    title: `Junlog Posts Page ${pageNumber || ""}`,
-  };
-}
-
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
   const { totalDocs } = await payload.count({
@@ -89,4 +80,13 @@ export async function generateStaticParams() {
   }
 
   return pages;
+}
+
+export async function generateMetadata({
+  params: paramsPromise,
+}: Args): Promise<Metadata> {
+  const { pageNumber } = await paramsPromise;
+  return {
+    title: `Junlog Posts Page ${pageNumber || ""}`,
+  };
 }

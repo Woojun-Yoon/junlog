@@ -71,17 +71,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   );
 }
 
-export async function generateMetadata({
-  params: paramsPromise,
-}): Promise<Metadata> {
-  const { slug = "home" } = await paramsPromise;
-  const page = await queryPageBySlug({
-    slug,
-  });
-
-  return generateMeta({ doc: page });
-}
-
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode();
 
@@ -102,3 +91,14 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
 
   return result.docs?.[0] || null;
 });
+
+export async function generateMetadata({
+  params: paramsPromise,
+}): Promise<Metadata> {
+  const { slug = "home" } = await paramsPromise;
+  const page = await queryPageBySlug({
+    slug,
+  });
+
+  return generateMeta({ doc: page });
+}
