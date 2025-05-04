@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import React from "react";
-import Pretendard from "./font";
+import { Pretendard } from "./font";
 
 import { Footer } from "@/payload/globals/Footer/Component";
 import { Header } from "@/payload/globals/Header/Component";

@@ -91,7 +91,7 @@ export default {
         warning: "hsl(var(--warning))",
       },
       fontFamily: {
-        mono: ["var(--font-geist-mono)"],
+        mono: ["var(--font-jetbrains-mono)", "monospace"],
         sans: ["var(--font-geist-sans)"],
       },
       keyframes: {
