@@ -3,9 +3,12 @@
 import { useHeaderTheme } from "@/components/ThemeProvider/HeaderTheme";
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import Router from "next/router";
+import { useRouter } from "next/navigation";
 
 const PageClient = () => {
   const { setHeaderTheme } = useHeaderTheme();
+  const router = useRouter();
 
   useEffect(() => {
     setHeaderTheme("light");
@@ -62,10 +65,16 @@ const PageClient = () => {
           transition={{ duration: 0.3, delay: 1 }}
           className="relative z-10 mt-4 flex flex-wrap items-center justify-center gap-4"
         >
-          <button className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+          <button
+            onClick={() => router.push("/posts")}
+            className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+          >
             Explore Now
           </button>
-          <button className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
+          <button
+            onClick={() => router.push("/contact")}
+            className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900"
+          >
             Contact Me
           </button>
         </motion.div>
