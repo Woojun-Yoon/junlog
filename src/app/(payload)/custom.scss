@@ -20,3 +20,8 @@ textarea {
 .editor * {
   font-family: "Pretendard Variable", sans-serif !important;
 }
+/* Monaco Editor */
+.monaco-editor,
+.monaco-editor * {
+  font-family: monospace !important;
+}
