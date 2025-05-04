@@ -1,5 +1,5 @@
 "use client";
-import { Highlight, themes } from "prism-react-renderer";
+import { Highlight, themes, Prism } from "prism-react-renderer";
 import React from "react";
 import { CopyButton } from "./CopyButton";
 
@@ -8,12 +8,18 @@ type Props = {
   language?: string;
 };
 
+// Java syntax highlighting
+(typeof global !== "undefined" ? global : window).Prism = Prism;
+require("prismjs/components/prism-java");
+require("prismjs/components/prism-groovy");
+require("prismjs/components/prism-bash");
+
 export const Code: React.FC<Props> = ({ code, language = "" }) => {
   if (!code) return null;
 
   return (
     <div className="relative group">
-      <Highlight code={code} language={language} theme={themes.dracula}>
+      <Highlight code={code} language={language} theme={themes.oneDark}>
         {({ getLineProps, getTokenProps, tokens }) => (
           <pre className="bg-gray-900 text-gray-100 rounded-lg shadow-md p-4 text-base leading-relaxed overflow-x-auto font-mono relative">
             {tokens.map((line, i) => (
