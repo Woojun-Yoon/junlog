@@ -3,6 +3,7 @@ import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import PageClient from "./page.client";
 import Link from "next/link";
+import { Media } from "@/components/Media";
 
 const POSTS_SIZE = 5;
 
@@ -40,20 +41,36 @@ export default async function HomePage() {
               href={`/posts/${post.slug}`}
               className="block group transition-all duration-300 hover:bg-muted/80 hover:shadow-sm rounded-md px-2 sm:px-4 -mx-2 sm:-mx-4"
             >
-              <div className="py-6 space-y-2 text-left">
-                <h3 className="text-3xl font-semibold text-foreground">
-                  {post.title}
-                </h3>
+              <div className="py-6 flex items-center space-x-4 text-left">
+                {/* 텍스트 섹션 */}
+                <div className="flex-1 space-y-2">
+                  <h3 className="text-3xl font-semibold text-foreground">
+                    {post.title}
+                  </h3>
 
-                <p className="text-sm text-muted-foreground">
-                  {new Date(post.createdAt).toLocaleDateString("ko-KR")}
-                </p>
-
-                {post.summary && (
-                  <p className="text-lg text-muted-foreground line-clamp-3">
-                    {post.summary}
+                  <p className="text-sm text-muted-foreground">
+                    {new Date(post.createdAt).toLocaleDateString("ko-KR")}
                   </p>
-                )}
+
+                  {post.summary && (
+                    <p className="text-lg text-muted-foreground line-clamp-3">
+                      {post.summary}
+                    </p>
+                  )}
+                </div>
+
+                {/* 이미지 섹션 */}
+                <div className="w-48 h-32 flex-shrink-0 overflow-hidden rounded-md">
+                  {post.meta?.image ? (
+                    <Media resource={post.meta.image} />
+                  ) : (
+                    <img
+                      src="/junlog-og.webp"
+                      alt="Default Image"
+                      className="object-cover w-full h-full"
+                    />
+                  )}
+                </div>
               </div>
             </Link>
           ))}
