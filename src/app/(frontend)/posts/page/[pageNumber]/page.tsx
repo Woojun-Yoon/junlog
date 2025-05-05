@@ -1,6 +1,5 @@
 import type { Metadata } from "next/types";
 
-import { PageRange } from "@/components/PageRange";
 import { Pagination } from "@/components/Pagination";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
@@ -8,10 +7,11 @@ import React from "react";
 import PageClient from "./page.client";
 import { notFound } from "next/navigation";
 import { CollectionArchive } from "@/components/CollectionArchive/CollectionArchive";
-import { POSTS_SIZE } from "../../page";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
+
+export const POSTS_SIZE = 12;
 
 type Args = {
   params: Promise<{
@@ -40,7 +40,12 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PageClient />
       <div className="container mb-12">
         <div className="prose dark:prose-invert text-center max-w-none">
-          <h1 className="font-semibold text-4xl">Posts</h1>
+          <h1 className="font-semibold text-3xl md:text-3xl lg:text-5xl">
+            Posts
+          </h1>
+          <p className="text-center text-lg font-normal text-neutral-600 dark:text-neutral-400">
+            배우고 익힌 내용을 정리합니다
+          </p>
         </div>
       </div>
 
