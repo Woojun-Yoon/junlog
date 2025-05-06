@@ -4,9 +4,7 @@ import redirects from "./redirects.js";
 import { NextConfig } from "next";
 
 const NEXT_PUBLIC_SERVER_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
-const basePath = process.env.BASE_PATH || undefined;
+  process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
@@ -20,10 +18,13 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(":", "") as "http" | "https",
         };
       }),
+      {
+        protocol: "https",
+        hostname: "**.cloudfront.net",
+      },
     ],
   },
   reactStrictMode: true,
-  basePath,
   redirects,
 };
 

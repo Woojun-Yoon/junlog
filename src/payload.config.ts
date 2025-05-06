@@ -2,6 +2,7 @@ import { mongooseAdapter } from "@payloadcms/db-mongodb";
 
 import { buildConfig } from "payload";
 import { payloadTotp } from "payload-totp";
+import { s3Storage } from "@payloadcms/storage-s3";
 import sharp from "sharp";
 
 import { Categories } from "@/payload/collections/Categories";
@@ -83,6 +84,26 @@ export default buildConfig({
         algorithm: "SHA256",
         digits: 6,
         period: 30,
+      },
+    }),
+    s3Storage({
+      collections: {
+        ["media"]: {
+          disableLocalStorage: true,
+          generateFileURL: (args: any) => {
+            return `${process.env.NEXT_PUBLIC_CF_URL}/${args.prefix}/${args.filename}`;
+          },
+          prefix: "media",
+        },
+      },
+      bucket: process.env.S3_BUCKET!,
+      config: {
+        region: process.env.S3_REGION,
+        forcePathStyle: true,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        },
       },
     }),
   ],
