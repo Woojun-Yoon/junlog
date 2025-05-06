@@ -69,6 +69,7 @@ export default async function HomePage() {
                       src="/junlog-og.webp"
                       alt="Default Image"
                       fill
+                      priority
                       sizes="50%"
                       className="object-cover rounded-md"
                     />
