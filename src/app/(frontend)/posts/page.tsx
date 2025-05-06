@@ -8,8 +8,7 @@ import PageClient from "./page.client";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
-
-export const POSTS_SIZE = 12;
+const POSTS_SIZE = 12;
 
 // The reason we don't use searchParams for pagination is because otherwise posts list wouldn't be statically generated
 // In case you want to use search params, it's as simple as using a searchParams prop and passing it to payload.find (and remove 'force-static' and the page/[pageNumber] folder)

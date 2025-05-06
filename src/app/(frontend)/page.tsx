@@ -3,6 +3,7 @@ import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import PageClient from "./page.client";
 import Link from "next/link";
+import Image from "next/image";
 import { Media } from "@/components/Media";
 
 const POSTS_SIZE = 5;
@@ -44,30 +45,32 @@ export default async function HomePage() {
               <div className="py-6 flex items-center space-x-4 text-left">
                 {/* 텍스트 섹션 */}
                 <div className="flex-1 space-y-2">
-                  <h3 className="text-3xl font-semibold text-foreground">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground">
                     {post.title}
                   </h3>
 
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     {new Date(post.createdAt).toLocaleDateString("ko-KR")}
                   </p>
 
                   {post.summary && (
-                    <p className="text-lg text-muted-foreground line-clamp-3">
+                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground line-clamp-3">
                       {post.summary}
                     </p>
                   )}
                 </div>
 
                 {/* 이미지 섹션 */}
-                <div className="w-48 h-32 flex-shrink-0 overflow-hidden rounded-md">
+                <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-md hidden md:block">
                   {post.meta?.image ? (
                     <Media resource={post.meta.image} />
                   ) : (
-                    <img
+                    <Image
                       src="/junlog-og.webp"
                       alt="Default Image"
-                      className="object-cover w-full h-full"
+                      fill
+                      sizes="50%"
+                      className="object-cover rounded-md"
                     />
                   )}
                 </div>

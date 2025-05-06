@@ -7,6 +7,7 @@ import React from "react";
 import type { Post } from "@/payload-types";
 
 import { Media } from "@/components/Media";
+import Image from "next/image";
 
 export type CardPostData = Pick<Post, "slug" | "categories" | "meta" | "title">;
 
@@ -39,37 +40,41 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        "rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300",
+        "rounded-lg overflow-hidden hover:shadow-xl hover:shadow-black/15 dark:hover:shadow-white/15 transition-shadow duration-300 flex flex-col h-[400px]",
         className
       )}
       ref={card.ref}
     >
       {/* 이미지 섹션 */}
-      <div className="relative w-full h-48">
+      <div className="w-full aspect-[3/2] overflow-hidden">
         {metaImage && typeof metaImage !== "string" ? (
-          <Media resource={metaImage} size="33vw" />
+          <Media
+            resource={metaImage}
+            imgClassName="object-cover object-center w-full h-full"
+          />
         ) : (
-          <img
+          <Image
             src="/junlog-og.webp"
             alt="Default Image"
-            className="object-cover w-full h-full"
+            width={192}
+            height={128}
+            priority
+            className="object-cover object-center w-full h-full"
           />
         )}
       </div>
+
       {/* 콘텐츠 섹션 */}
-      <div className="p-6">
-        {/* 카테고리 */}
+      <div className="flex flex-col justify-between p-4 flex-1 overflow-hidden">
         {showCategories && hasCategories && (
-          <div className="mb-4 flex flex-wrap gap-2">
+          <div className="mb-2 flex flex-wrap gap-2 text-xs">
             {categories?.map((category, index) => {
               if (typeof category === "object") {
-                const { title: titleFromCategory } = category;
-                const categoryTitle = titleFromCategory || "Untitled";
-
+                const categoryTitle = category.title || "Untitled";
                 return (
                   <span
                     key={index}
-                    className="text-xs font-medium text-neutral-800 bg-neutral-200 px-3 py-1 rounded-md dark:text-neutral-200 dark:bg-neutral-700"
+                    className="font-medium text-neutral-800 bg-neutral-200 px-2 py-1 rounded-md dark:text-neutral-200 dark:bg-neutral-700"
                   >
                     {categoryTitle}
                   </span>
@@ -79,25 +84,23 @@ export const Card: React.FC<{
             })}
           </div>
         )}
-        {/* 제목 */}
+
         {titleToUse && (
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+          <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-1 line-clamp-2">
             <Link href={href} ref={link.ref} className="hover:underline">
               {titleToUse}
             </Link>
           </h3>
         )}
 
-        {/* 설명 */}
         {description && (
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-3 mb-2">
             {sanitizedDescription}
           </p>
         )}
 
-        {/* 생성일 */}
         {createdAt && (
-          <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-2">
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
             {new Date(createdAt).toLocaleDateString()}
           </p>
         )}

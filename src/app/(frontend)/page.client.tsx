@@ -3,7 +3,6 @@
 import { useHeaderTheme } from "@/components/ThemeProvider/HeaderTheme";
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import Router from "next/router";
 import { useRouter } from "next/navigation";
 
 const PageClient = () => {
@@ -17,7 +16,7 @@ const PageClient = () => {
   return (
     <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center">
       <div className="px-4 py-10 md:py-20">
-        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold md:text-4xl lg:text-7xl">
+        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-3xl font-bold md:text-5xl lg:text-7xl">
           {"Understand everything like scratch"
             .split(" ")
             .map((word, index) => (
@@ -41,7 +40,7 @@ const PageClient = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.6 }}
-          className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal word-break: break-keep text-neutral-600 dark:text-neutral-400"
+          className="relative z-10 mx-auto max-w-xl py-4 text-center text-sm sm:text-base md:text-lg font-normal word-break: break-keep text-neutral-600 dark:text-neutral-400"
         >
           기술과 개념을{" "}
           <a
@@ -67,13 +66,13 @@ const PageClient = () => {
         >
           <button
             onClick={() => router.push("/posts")}
-            className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            className="w-full sm:w-48 md:w-60 transform rounded-lg bg-black px-6 py-2 text-sm sm:text-base md:text-lg font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
           >
             Explore Now
           </button>
           <button
             onClick={() => router.push("/contact")}
-            className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900"
+            className="w-full sm:w-48 md:w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 text-sm sm:text-base md:text-lg font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900"
           >
             Contact Me
           </button>

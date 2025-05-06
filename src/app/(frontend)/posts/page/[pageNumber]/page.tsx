@@ -10,8 +10,7 @@ import { CollectionArchive } from "@/components/CollectionArchive/CollectionArch
 
 export const dynamic = "force-static";
 export const revalidate = 600;
-
-export const POSTS_SIZE = 12;
+const POSTS_SIZE = 12;
 
 type Args = {
   params: Promise<{
