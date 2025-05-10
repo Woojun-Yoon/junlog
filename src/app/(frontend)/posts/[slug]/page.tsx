@@ -69,17 +69,19 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <PostHero post={post} />
 
-      <div className="relative container pt-8 flex justify-center">
+      <div className="relative container flex justify-center">
         <div className="max-w-[48rem] w-full">
+          <hr className="my-8" />
           <TableOfContentTop toc={tocHeadings} />
           <RichText
             className="mx-auto break-words overflow-x-hidden"
             data={post.content}
             enableGutter={false}
           />
+          <hr className="my-8" />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
-              className="mt-12"
+              className="mt-6"
               docs={post.relatedPosts.filter((p) => typeof p === "object")}
             />
           )}

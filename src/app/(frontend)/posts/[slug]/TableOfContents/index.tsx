@@ -29,11 +29,11 @@ const TableOfContent = ({ toc }: Props) => {
               <li
                 key={item.link}
                 className={cn(
-                  "transition-colors break-words overflow-x-hidden",
+                  "transition-colors break-words overflow-x-hidden line-clamp-1",
                   isH3 && "ml-4 text-muted-foreground",
                   isH4 && "ml-8 text-muted-foreground",
                   isActive
-                    ? "text-pink-600 font-medium"
+                    ? "text-blue-400 font-medium"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >

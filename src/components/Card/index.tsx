@@ -40,7 +40,7 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        "rounded-xl overflow-hidden hover:shadow-xl hover:shadow-black/15 dark:hover:shadow-white/15 transition-shadow duration-300 flex flex-col h-[400px]",
+        "cursor-pointer rounded-xl overflow-hidden hover:shadow-xl hover:shadow-black/15 dark:hover:shadow-white/15 transition-shadow duration-300 flex flex-col h-[400px]",
         className
       )}
       ref={card.ref}
@@ -86,7 +86,7 @@ export const Card: React.FC<{
         )}
 
         {titleToUse && (
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2 line-clamp-2">
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 break-words line-clamp-2 mb-2">
             <Link href={href} ref={link.ref} className="hover:underline">
               {titleToUse}
             </Link>
@@ -94,7 +94,7 @@ export const Card: React.FC<{
         )}
 
         {description && (
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-2 mb-2">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 break-words line-clamp-2 mb-2">
             {sanitizedDescription}
           </p>
         )}

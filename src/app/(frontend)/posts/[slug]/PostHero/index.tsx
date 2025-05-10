@@ -16,9 +16,9 @@ export const PostHero: React.FC<{
     formatAuthors(populatedAuthors) !== "";
 
   return (
-    <div className="relative flex flex-col items-center text-center pb-8 px-4 md:px-8">
+    <div className="relative flex flex-col items-center text-center pb-4 px-4 md:px-6">
       {/* Title */}
-      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+      <h1 className="text-5xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
         {title}
       </h1>
 
