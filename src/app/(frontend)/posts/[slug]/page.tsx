@@ -11,9 +11,13 @@ import RichText from "@/components/RichText";
 import type { Post } from "@/payload-types";
 
 import { PostHero } from "@/app/(frontend)/posts/[slug]/PostHero";
+import { parseToc } from "./TableOfContents/parse";
 import { generateMeta } from "@/lib/utils/generateMeta";
 import PageClient from "./page.client";
 import { LivePreviewListener } from "@/components/LivePreviewListener";
+import { HeadingItem } from "./TableOfContents/types";
+import TableOfContent from "./TableOfContents";
+import TableOfContentTop from "./TableOfContents/TableOfContentTop";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
@@ -46,6 +50,12 @@ export default async function Post({ params: paramsPromise }: Args) {
   const { slug = "" } = await paramsPromise;
   const url = "/posts/" + slug;
   const post = await queryPostBySlug({ slug });
+  const headings: [string, string][] =
+    post.content?.root?.children
+      .filter((node: any) => node.type === "heading")
+      .map((heading: any) => [heading.children[0]?.text || "", heading.tag]) ||
+    [];
+  const tocHeadings: HeadingItem[] = parseToc(headings);
 
   if (!post) return <PayloadRedirects url={url} />;
 
@@ -53,29 +63,33 @@ export default async function Post({ params: paramsPromise }: Args) {
     <article className="pt-16 pb-16">
       <PageClient />
 
-      {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
       <PostHero post={post} />
 
-      <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container">
+      <div className="relative container pt-8 flex justify-center">
+        <div className="max-w-[48rem] w-full">
+          <TableOfContentTop toc={tocHeadings} />
           <RichText
-            className="max-w-[48rem] mx-auto"
+            className="mx-auto break-words overflow-x-hidden"
             data={post.content}
             enableGutter={false}
           />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={post.relatedPosts.filter(
-                (post) => typeof post === "object"
-              )}
+              className="mt-12"
+              docs={post.relatedPosts.filter((p) => typeof p === "object")}
             />
           )}
         </div>
+
+        <aside className="hidden xl:block absolute right-8 top-0 w-[200px]">
+          <div className="fixed top-68">
+            <TableOfContent toc={tocHeadings} />
+          </div>
+        </aside>
       </div>
     </article>
   );
