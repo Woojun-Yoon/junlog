@@ -40,13 +40,13 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        "rounded-lg overflow-hidden hover:shadow-xl hover:shadow-black/15 dark:hover:shadow-white/15 transition-shadow duration-300 flex flex-col h-[400px]",
+        "rounded-xl overflow-hidden hover:shadow-xl hover:shadow-black/15 dark:hover:shadow-white/15 transition-shadow duration-300 flex flex-col h-[400px]",
         className
       )}
       ref={card.ref}
     >
       {/* 이미지 섹션 */}
-      <div className="w-full aspect-[3/2] overflow-hidden">
+      <div className="w-full aspect-[2/1] overflow-hidden">
         {metaImage && typeof metaImage !== "string" ? (
           <Media
             resource={metaImage}
@@ -65,7 +65,7 @@ export const Card: React.FC<{
       </div>
 
       {/* 콘텐츠 섹션 */}
-      <div className="flex flex-col justify-between p-4 flex-1 overflow-hidden">
+      <div className="flex flex-col justify-between mx-6 my-4 flex-1 overflow-hidden">
         {showCategories && hasCategories && (
           <div className="mb-2 flex flex-wrap gap-2 text-xs">
             {categories?.map((category, index) => {
@@ -74,7 +74,7 @@ export const Card: React.FC<{
                 return (
                   <span
                     key={index}
-                    className="font-medium text-neutral-800 bg-neutral-200 px-2 py-1 rounded-md dark:text-neutral-200 dark:bg-neutral-700"
+                    className="font-medium text-neutral-800 bg-neutral-200 px-2 py-1 rounded-lg dark:text-neutral-200 dark:bg-neutral-700"
                   >
                     {categoryTitle}
                   </span>
@@ -86,7 +86,7 @@ export const Card: React.FC<{
         )}
 
         {titleToUse && (
-          <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-1 line-clamp-2">
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2 line-clamp-2">
             <Link href={href} ref={link.ref} className="hover:underline">
               {titleToUse}
             </Link>
@@ -94,13 +94,13 @@ export const Card: React.FC<{
         )}
 
         {description && (
-          <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-3 mb-2">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-2 mb-2">
             {sanitizedDescription}
           </p>
         )}
 
         {createdAt && (
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          <p className="text-xs text-neutral-400 dark:text-neutral-400">
             {new Date(createdAt).toLocaleDateString()}
           </p>
         )}
