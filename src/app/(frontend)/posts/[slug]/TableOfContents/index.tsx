@@ -5,6 +5,7 @@ import Link from "next/link";
 import { HeadingItem } from "./types";
 import { useHeadingsObserver } from "./useHeadingsObserver";
 import { cn } from "@/lib/utils";
+import { ScrollToComment, ScrollTop } from "./TableOfContentButton";
 
 interface Props {
   toc: HeadingItem[];
@@ -44,6 +45,9 @@ const TableOfContent = ({ toc }: Props) => {
             );
           })}
         </ul>
+      </div>
+      <div className="mt-4 mx-auto">
+        <ScrollTop className="rounded-xl" />
       </div>
     </div>
   );
