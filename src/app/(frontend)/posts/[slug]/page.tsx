@@ -18,6 +18,7 @@ import { LivePreviewListener } from "@/components/LivePreviewListener";
 import { HeadingItem } from "./TableOfContents/types";
 import TableOfContent from "./TableOfContents";
 import TableOfContentTop from "./TableOfContents/TableOfContentTop";
+import FloatingButton from "./FloatingButton";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
@@ -72,6 +73,7 @@ export default async function Post({ params: paramsPromise }: Args) {
       <div className="relative container flex justify-center">
         <div className="max-w-[48rem] w-full">
           <hr className="my-8" />
+          <FloatingButton />
           <TableOfContentTop toc={tocHeadings} />
           <RichText
             className="mx-auto break-words overflow-x-hidden"

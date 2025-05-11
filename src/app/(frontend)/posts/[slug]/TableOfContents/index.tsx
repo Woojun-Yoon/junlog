@@ -46,8 +46,9 @@ const TableOfContent = ({ toc }: Props) => {
           })}
         </ul>
       </div>
-      <div className="mt-4 mx-auto">
+      <div className="mt-4 flex gap-1">
         <ScrollTop className="rounded-xl" />
+        <ScrollToComment className="rounded-xl" />
       </div>
     </div>
   );
