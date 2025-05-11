@@ -26,6 +26,11 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <meta
+          name="theme-color"
+          content="#000000"
+          media="(prefers-color-scheme: dark)"
+        />
         <InitTheme />
         <link
           rel="apple-touch-icon"

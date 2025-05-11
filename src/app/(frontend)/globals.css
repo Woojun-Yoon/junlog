@@ -97,6 +97,7 @@
 
 html {
   opacity: 0;
+  overscroll-behavior: none;
 }
 
 html[data-theme="dark"],
