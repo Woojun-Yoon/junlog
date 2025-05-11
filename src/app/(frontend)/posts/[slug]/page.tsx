@@ -19,6 +19,7 @@ import { HeadingItem } from "./TableOfContents/types";
 import TableOfContent from "./TableOfContents";
 import TableOfContentTop from "./TableOfContents/TableOfContentTop";
 import FloatingButton from "./FloatingButton";
+import Giscus from "./Comment/Giscus";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
@@ -87,6 +88,8 @@ export default async function Post({ params: paramsPromise }: Args) {
               docs={post.relatedPosts.filter((p) => typeof p === "object")}
             />
           )}
+          <hr className="my-8" />
+          <Giscus />
         </div>
 
         <aside className="hidden xl:block absolute right-8 top-0 w-[200px]">
