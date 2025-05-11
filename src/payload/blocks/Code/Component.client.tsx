@@ -25,7 +25,7 @@ export const Code: React.FC<Props> = ({ code, language = "" }) => {
     <div className="relative group">
       <Highlight code={code} language={language} theme={themes.oneDark}>
         {({ getLineProps, getTokenProps, tokens }) => (
-          <pre className="bg-gray-900 text-gray-100 rounded-lg shadow-md p-4 text-base leading-relaxed overflow-x-auto font-mono relative">
+          <pre className="bg-gray-900 text-gray-100 rounded-lg shadow-md p-4 text-sm md:text-base leading-relaxed overflow-x-auto font-mono relative">
             {tokens.map((line, i) => (
               <div
                 key={i}
