@@ -82,14 +82,14 @@ export default async function Post({ params: paramsPromise }: Args) {
             enableGutter={false}
           />
           <hr className="my-8" />
+          <Giscus />
+          <hr className="my-8" />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
               className="mt-6"
               docs={post.relatedPosts.filter((p) => typeof p === "object")}
             />
           )}
-          <hr className="my-8" />
-          <Giscus />
         </div>
 
         <aside className="hidden xl:block absolute right-8 top-0 w-[200px]">
