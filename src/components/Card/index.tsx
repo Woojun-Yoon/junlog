@@ -40,7 +40,7 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        "cursor-pointer rounded-xl overflow-hidden hover:shadow-xl hover:shadow-black/15 dark:hover:shadow-white/15 transition-shadow duration-300 flex flex-col h-[400px]",
+        "cursor-pointer rounded-xl overflow-hidden shadow-sm dark:shadow-slate-300/20 hover:shadow-xl hover:shadow-black/15 dark:hover:shadow-white/15 transition-shadow duration-300 flex flex-col h-[400px]",
         className
       )}
       ref={card.ref}
