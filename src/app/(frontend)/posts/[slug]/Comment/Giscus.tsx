@@ -36,7 +36,7 @@ export default function Giscus() {
     script.setAttribute("data-lang", "ko");
 
     ref.current.appendChild(script);
-  }, []);
+  });
 
   useEffect(() => {
     const iframe = document.querySelector<HTMLIFrameElement>(
