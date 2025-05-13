@@ -16,7 +16,7 @@ export function CopyButton({ code }: { code: string }) {
 
   return (
     <button
-      className="absolute top-2 right-2 bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white text-xs px-3 py-1 rounded transition-opacity opacity-0 group-hover:opacity-100"
+      className="absolute top-2 right-2 bg-gray-900 dark:bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white text-xs px-3 py-1 rounded transition-opacity opacity-0 group-hover:opacity-100"
       onClick={async () => {
         await navigator.clipboard.writeText(code);
         updateCopyStatus();
