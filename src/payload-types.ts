@@ -338,6 +338,7 @@ export interface Post {
   id: string;
   title: string;
   summary: string;
+  views?: number | null;
   heroImage?: (string | null) | Media;
   content: {
     root: {
@@ -1121,6 +1122,7 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   summary?: T;
+  views?: T;
   heroImage?: T;
   content?: T;
   relatedPosts?: T;

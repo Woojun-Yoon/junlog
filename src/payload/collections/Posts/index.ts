@@ -81,6 +81,14 @@ export const Posts: CollectionConfig<"posts"> = {
       required: true,
     },
     {
+      name: "views",
+      type: "number",
+      defaultValue: 0,
+      admin: {
+        readOnly: true,
+      },
+    },
+    {
       type: "tabs",
       tabs: [
         {

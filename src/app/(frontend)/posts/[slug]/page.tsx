@@ -20,6 +20,7 @@ import TableOfContent from "./TableOfContents";
 import TableOfContentTop from "./TableOfContents/TableOfContentTop";
 import FloatingButton from "./FloatingButton";
 import Giscus from "./Comment/Giscus";
+import ViewCounter from "./ViewCounter";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
@@ -69,6 +70,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
+      <ViewCounter slug={slug} />
       <PostHero post={post} />
 
       <div className="relative container flex justify-center">

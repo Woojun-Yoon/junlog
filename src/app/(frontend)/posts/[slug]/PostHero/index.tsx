@@ -4,11 +4,12 @@ import React from "react";
 import type { Post } from "@/payload-types";
 
 import { formatAuthors } from "@/lib/utils/formatAuthors";
+import { Eye } from "lucide-react";
 
 export const PostHero: React.FC<{
   post: Post;
 }> = ({ post }) => {
-  const { populatedAuthors, publishedAt, title } = post;
+  const { populatedAuthors, publishedAt, title, views } = post;
 
   const hasAuthors =
     populatedAuthors &&
@@ -16,14 +17,14 @@ export const PostHero: React.FC<{
     formatAuthors(populatedAuthors) !== "";
 
   return (
-    <div className="relative flex flex-col items-center text-center pb-4 px-4 md:px-6">
+    <div className="relative flex flex-col items-center text-center pb-1 px-4 md:px-6">
       {/* Title */}
       <h1 className="text-5xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
         {title}
       </h1>
 
       {/* Author and Date */}
-      <div className="flex flex-col md:flex-row items-center gap-4 text-gray-600 text-sm">
+      <div className="flex flex-col md:flex-row items-center gap-1 md:gap-4 text-gray-600 text-sm">
         {hasAuthors && (
           <div className="flex items-center gap-2">
             <span>By</span>
@@ -37,6 +38,11 @@ export const PostHero: React.FC<{
             <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
           </div>
         )}
+        {/* Views */}
+        <div className="flex items-center gap-1">
+          <Eye size={16} className="text-gray-400" />
+          <span>{views ?? 0}</span>
+        </div>
       </div>
     </div>
   );
