@@ -2,16 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
-type RouteContext = {
-  params?: {
-    slug?: string;
-  };
-};
-
-export async function POST(req: NextRequest, context: RouteContext) {
+export async function POST(req: NextRequest, context: any) {
   const payload = await getPayload({ config: configPromise });
 
-  const { slug } = (await context.params) || {};
+  const slug = (await context?.params?.slug) || {};
 
   if (!slug) {
     return NextResponse.json({ error: "Missing slug" }, { status: 400 });
