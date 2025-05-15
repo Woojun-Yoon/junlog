@@ -30,6 +30,10 @@ export default async function RootLayout({
           content="#000000"
           media="(prefers-color-scheme: dark)"
         />
+        <meta
+          name="google-site-verification"
+          content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
+        />
         <InitTheme />
         <InitFavicon />
       </head>
