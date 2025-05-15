@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   Pagination as PaginationComponent,
@@ -8,49 +8,50 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination'
-import { cn } from '@/lib/utils'
-import { useRouter, usePathname } from 'next/navigation'
-import React from 'react'
+} from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
+import { useRouter, usePathname } from "next/navigation";
+import React from "react";
 
 // improved pagination with auto page number in URL path
 export const Pagination: React.FC<{
-  className?: string
-  page: number
-  totalPages: number
-  pageHref?: string
-  previousHref?: string
-  nextHref?: string
+  className?: string;
+  page: number;
+  totalPages: number;
+  pageHref?: string;
+  previousHref?: string;
+  nextHref?: string;
 }> = (props) => {
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const { className, page, totalPages, previousHref, pageHref, nextHref } = props
-  const hasNextPage = page < totalPages
-  const hasPrevPage = page > 1
+  const { className, page, totalPages, previousHref, pageHref, nextHref } =
+    props;
+  const hasNextPage = page < totalPages;
+  const hasPrevPage = page > 1;
 
-  const hasExtraPrevPages = page - 1 > 1
-  const hasExtraNextPages = page + 1 < totalPages
+  const hasExtraPrevPages = page - 1 > 1;
+  const hasExtraNextPages = page + 1 < totalPages;
 
   const createPageUrl = (pageNumber: number) => {
-    const basePath = pathname.replace(/\/page\/\d+$/, '')
+    const basePath = pathname.replace(/\/page\/\d+$/, "");
 
     if (pageNumber === 1) {
-      return basePath
+      return basePath;
     }
 
-    return `${basePath}/page/${pageNumber}`
-  }
+    return `${basePath}/page/${pageNumber}`;
+  };
 
   return (
-    <div className={cn('py-2', className)}>
+    <div className={cn("py-2", className)}>
       <PaginationComponent>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
               disabled={!hasPrevPage}
               onClick={() => {
-                router.push(previousHref || createPageUrl(page - 1))
+                router.push(previousHref || createPageUrl(page - 1));
               }}
             />
           </PaginationItem>
@@ -65,7 +66,7 @@ export const Pagination: React.FC<{
             <PaginationItem>
               <PaginationLink
                 onClick={() => {
-                  router.push(previousHref || createPageUrl(page - 1))
+                  router.push(previousHref || createPageUrl(page - 1));
                 }}
               >
                 {page - 1}
@@ -77,7 +78,7 @@ export const Pagination: React.FC<{
             <PaginationLink
               isActive
               onClick={() => {
-                router.push(pageHref || createPageUrl(page))
+                router.push(pageHref || createPageUrl(page));
               }}
             >
               {page}
@@ -88,7 +89,7 @@ export const Pagination: React.FC<{
             <PaginationItem>
               <PaginationLink
                 onClick={() => {
-                  router.push(nextHref || createPageUrl(page + 1))
+                  router.push(nextHref || createPageUrl(page + 1));
                 }}
               >
                 {page + 1}
@@ -106,12 +107,12 @@ export const Pagination: React.FC<{
             <PaginationNext
               disabled={!hasNextPage}
               onClick={() => {
-                router.push(nextHref || createPageUrl(page + 1))
+                router.push(nextHref || createPageUrl(page + 1));
               }}
             />
           </PaginationItem>
         </PaginationContent>
       </PaginationComponent>
     </div>
-  )
-}
+  );
+};
