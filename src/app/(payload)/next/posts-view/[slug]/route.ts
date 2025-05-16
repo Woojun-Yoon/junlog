@@ -5,7 +5,7 @@ import configPromise from "@payload-config";
 export async function POST(req: NextRequest, context: any) {
   const payload = await getPayload({ config: configPromise });
 
-  const slug = (await context?.params?.slug) || {};
+  const { slug } = await context.params;
 
   if (!slug) {
     return NextResponse.json({ error: "Missing slug" }, { status: 400 });
