@@ -80,9 +80,9 @@ export const generatePreviewPath = ({ collection, slug, req }: Props) => {
   });
 
   const isProduction = process.env.NODE_ENV === "production";
-  const protocol = isProduction ? "https:" : req.protocol;
-
-  const url = `${protocol}//${req.host}/next/preview?${encodedParams.toString()}`;
+  const url = isProduction
+    ? `${process.env.NEXT_PUBLIC_SERVER_URL}/next/preview?${encodedParams.toString()}`
+    : `${req.protocol}://${req.host}/next/preview?${encodedParams.toString()}`;
 
   return url;
 };
