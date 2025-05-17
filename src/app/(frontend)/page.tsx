@@ -5,6 +5,7 @@ import PageClient from "./page.client";
 import Link from "next/link";
 import Image from "next/image";
 import { Media } from "@/components/Media";
+import { formatDateTime } from "@/lib/utils/formatDateTime";
 
 const POSTS_SIZE = 5;
 
@@ -50,7 +51,9 @@ export default async function HomePage() {
                   </h3>
 
                   <p className="text-xs sm:text-sm text-muted-foreground">
-                    {new Date(post.createdAt).toLocaleDateString("ko-KR")}
+                    <time dateTime={post.createdAt}>
+                      {formatDateTime(post.createdAt)}
+                    </time>
                   </p>
 
                   {post.summary && (

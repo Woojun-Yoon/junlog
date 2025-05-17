@@ -8,6 +8,7 @@ import type { Post } from "@/payload-types";
 
 import { Media } from "@/components/Media";
 import Image from "next/image";
+import { formatDateTime } from "@/lib/utils/formatDateTime";
 
 export type CardPostData = Pick<Post, "slug" | "categories" | "meta" | "title">;
 
@@ -101,7 +102,7 @@ export const Card: React.FC<{
 
         {createdAt && (
           <p className="text-xs text-neutral-400 dark:text-neutral-400">
-            {new Date(createdAt).toLocaleDateString()}
+            <time dateTime={createdAt}>{formatDateTime(createdAt)}</time>
           </p>
         )}
       </div>
