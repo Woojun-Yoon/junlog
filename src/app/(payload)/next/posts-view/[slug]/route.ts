@@ -31,6 +31,7 @@ export async function POST(req: NextRequest, context: any) {
     collection: "posts",
     id: post.id,
     data: {
+      ...post,
       views: newViews,
     },
   });
