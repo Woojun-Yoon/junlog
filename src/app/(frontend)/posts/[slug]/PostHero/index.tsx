@@ -19,9 +19,11 @@ export const PostHero: React.FC<{
   return (
     <div className="relative flex flex-col items-center text-center pb-1 px-4 md:px-6">
       {/* Title */}
-      <h1 className="text-5xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
-        {title}
-      </h1>
+      <div className="max-w-[48rem] w-full">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-8 break-words">
+          {title}
+        </h1>
+      </div>
 
       {/* Author and Date */}
       <div className="flex flex-col md:flex-row items-center gap-1 md:gap-4 text-gray-600 text-sm">
