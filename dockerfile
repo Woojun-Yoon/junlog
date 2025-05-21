@@ -23,7 +23,7 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_TELEMETRY_DISABLED=1 NODE_ENV=production TZ=Asia/Seoul
 RUN \
     if [ -f pnpm-lock.yaml ]; then \
     corepack enable pnpm && pnpm run build; \
@@ -34,7 +34,7 @@ RUN \
 # Final stage: Set up the runtime environment
 FROM base AS runner
 WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED=1 NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1 NODE_ENV=production TZ=Asia/Seoul
 
 # Create and set the application user
 RUN addgroup --system --gid 1001 nodejs
