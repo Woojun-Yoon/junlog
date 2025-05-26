@@ -20,7 +20,7 @@ export const Logo = (props: Props) => {
   return (
     /* eslint-disable @next/next/no-img-element */
     <img
-      alt="Junlog Logo"
+      alt="Junlog"
       width={193}
       height={34}
       loading={loading}
