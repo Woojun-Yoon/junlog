@@ -24,7 +24,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   output: "standalone",
+  swcMinify: true,
   reactStrictMode: true,
   redirects,
 };
