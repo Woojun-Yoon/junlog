@@ -28,7 +28,6 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   output: "standalone",
-  swcMinify: true,
   reactStrictMode: true,
   redirects,
 };
