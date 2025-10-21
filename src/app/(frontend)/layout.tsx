@@ -11,6 +11,7 @@ import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
 import { getServerSideURL } from "@/lib/utils/getURL";
 import "./globals.css";
 import { Providers } from "./providers";
+import { PostHog } from "./posthog";
 import InitFavicon from "@/components/ThemeProvider/Theme/InitFavicon";
 
 export default async function RootLayout({
@@ -38,11 +39,13 @@ export default async function RootLayout({
         <InitFavicon />
       </head>
       <body>
-        <Providers>
-          <Header />
-          {children}
-          <Footer />
-        </Providers>
+        <PostHog>
+          <Providers>
+            <Header />
+            {children}
+            <Footer />
+          </Providers>
+        </PostHog>
       </body>
     </html>
   );
