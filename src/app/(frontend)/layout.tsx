@@ -12,7 +12,6 @@ import { getServerSideURL } from "@/lib/utils/getURL";
 import "./globals.css";
 import { Providers } from "./providers";
 import InitFavicon from "@/components/ThemeProvider/Theme/InitFavicon";
-import Script from "next/script";
 
 export default async function RootLayout({
   children,
@@ -42,11 +41,6 @@ export default async function RootLayout({
         <Providers>
           <Header />
           {children}
-          <Script
-            src="https://app.rybbit.io/api/script.js"
-            data-site-id="9fc21c7115dc"
-            strategy="afterInteractive"
-          />
           <Footer />
         </Providers>
       </body>
