@@ -18,6 +18,28 @@ function PostHogPageView() {
     }
   }, [pathname, searchParams]);
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (typeof window !== "undefined" && (window as any).posthog) {
+        (window as any).posthog.capture("$pageleave");
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden" && (window as any).posthog) {
+        (window as any).posthog.capture("$pageleave");
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
   return null;
 }
 
