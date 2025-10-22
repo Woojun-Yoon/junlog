@@ -2,9 +2,9 @@
 
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
-export function PostHogProvider({ children }: { children: React.ReactNode }) {
+function PostHogPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -18,6 +18,10 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, searchParams]);
 
+  return null;
+}
+
+export function PostHogProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Script
@@ -30,6 +34,9 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
           `,
         }}
       />
+      <Suspense fallback={null}>
+        <PostHogPageView />
+      </Suspense>
       {children}
     </>
   );
