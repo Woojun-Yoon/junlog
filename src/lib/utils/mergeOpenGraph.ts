@@ -3,7 +3,8 @@ import { getServerSideURL } from "./getURL";
 
 const defaultOpenGraph: Metadata["openGraph"] = {
   type: "website",
-  description: "junlog - Tech blog",
+  description:
+    "기술과 개념을 직관적이고, 논리적으로, 그리고 쉽게 이해할 수 있도록 풀어갑니다.",
   images: [
     {
       url: `${getServerSideURL()}/junlog-og.webp`,

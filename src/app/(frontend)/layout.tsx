@@ -34,6 +34,10 @@ export default async function RootLayout({
           name="google-site-verification"
           content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
         />
+        <meta
+          name="naver-site-verification"
+          content={process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION}
+        />
         <InitTheme />
         <InitFavicon />
       </head>
