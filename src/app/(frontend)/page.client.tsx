@@ -55,7 +55,7 @@ const PageClient = () => {
           <span className="hidden sm:inline">
             <br />
           </span>
-          그리고 무엇보다 쉽게 이해할 수 있도록 풀어갑니다.
+          그리고 쉽게 이해할 수 있도록 풀어갑니다.
         </motion.p>
 
         <motion.div

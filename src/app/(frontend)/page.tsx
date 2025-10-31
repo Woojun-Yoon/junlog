@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Media } from "@/components/Media";
 import { formatDateTime } from "@/lib/utils/formatDateTime";
+import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
 
 const POSTS_SIZE = 5;
 
@@ -89,6 +90,8 @@ export default async function HomePage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Junlog Home`,
+    title: `junlog`,
+    description: `기술과 개념을 직관적이고, 논리적으로, 그리고 쉽게 이해할 수 있도록 풀어갑니다.`,
+    openGraph: mergeOpenGraph(),
   };
 }
