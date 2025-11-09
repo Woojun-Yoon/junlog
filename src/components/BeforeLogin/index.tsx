@@ -1,16 +1,22 @@
 import React from "react";
 
+import "./index.scss";
+import { Logo } from "../Logo/Logo";
+
 const BeforeLogin: React.FC = () => {
   return (
     <div
       style={{
-        marginBottom: "1rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
         textAlign: "center",
+        marginBottom: "3rem",
       }}
     >
-      <p>
-        <b>Welcome to dashboard!</b>
-      </p>
+      <Logo />
     </div>
   );
 };

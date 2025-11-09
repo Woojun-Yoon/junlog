@@ -1,0 +1,7 @@
+@import "~@payloadcms/ui/scss";
+
+.payload-logo,
+.app-header__logo,
+[class*="logo"] {
+  display: none !important;
+}
