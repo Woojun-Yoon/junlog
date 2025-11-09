@@ -4,10 +4,13 @@ import { useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { useHeaderTheme } from "@/components/ThemeProvider/HeaderTheme";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 export default function ContactPage() {
   const ref = useRef<HTMLFormElement>(null);
   const [isSending, setIsSending] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
+  const [turnstileRef, setTurnstileRef] = useState<any>(null);
   const { setHeaderTheme } = useHeaderTheme();
 
   useEffect(() => {
@@ -15,10 +18,17 @@ export default function ContactPage() {
   }, [setHeaderTheme]);
 
   const handleSubmit = async (formData: FormData) => {
-    const toastId = toast.loading("📨 이메일 전송 중입니다...");
+    if (!turnstileToken) {
+      toast.error("CAPTCHA를 완료해주세요.");
+      return;
+    }
+
+    const toastId = toast.loading("이메일 전송 중입니다...");
     setIsSending(true);
 
     try {
+      formData.append("turnstileToken", turnstileToken);
+
       const res = await fetch("/next/email", {
         method: "POST",
         body: formData,
@@ -29,14 +39,16 @@ export default function ContactPage() {
         throw new Error(result?.error || "이메일 전송 실패");
       }
 
-      toast.success("✅ 이메일이 성공적으로 전송되었습니다!", {
+      toast.success("이메일이 성공적으로 전송되었습니다!", {
         id: toastId,
         duration: 5000,
       });
 
       ref.current?.reset();
+      setTurnstileToken("");
+      turnstileRef?.reset();
     } catch (err: any) {
-      toast.error(`❌ 이메일 전송 실패: ${err.message}`, {
+      toast.error(`이메일 전송 실패: ${err.message}`, {
         id: toastId,
         duration: 5000,
       });
@@ -46,11 +58,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-24 pb-24">
+    <div className="pt-20 pb-20">
       <Toaster position="bottom-right" richColors />{" "}
       <div className="container">
         <div className="max-w-xl mx-auto">
-          <div className="mb-12">
+          <div className="mb-6">
             <div className="prose dark:prose-invert max-w-none">
               <h1>Contact Me</h1>
             </div>
@@ -105,6 +117,25 @@ export default function ContactPage() {
                 required
                 placeholder="message"
                 className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
+              />
+            </div>
+
+            <div className="flex justify-start">
+              <Turnstile
+                ref={setTurnstileRef}
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                onSuccess={(token) => setTurnstileToken(token)}
+                onError={() => {
+                  setTurnstileToken("");
+                }}
+                options={{
+                  action: "submit-form",
+                  theme: "auto",
+                  size: "normal",
+                }}
+                onExpire={() => {
+                  setTurnstileToken("");
+                }}
               />
             </div>
 
