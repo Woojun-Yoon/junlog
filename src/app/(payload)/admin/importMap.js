@@ -23,6 +23,7 @@ import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { RowLabel as RowLabel_19e8a9033e6a2d5d6a04b3762ec81d80 } from '@/payload/globals/Header/RowLabel'
 import { RowLabel as RowLabel_d2aff3abcb7b90b04c6a0836d1455041 } from '@/payload/globals/Footer/RowLabel'
+import { default as default_380afaeea2d45f396e81f036010b9e99 } from '@/components/AfterLogin'
 import { default as default_1a7510af427896d367a49dbf838d2de6 } from '@/components/BeforeDashboard'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
 import { TOTPProvider as TOTPProvider_4eaf6cb33cfb75be01716613e3c9a512 } from 'payload-totp/rsc'
@@ -56,6 +57,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/payload/globals/Header/RowLabel#RowLabel": RowLabel_19e8a9033e6a2d5d6a04b3762ec81d80,
   "@/payload/globals/Footer/RowLabel#RowLabel": RowLabel_d2aff3abcb7b90b04c6a0836d1455041,
+  "@/components/AfterLogin#default": default_380afaeea2d45f396e81f036010b9e99,
   "@/components/BeforeDashboard#default": default_1a7510af427896d367a49dbf838d2de6,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
   "payload-totp/rsc#TOTPProvider": TOTPProvider_4eaf6cb33cfb75be01716613e3c9a512,

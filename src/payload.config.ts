@@ -32,8 +32,19 @@ export default buildConfig({
     },
   }),
   admin: {
+    meta: {
+      titleSuffix: " | junlog Admin",
+      icons: [
+        {
+          url: "/favicon-32x32.png",
+          fetchPriority: "high",
+          sizes: "16x16",
+        },
+      ],
+    },
     components: {
       beforeLogin: ["@/components/BeforeLogin"],
+      afterLogin: ["@/components/AfterLogin"],
       beforeDashboard: ["@/components/BeforeDashboard"],
     },
     user: Users.slug,
