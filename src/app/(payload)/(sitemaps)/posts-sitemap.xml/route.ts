@@ -2,6 +2,7 @@ import { getServerSideSitemap } from "next-sitemap";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { unstable_cache } from "next/cache";
+import { priority } from "next-sitemap.config.cjs";
 
 const getPostsSitemap = unstable_cache(
   async () => {
@@ -34,6 +35,7 @@ const getPostsSitemap = unstable_cache(
           .map((post) => ({
             loc: `${SITE_URL}/posts/${post?.slug}`,
             lastmod: post.updatedAt || dateFallback,
+            priority: 0.8,
           }))
       : [];
 
