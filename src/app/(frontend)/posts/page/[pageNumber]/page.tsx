@@ -66,7 +66,7 @@ export async function generateStaticParams() {
     overrideAccess: false,
   });
 
-  const totalPages = Math.ceil(totalDocs / 10);
+  const totalPages = Math.ceil(totalDocs / POSTS_SIZE);
 
   const pages: { pageNumber: string }[] = [];
 

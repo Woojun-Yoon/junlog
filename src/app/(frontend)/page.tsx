@@ -32,7 +32,7 @@ export default async function HomePage() {
       <PageClient />
 
       {/* Latest Section */}
-      <section className="w-full max-w-4xl px-4 sm:px-8 md:px-12 mx-auto py-12">
+      <section className="w-full max-w-4xl px-4 sm:px-8 md:px-12 mx-auto">
         <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
           Latest
         </h2>
