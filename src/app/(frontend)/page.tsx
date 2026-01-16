@@ -22,6 +22,7 @@ export default async function HomePage() {
       title: true,
       summary: true,
       createdAt: true,
+      publishedAt: true,
       slug: true,
       meta: true,
     },
@@ -52,8 +53,8 @@ export default async function HomePage() {
                   </h3>
 
                   <p className="text-xs sm:text-sm text-muted-foreground">
-                    <time dateTime={post.createdAt}>
-                      {formatDateTime(post.createdAt)}
+                    <time dateTime={post.publishedAt ?? undefined}>
+                      {formatDateTime(post.publishedAt || post.createdAt)}
                     </time>
                   </p>
 
