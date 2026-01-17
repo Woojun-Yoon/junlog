@@ -4,6 +4,7 @@ import { useHeaderTheme } from "@/components/ThemeProvider/HeaderTheme";
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { BackgroundLines } from "@/components/ui/background-lines";
 
 const PageClient = () => {
   const { setHeaderTheme } = useHeaderTheme();
@@ -15,6 +16,10 @@ const PageClient = () => {
 
   return (
     <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center">
+      <div className="pointer-events-none absolute inset-0 w-full overflow-hidden">
+        <BackgroundLines svgOptions={{ duration: 20 }} />
+      </div>
+
       <div className="px-4 py-10 md:py-20">
         <h1 className="relative z-10 mx-auto max-w-4xl text-center text-3xl font-bold md:text-5xl lg:text-7xl">
           {"Understand everything like scratch"
