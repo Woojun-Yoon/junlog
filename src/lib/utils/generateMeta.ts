@@ -86,9 +86,9 @@ export const generateMeta = async (args: {
   const title = doc?.meta?.title ? doc?.meta?.title + " | junlog" : "junlog";
 
   return {
+    title,
     description: doc?.meta?.description,
     openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || "",
       images: ogImage
         ? [
             {
@@ -97,8 +97,11 @@ export const generateMeta = async (args: {
           ]
         : undefined,
       title,
+      description: doc?.meta?.description || "",
       url: Array.isArray(doc?.slug) ? doc?.slug.join("/") : "/",
     }),
-    title,
+    alternates: {
+      canonical: doc?.meta?.canonicalUrl || undefined,
+    },
   };
 };

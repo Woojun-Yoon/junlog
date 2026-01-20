@@ -165,7 +165,17 @@ export const Posts: CollectionConfig<"posts"> = {
             MetaImageField({
               relationTo: "media",
             }),
-
+            {
+              type: "text",
+              name: "canonicalUrl",
+              label: "Canonical URL",
+              hooks: {
+                beforeChange: [
+                  async ({ data, value }) =>
+                    !value ? `https://junlog.com/posts/${data?.slug}` : value,
+                ],
+              },
+            },
             MetaDescriptionField({}),
             PreviewField({
               // if the `generateUrl` function is configured

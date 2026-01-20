@@ -41,7 +41,7 @@ export default async function HomePage() {
         <div className="divide-y divide-border">
           {posts.map((post) => (
             <Link
-              key={post.slug}
+              key={post.id}
               href={`/posts/${post.slug}`}
               className="block group transition-all duration-300 hover:bg-muted/80 hover:shadow-sm rounded-md px-2 sm:px-4 -mx-2 sm:-mx-4"
             >
@@ -93,6 +93,11 @@ export function generateMetadata(): Metadata {
   return {
     title: `junlog`,
     description: `기술과 개념을 직관적이고, 논리적으로, 그리고 쉽게 이해할 수 있도록 풀어갑니다.`,
-    openGraph: mergeOpenGraph(),
+    openGraph: mergeOpenGraph({
+      url: `https://junlog.com`,
+    }),
+    alternates: {
+      canonical: `https://junlog.com`,
+    },
   };
 }

@@ -8,4 +8,12 @@ export default function Page() {
 export const metadata: Metadata = {
   title: "Contact Me",
   description: "Contact me for any inquiries or feedback.",
+  openGraph: {
+    title: "Contact Me",
+    description: "Contact me for any inquiries or feedback.",
+    url: "https://junlog.com/contact",
+  },
+  alternates: {
+    canonical: "https://junlog.com/contact",
+  },
 };

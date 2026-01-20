@@ -50,5 +50,14 @@ export default async function PostPage() {
 export function generateMetadata(): Metadata {
   return {
     title: `Junlog Posts`,
+    description: "배우고 익힌 내용을 정리합니다",
+    openGraph: {
+      title: `Junlog Posts`,
+      description: "배우고 익힌 내용을 정리합니다",
+      url: "https://junlog.com/posts",
+    },
+    alternates: {
+      canonical: "https://junlog.com/posts",
+    },
   };
 }

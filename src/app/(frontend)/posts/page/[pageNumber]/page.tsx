@@ -83,5 +83,14 @@ export async function generateMetadata({
   const { pageNumber } = await paramsPromise;
   return {
     title: `Junlog Posts Page ${pageNumber || ""}`,
+    description: "배우고 익힌 내용을 정리합니다",
+    openGraph: {
+      title: `Junlog Posts Page ${pageNumber || ""}`,
+      description: "배우고 익힌 내용을 정리합니다",
+      url: `https://junlog.com/posts/page/${pageNumber}`,
+    },
+    alternates: {
+      canonical: `https://junlog.com/posts/page/${pageNumber}`,
+    },
   };
 }

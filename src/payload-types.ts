@@ -282,6 +282,7 @@ export interface Page {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (string | null) | Media;
+    canonicalUrl?: string | null;
     description?: string | null;
   };
   publishedAt?: string | null;
@@ -372,6 +373,7 @@ export interface Post {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (string | null) | Media;
+    canonicalUrl?: string | null;
     description?: string | null;
   };
   publishedAt?: string | null;
@@ -989,6 +991,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         title?: T;
         image?: T;
+        canonicalUrl?: T;
         description?: T;
       };
   publishedAt?: T;
@@ -1161,6 +1164,7 @@ export interface PostsSelect<T extends boolean = true> {
     | {
         title?: T;
         image?: T;
+        canonicalUrl?: T;
         description?: T;
       };
   publishedAt?: T;
