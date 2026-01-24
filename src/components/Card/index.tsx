@@ -15,7 +15,7 @@ export type CardPostData = Pick<Post, "slug" | "categories" | "meta" | "title">;
 export const Card: React.FC<{
   alignItems?: "center";
   className?: string;
-  doc?: CardPostData & { publishedAt?: string };
+  doc?: CardPostData & { publishedAt?: string | null };
   relationTo?: "posts";
   showCategories?: boolean;
   title?: string;
