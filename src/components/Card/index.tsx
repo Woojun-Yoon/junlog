@@ -15,7 +15,7 @@ export type CardPostData = Pick<Post, "slug" | "categories" | "meta" | "title">;
 export const Card: React.FC<{
   alignItems?: "center";
   className?: string;
-  doc?: CardPostData & { createdAt?: string };
+  doc?: CardPostData & { publishedAt?: string };
   relationTo?: "posts";
   showCategories?: boolean;
   title?: string;
@@ -29,7 +29,7 @@ export const Card: React.FC<{
     title: titleFromProps,
   } = props;
 
-  const { slug, categories, meta, title, createdAt } = doc || {};
+  const { slug, categories, meta, title, publishedAt } = doc || {};
   const { description, image: metaImage } = meta || {};
 
   const hasCategories =
@@ -42,7 +42,7 @@ export const Card: React.FC<{
     <article
       className={cn(
         "cursor-pointer rounded-xl overflow-hidden shadow-sm dark:shadow-slate-300/20 hover:shadow-xl hover:shadow-black/15 dark:hover:shadow-white/15 transition-shadow duration-300 flex flex-col h-[400px]",
-        className
+        className,
       )}
       ref={card.ref}
     >
@@ -100,9 +100,9 @@ export const Card: React.FC<{
           </p>
         )}
 
-        {createdAt && (
+        {publishedAt && (
           <p className="text-xs text-neutral-400 dark:text-neutral-400">
-            <time dateTime={createdAt}>{formatDateTime(createdAt)}</time>
+            <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
           </p>
         )}
       </div>

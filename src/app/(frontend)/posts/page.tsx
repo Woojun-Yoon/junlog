@@ -20,6 +20,7 @@ export default async function PostPage() {
     depth: 1,
     limit: POSTS_SIZE,
     overrideAccess: false,
+    sort: "-publishedAt",
   });
 
   return (

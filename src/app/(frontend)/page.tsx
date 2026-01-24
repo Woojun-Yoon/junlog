@@ -8,6 +8,9 @@ import { Media } from "@/components/Media";
 import { formatDateTime } from "@/lib/utils/formatDateTime";
 import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
 
+export const dynamic = "force-static";
+export const revalidate = 600;
+
 const POSTS_SIZE = 5;
 
 export default async function HomePage() {
@@ -18,6 +21,7 @@ export default async function HomePage() {
     depth: 1,
     limit: POSTS_SIZE,
     overrideAccess: false,
+    sort: "-publishedAt",
     select: {
       title: true,
       summary: true,

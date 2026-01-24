@@ -192,6 +192,9 @@ export const Posts: CollectionConfig<"posts"> = {
     {
       name: "publishedAt",
       type: "date",
+      timezone: {
+        defaultTimezone: "Asia/Seoul",
+      },
       admin: {
         date: {
           pickerAppearance: "dayAndTime",

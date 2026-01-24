@@ -32,6 +32,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     limit: POSTS_SIZE,
     page: sanitizedPageNumber,
     overrideAccess: false,
+    sort: "-publishedAt",
   });
 
   return (

@@ -377,6 +377,7 @@ export interface Post {
     description?: string | null;
   };
   publishedAt?: string | null;
+  publishedAt_tz?: SupportedTimezones;
   authors?: (string | User)[] | null;
   categories?: (string | Category)[] | null;
   populatedAuthors?:
@@ -1168,6 +1169,7 @@ export interface PostsSelect<T extends boolean = true> {
         description?: T;
       };
   publishedAt?: T;
+  publishedAt_tz?: T;
   authors?: T;
   categories?: T;
   populatedAuthors?:
