@@ -95,11 +95,6 @@
   }
 }
 
-html {
-  opacity: 0;
-  overscroll-behavior: none;
-}
-
 html[data-theme="dark"],
 html[data-theme="light"] {
   opacity: initial;
