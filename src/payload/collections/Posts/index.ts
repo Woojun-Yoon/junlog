@@ -1,16 +1,24 @@
 import type { CollectionConfig } from "payload";
 
 import {
+  AlignFeature,
+  BlockquoteFeature,
   BlocksFeature,
+  ChecklistFeature,
   FixedToolbarFeature,
   HeadingFeature,
   HorizontalRuleFeature,
   IndentFeature,
+  InlineCodeFeature,
   InlineToolbarFeature,
   lexicalEditor,
   LinkFeature,
   OrderedListFeature,
+  StrikethroughFeature,
+  SubscriptFeature,
+  SuperscriptFeature,
   UnorderedListFeature,
+  UploadFeature,
 } from "@payloadcms/richtext-lexical";
 
 import { authenticated } from "@/payload/auth/authenticated";
@@ -112,14 +120,43 @@ export const Posts: CollectionConfig<"posts"> = {
                     HeadingFeature({
                       enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
                     }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
-                    FixedToolbarFeature(),
-                    InlineToolbarFeature(),
-                    HorizontalRuleFeature(),
+                    StrikethroughFeature(),
+                    SubscriptFeature(),
+                    SuperscriptFeature(),
+                    InlineCodeFeature(),
+                    AlignFeature(),
                     UnorderedListFeature(),
                     OrderedListFeature(),
+                    ChecklistFeature(),
                     IndentFeature(),
-                    LinkFeature(),
+                    BlockquoteFeature(),
+                    HorizontalRuleFeature(),
+                    LinkFeature({
+                      enabledCollections: ["pages", "posts"],
+                    }),
+                    UploadFeature({
+                      collections: {
+                        media: {
+                          fields: [
+                            {
+                              name: "caption",
+                              type: "text",
+                              label: "Caption",
+                            },
+                            {
+                              name: "alt",
+                              type: "text",
+                              label: "Alt Text",
+                            },
+                          ],
+                        },
+                      },
+                    }),
+                    // Custom Blocks
+                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    // Toolbars
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
                   ];
                 },
               }),

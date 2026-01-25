@@ -94,6 +94,32 @@
     @apply bg-background text-foreground min-h-[100vh] flex flex-col;
     padding-top: 88px;
   }
+
+  .prose code:not(pre code) {
+    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+    color: hsl(var(--foreground));
+  }
+
+  .prose code::before,
+  .prose code::after {
+    content: none;
+  }
+
+  .prose pre {
+    @apply bg-muted border border-border rounded-lg;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .prose hr {
+    @apply border-border my-8;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-primary/30 pl-4 italic;
+  }
 }
 
 html[data-theme="dark"],
