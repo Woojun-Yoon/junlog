@@ -58,6 +58,15 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
       />
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
+    Code: ({ node }) => (
+      <div className="col-start-2 not-prose">
+        <CodeBlock
+          code={node.fields.code}
+          language={node.fields.language}
+          blockType="code"
+        />
+      </div>
+    ),
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
   },
   heading: ({ node, nodesToJSX }) => {
@@ -93,7 +102,7 @@ export default function RichText(props: Props) {
           "max-w-none": !enableGutter,
           "mx-auto prose md:prose-md dark:prose-invert ": enableProse,
         },
-        className
+        className,
       )}
       {...rest}
     />
