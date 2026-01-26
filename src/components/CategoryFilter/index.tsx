@@ -3,8 +3,8 @@
 import { Category } from "@/payload-types";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import React, { useRef, useLayoutEffect } from "react";
-import { motion, LayoutGroup } from "framer-motion";
+import React, { useRef, useLayoutEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 interface CategoryFilterProps {
   categories: Category[];
@@ -22,6 +22,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const activeItemRef = useRef<HTMLAnchorElement>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const isAllActive = !activeCategory || activeCategory === "all";
 
@@ -79,81 +80,77 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
     }
   };
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 10, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring" as const,
-        stiffness: 300,
-        damping: 24,
-      },
-    },
-  };
-
   return (
     <div className={cn("w-full", className)}>
       <div className="relative">
-        <LayoutGroup>
-          <motion.div
-            ref={scrollContainerRef}
-            className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-2 md:pb-0 md:flex-wrap md:justify-center"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {allCategories.map((category) => {
-              const isActive =
-                category.slug === "all"
-                  ? isAllActive
-                  : activeCategory === category.slug;
+        <div
+          ref={scrollContainerRef}
+          className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-2 md:pb-0 md:flex-wrap md:justify-center"
+          onMouseLeave={() => setHoveredId(null)}
+        >
+          {allCategories.map((category) => {
+            const isActive =
+              category.slug === "all"
+                ? isAllActive
+                : activeCategory === category.slug;
+            const isHovered = hoveredId === category.id;
 
-              return (
-                <motion.div key={category.id} variants={itemVariants}>
-                  <Link
-                    href={category.href}
-                    onClick={handleClick}
-                    ref={isActive ? activeItemRef : null}
-                    className={cn(
-                      "relative inline-flex items-center whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200",
-                      "border border-transparent",
-                      isActive
-                        ? "text-white dark:text-neutral-900"
-                        : "bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700",
-                    )}
-                  >
-                    {isActive && (
-                      <motion.span
-                        layoutId="activeCategory"
-                        className="absolute inset-0 bg-neutral-900 dark:bg-white rounded-full -z-0"
-                        style={{ originX: 0.5, originY: 0.5 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 30,
-                        }}
-                      />
-                    )}
-                    <span className="relative z-10">{category.title}</span>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </LayoutGroup>
+            return (
+              <Link
+                key={category.id}
+                href={category.href}
+                onClick={handleClick}
+                onMouseEnter={() => setHoveredId(String(category.id))}
+                ref={isActive ? activeItemRef : null}
+                className={cn(
+                  "relative inline-flex items-center whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium",
+                  "transition-colors duration-150",
+                  isActive
+                    ? "text-neutral-900 dark:text-neutral-100"
+                    : "text-neutral-500 dark:text-neutral-400",
+                )}
+              >
+                {/* Hover background */}
+                {isHovered && !isActive && (
+                  <motion.span
+                    layoutId="hoverBg"
+                    className="absolute inset-0 rounded-lg bg-neutral-100 dark:bg-neutral-800"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 35,
+                    }}
+                  />
+                )}
+
+                {/* Active indicator */}
+                {isActive && (
+                  <motion.span
+                    layoutId="activeIndicator"
+                    className="absolute inset-0 rounded-lg bg-neutral-900 dark:bg-white"
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30,
+                    }}
+                  />
+                )}
+
+                <span
+                  className={cn(
+                    "relative z-10 transition-colors duration-150",
+                    isActive && "text-white dark:text-neutral-900",
+                  )}
+                >
+                  {category.title}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
 
         {/* Fade effect for mobile scroll indication */}
         <div className="absolute right-0 top-0 bottom-2 md:bottom-0 w-8 bg-gradient-to-l from-white dark:from-neutral-950 pointer-events-none md:hidden" />

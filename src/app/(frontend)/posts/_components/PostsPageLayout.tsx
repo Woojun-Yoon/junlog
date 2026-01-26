@@ -42,17 +42,6 @@ export function PostsPageLayout({
         />
       </div>
 
-      {currentCategoryTitle && (
-        <div className="container mb-4">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            <span className="font-medium text-neutral-900 dark:text-neutral-100">
-              {currentCategoryTitle}
-            </span>{" "}
-            {totalDocs} posts
-          </p>
-        </div>
-      )}
-
       <CollectionArchive posts={posts} />
 
       <div className="container mt-8">
