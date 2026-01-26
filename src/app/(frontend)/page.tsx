@@ -52,7 +52,7 @@ export default async function HomePage() {
               <div className="py-6 flex items-center space-x-4 text-left">
                 {/* 텍스트 섹션 */}
                 <div className="flex-1 space-y-2">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold break-keep text-foreground">
                     {post.title}
                   </h3>
 
@@ -63,7 +63,7 @@ export default async function HomePage() {
                   </p>
 
                   {post.summary && (
-                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground line-clamp-3">
+                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground break-keep line-clamp-3">
                       {post.summary}
                     </p>
                   )}
