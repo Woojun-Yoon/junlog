@@ -20,7 +20,7 @@ const PageClient = () => {
         <BackgroundLines svgOptions={{ duration: 20 }} />
       </div>
 
-      <div className="px-4 py-10 md:py-20">
+      <div className="px-4 py-8 md:py-12">
         <h1 className="relative z-10 mx-auto max-w-4xl text-center text-3xl font-bold md:text-5xl lg:text-7xl">
           {"Understand everything like scratch"
             .split(" ")

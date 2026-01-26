@@ -126,3 +126,13 @@ html[data-theme="dark"],
 html[data-theme="light"] {
   opacity: initial;
 }
+
+/* Hide scrollbar for category filter */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

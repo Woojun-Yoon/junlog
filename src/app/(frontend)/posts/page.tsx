@@ -1,10 +1,9 @@
 import type { Metadata } from "next/types";
 
-import { CollectionArchive } from "@/components/CollectionArchive/CollectionArchive";
-import { Pagination } from "@/components/Pagination";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import PageClient from "./page.client";
+import { PostsPageLayout } from "./_components/PostsPageLayout";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
@@ -15,6 +14,14 @@ const POSTS_SIZE = 12;
 export default async function PostPage() {
   const payload = await getPayload({ config: configPromise });
 
+  // Get all categories for the filter
+  const categoriesResult = await payload.find({
+    collection: "categories",
+    limit: 100,
+    overrideAccess: false,
+    sort: "title",
+  });
+
   const posts = await payload.find({
     collection: "posts",
     depth: 1,
@@ -24,27 +31,17 @@ export default async function PostPage() {
   });
 
   return (
-    <div className="pt-12 pb-24">
+    <>
       <PageClient />
-      <div className="container mb-12">
-        <div className="prose dark:prose-invert text-center max-w-none">
-          <h1 className="font-semibold text-4xl md:text-4xl lg:text-5xl">
-            Posts
-          </h1>
-          <p className="text-center text-base md:text-base lg:text-lg font-normal text-neutral-600 dark:text-neutral-400">
-            배우고 익힌 내용을 정리합니다
-          </p>
-        </div>
-      </div>
-
-      <CollectionArchive posts={posts.docs} />
-
-      <div className="container mt-8">
-        {posts.totalPages > 1 && posts.page && (
-          <Pagination page={posts.page} totalPages={posts.totalPages} />
-        )}
-      </div>
-    </div>
+      <PostsPageLayout
+        categories={categoriesResult.docs}
+        posts={posts.docs}
+        activeCategory={null}
+        totalDocs={posts.totalDocs}
+        page={posts.page || 1}
+        totalPages={posts.totalPages}
+      />
+    </>
   );
 }
 

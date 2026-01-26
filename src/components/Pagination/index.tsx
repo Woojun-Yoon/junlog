@@ -34,6 +34,7 @@ export const Pagination: React.FC<{
   const hasExtraNextPages = page + 1 < totalPages;
 
   const createPageUrl = (pageNumber: number) => {
+    // Remove any existing /page/N from the path
     const basePath = pathname.replace(/\/page\/\d+$/, "");
 
     if (pageNumber === 1) {
