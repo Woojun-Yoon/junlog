@@ -63,7 +63,7 @@ export default async function Post({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />;
 
   return (
-    <article className="pt-16 pb-16">
+    <article className="pt-8 pb-16">
       <PageClient />
 
       <PayloadRedirects disableNotFound url={url} />
