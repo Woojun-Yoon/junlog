@@ -35,6 +35,10 @@ export default async function RootLayout({
           content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
         />
         <meta
+          name="google-adsense-account"
+          content={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ACCOUNT}
+        />
+        <meta
           name="naver-site-verification"
           content={process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION}
         />
