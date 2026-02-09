@@ -25,6 +25,7 @@ const generateRssFeed = async () => {
 
   const posts = await payload.find({
     collection: "posts",
+    limit: 50,
   });
 
   try {
@@ -53,7 +54,7 @@ const generateRssFeed = async () => {
           categories:
             categories?.map((category: Category) => category.title) || [],
         });
-      }
+      },
     );
 
     return feed.xml({ indent: true });
