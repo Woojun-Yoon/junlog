@@ -30,6 +30,9 @@ export async function POST(req: NextRequest, context: any) {
   await payload.update({
     collection: "posts",
     id: post.id,
+    context: {
+      disableRevalidate: true,
+    },
     data: {
       views: newViews,
     },

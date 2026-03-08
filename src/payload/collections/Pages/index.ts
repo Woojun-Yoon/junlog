@@ -143,8 +143,8 @@ export const Pages: CollectionConfig<"pages"> = {
   ],
   hooks: {
     afterChange: [revalidatePage],
+    afterDelete: [revalidateDelete],
     beforeChange: [populatePublishedAt],
-    beforeDelete: [revalidateDelete],
   },
   versions: {
     drafts: {
