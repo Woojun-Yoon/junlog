@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { Media, Page, Post, Config } from "@/payload-types";
 
 import { mergeOpenGraph } from "./mergeOpenGraph";
-import { getCollectionURL, getServerSideURL, RoutableCollection } from "./getURL";
+import { getAbsoluteURL, getCollectionURL, RoutableCollection } from "./getURL";
 
 /**
  * Helper function to get the appropriate image URL for OpenGraph metadata.
@@ -14,14 +14,12 @@ import { getCollectionURL, getServerSideURL, RoutableCollection } from "./getURL
  * @returns {string} The full URL to the image
  */
 const getImageURL = (image?: Media | Config["db"]["defaultIDType"] | null) => {
-  const serverUrl = getServerSideURL();
-
-  let url = serverUrl + "/junlog-og.webp";
+  let url = getAbsoluteURL("/junlog-og.webp");
 
   if (image && typeof image === "object" && "url" in image) {
     const ogUrl = image.sizes?.og?.url;
 
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url;
+    url = ogUrl ? getAbsoluteURL(ogUrl) : getAbsoluteURL(image.url);
   }
 
   return url;

@@ -5,16 +5,25 @@ const collectionPrefixMap = {
   posts: "/posts",
 } as const;
 
+const ABSOLUTE_URL_PATTERN = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//;
+
 export type RoutableCollection = keyof typeof collectionPrefixMap;
 
 const normalizeSlug = (slug?: string | null) =>
   (slug || "").trim().replace(/^\/+|\/+$/g, "");
+
+export const isAbsoluteURL = (value?: string | null) =>
+  ABSOLUTE_URL_PATTERN.test((value || "").trim());
 
 const normalizePath = (path?: string | null) => {
   const normalizedPath = (path || "").trim();
 
   if (!normalizedPath || normalizedPath === "/") {
     return "/";
+  }
+
+  if (isAbsoluteURL(normalizedPath)) {
+    return normalizedPath;
   }
 
   return `/${normalizedPath.replace(/^\/+|\/+$/g, "")}`;
@@ -57,7 +66,7 @@ export const getServerSideURL = () => {
   return url;
 };
 
-export const getAbsoluteURL = (path = "/") => {
+export const getAbsoluteURL = (path?: string | null) => {
   return new URL(normalizePath(path), getServerSideURL()).toString();
 };
 
