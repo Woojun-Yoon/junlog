@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { Media, Page, Post, Config } from "@/payload-types";
 
 import { mergeOpenGraph } from "./mergeOpenGraph";
-import { getServerSideURL } from "./getURL";
+import { getCollectionURL, getServerSideURL, RoutableCollection } from "./getURL";
 
 /**
  * Helper function to get the appropriate image URL for OpenGraph metadata.
@@ -77,31 +77,65 @@ const getImageURL = (image?: Media | Config["db"]["defaultIDType"] | null) => {
  * ```
  */
 export const generateMeta = async (args: {
-  doc: Partial<Page> | Partial<Post>;
+  collection: RoutableCollection;
+  doc: Partial<Page> | Partial<Post> | null;
 }): Promise<Metadata> => {
-  const { doc } = args || {};
+  const { collection, doc } = args || {};
+
+  if (!doc) {
+    return {
+      title: "junlog",
+      openGraph: mergeOpenGraph(),
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
 
   const ogImage = getImageURL(doc?.meta?.image);
+  const fallbackDescription =
+    "summary" in doc && typeof doc.summary === "string" ? doc.summary : undefined;
+  const description = doc?.meta?.description || fallbackDescription;
+  const canonicalURL =
+    doc?.meta?.canonicalUrl || getCollectionURL(collection, doc?.slug);
+  const pageTitle = doc?.meta?.title || doc?.title || "junlog";
+  const title = pageTitle === "junlog" ? pageTitle : `${pageTitle} | junlog`;
 
-  const title = doc?.meta?.title ? doc?.meta?.title + " | junlog" : "junlog";
+  const openGraph = mergeOpenGraph({
+    title,
+    type: collection === "posts" ? "article" : "website",
+    url: canonicalURL,
+    images: ogImage
+      ? [
+          {
+            url: ogImage,
+          },
+        ]
+      : undefined,
+    ...(description ? { description } : {}),
+    ...(collection === "posts" &&
+    "publishedAt" in doc &&
+    typeof doc.publishedAt === "string"
+      ? {
+          publishedTime: doc.publishedAt,
+        }
+      : {}),
+    ...(collection === "posts" &&
+    "updatedAt" in doc &&
+    typeof doc.updatedAt === "string"
+      ? {
+          modifiedTime: doc.updatedAt,
+        }
+      : {}),
+  });
 
   return {
     title,
-    description: doc?.meta?.description,
-    openGraph: mergeOpenGraph({
-      images: ogImage
-        ? [
-            {
-              url: ogImage,
-            },
-          ]
-        : undefined,
-      title,
-      description: doc?.meta?.description || "",
-      url: Array.isArray(doc?.slug) ? doc?.slug.join("/") : "/",
-    }),
+    ...(description ? { description } : {}),
+    openGraph,
     alternates: {
-      canonical: doc?.meta?.canonicalUrl || undefined,
+      canonical: canonicalURL,
     },
   };
 };

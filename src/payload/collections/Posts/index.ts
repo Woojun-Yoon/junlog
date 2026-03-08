@@ -28,6 +28,7 @@ import { Banner } from "@/payload/blocks/Banner/config";
 import { Code } from "@/payload/blocks/Code/config";
 import { MediaBlock } from "@/payload/blocks/MediaBlock/config";
 import { generatePreviewPath } from "@/lib/utils/generatePreviewPath";
+import { getCollectionURL } from "@/lib/utils/getURL";
 import { populateAuthors } from "./hooks/populateAuthors";
 import { revalidateDelete, revalidatePost } from "./hooks/revalidatePost";
 
@@ -148,6 +149,7 @@ export const Posts: CollectionConfig<"posts"> = {
                               name: "alt",
                               type: "text",
                               label: "Alt Text",
+                              required: true,
                             },
                           ],
                         },
@@ -236,7 +238,7 @@ export const Posts: CollectionConfig<"posts"> = {
               hooks: {
                 beforeChange: [
                   async ({ data, value }) =>
-                    !value ? `https://junlog.com/posts/${data?.slug}` : value,
+                    !value ? getCollectionURL("posts", data?.slug) : value,
                 ],
               },
             },
@@ -315,6 +317,23 @@ export const Posts: CollectionConfig<"posts"> = {
         {
           name: "name",
           type: "text",
+        },
+        {
+          name: "bio",
+          type: "textarea",
+        },
+        {
+          name: "website",
+          type: "text",
+        },
+        {
+          name: "githubUrl",
+          type: "text",
+        },
+        {
+          name: "profileImage",
+          type: "relationship",
+          relationTo: "media",
         },
       ],
     },

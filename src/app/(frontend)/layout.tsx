@@ -21,7 +21,7 @@ export default async function RootLayout({
   return (
     <html
       className={`${Pretendard.className}`}
-      lang="en"
+      lang="ko"
       suppressHydrationWarning
     >
       <head>
@@ -58,6 +58,9 @@ export default async function RootLayout({
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
+  title: "junlog",
+  description:
+    "기술과 개념을 직관적이고, 논리적으로, 그리고 쉽게 이해할 수 있도록 풀어갑니다.",
   openGraph: mergeOpenGraph(),
   twitter: {
     card: "summary_large_image",

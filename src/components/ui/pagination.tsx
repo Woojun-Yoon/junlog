@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -37,24 +38,40 @@ const PaginationLink = ({
   isActive,
   disabled,
   size = 'icon',
+  href,
   ...props
-}: PaginationLinkProps) => (
-  <a
-    aria-current={isActive ? 'page' : undefined}
-    aria-disabled={disabled}
-    className={cn(
-      buttonVariants({
-        variant: isActive ? 'outline' : 'ghost',
-        size,
-        className: 'cursor-pointer'
-      }),
-      disabled && 'pointer-events-none opacity-50',
-      className,
-    )}
-    tabIndex={disabled ? -1 : undefined}
-    {...props}
-  />
-)
+}: PaginationLinkProps) => {
+  const linkClassName = cn(
+    buttonVariants({
+      variant: isActive ? 'outline' : 'ghost',
+      size,
+      className: 'cursor-pointer'
+    }),
+    disabled && 'pointer-events-none opacity-50',
+    className,
+  )
+
+  if (href && !disabled) {
+    return (
+      <Link
+        href={href}
+        aria-current={isActive ? 'page' : undefined}
+        className={linkClassName}
+        {...props}
+      />
+    )
+  }
+
+  return (
+    <a
+      aria-current={isActive ? 'page' : undefined}
+      aria-disabled={disabled}
+      className={linkClassName}
+      tabIndex={disabled ? -1 : undefined}
+      {...props}
+    />
+  )
+}
 PaginationLink.displayName = 'PaginationLink'
 
 const PaginationPrevious = ({

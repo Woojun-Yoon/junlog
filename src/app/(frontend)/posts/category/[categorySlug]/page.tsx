@@ -4,8 +4,16 @@ import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import { notFound } from "next/navigation";
 import PageClient from "./page.client";
+import { JsonLd } from "@/components/Seo/JsonLd";
 import { Category } from "@/payload-types";
 import { PostsPageLayout } from "../../_components/PostsPageLayout";
+import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
+import { getAbsoluteURL } from "@/lib/utils/getURL";
+import {
+  getBreadcrumbSchema,
+  getCollectionPageSchema,
+  getItemListSchema,
+} from "@/lib/seo/schema";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
@@ -52,8 +60,47 @@ export default async function CategoryPage({ params: paramsPromise }: Args) {
     },
   });
 
+  const canonicalURL = getAbsoluteURL(`/posts/category/${categorySlug}`);
+  const schemas = [
+    getCollectionPageSchema({
+      name: `${currentCategory.title} Posts`,
+      description: `${currentCategory.title} 카테고리의 게시물 목록`,
+      url: canonicalURL,
+    }),
+    getBreadcrumbSchema([
+      {
+        name: "Home",
+        item: getAbsoluteURL("/"),
+      },
+      {
+        name: "Posts",
+        item: getAbsoluteURL("/posts"),
+      },
+      {
+        name: currentCategory.title,
+        item: canonicalURL,
+      },
+    ]),
+  ];
+  const categoryItems = posts.docs
+    .filter((post) => Boolean(post.slug) && Boolean(post.title))
+    .map((post) => ({
+      name: post.title,
+      url: getAbsoluteURL(`/posts/${post.slug}`),
+    }));
+
+  if (categoryItems.length > 0) {
+    schemas.push(
+      getItemListSchema({
+        name: `${currentCategory.title} Posts`,
+        items: categoryItems,
+      })
+    );
+  }
+
   return (
     <>
+      <JsonLd schema={schemas} />
       <PageClient />
       <PostsPageLayout
         categories={categoriesResult.docs}
@@ -99,17 +146,19 @@ export async function generateMetadata({
 
   const category = categoriesResult.docs[0];
   const title = category?.title || categorySlug;
+  const metaTitle = `${title} Posts | junlog`;
+  const canonicalURL = getAbsoluteURL(`/posts/category/${categorySlug}`);
 
   return {
-    title: `${title} - Junlog Posts`,
+    title: metaTitle,
     description: `${title} 카테고리의 게시물 목록`,
-    openGraph: {
-      title: `${title} - Junlog Posts`,
+    openGraph: mergeOpenGraph({
+      title: metaTitle,
       description: `${title} 카테고리의 게시물 목록`,
-      url: `https://junlog.com/posts/category/${categorySlug}`,
-    },
+      url: canonicalURL,
+    }),
     alternates: {
-      canonical: `https://junlog.com/posts/category/${categorySlug}`,
+      canonical: canonicalURL,
     },
   };
 }

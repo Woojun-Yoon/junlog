@@ -9,6 +9,7 @@ import { MediaBlock } from "@/payload/blocks/MediaBlock/config";
 import { slugField } from "@/payload/fields/slug";
 import { populatePublishedAt } from "@/payload/hooks/populatePublishedAt";
 import { generatePreviewPath } from "@/lib/utils/generatePreviewPath";
+import { getCollectionURL } from "@/lib/utils/getURL";
 import { revalidateDelete, revalidatePage } from "./hooks/revalidatePage";
 
 import {
@@ -115,7 +116,7 @@ export const Pages: CollectionConfig<"pages"> = {
               hooks: {
                 beforeChange: [
                   async ({ data, value }) =>
-                    !value ? `https://junlog.com/${data?.slug}` : value,
+                    !value ? getCollectionURL("pages", data?.slug) : value,
                 ],
               },
             },

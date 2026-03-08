@@ -11,6 +11,7 @@ import RichText from "@/components/RichText";
 import type { Post } from "@/payload-types";
 
 import { PostHero } from "@/app/(frontend)/posts/[slug]/PostHero";
+import { JsonLd } from "@/components/Seo/JsonLd";
 import { parseToc } from "./TableOfContents/parse";
 import { generateMeta } from "@/lib/utils/generateMeta";
 import PageClient from "./page.client";
@@ -21,6 +22,8 @@ import TableOfContentTop from "./TableOfContents/TableOfContentTop";
 import FloatingButton from "./FloatingButton";
 import Giscus from "./Comment/Giscus";
 import ViewCounter from "./ViewCounter";
+import { getAbsoluteURL } from "@/lib/utils/getURL";
+import { getBreadcrumbSchema, getPostSchema } from "@/lib/seo/schema";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
@@ -62,8 +65,41 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />;
 
+  const primaryCategory = post.categories?.find(
+    (category) =>
+      typeof category === "object" && Boolean(category?.slug) && Boolean(category?.title),
+  );
+  const breadcrumbItems = [
+    {
+      name: "Home",
+      item: getAbsoluteURL("/"),
+    },
+    {
+      name: "Posts",
+      item: getAbsoluteURL("/posts"),
+    },
+    ...(primaryCategory &&
+    typeof primaryCategory === "object" &&
+    primaryCategory.slug &&
+    primaryCategory.title
+      ? [
+          {
+            name: primaryCategory.title,
+            item: getAbsoluteURL(`/posts/category/${primaryCategory.slug}`),
+          },
+        ]
+      : []),
+    {
+      name: post.title,
+      item: getAbsoluteURL(`/posts/${post.slug}`),
+    },
+  ];
+
   return (
     <article className="pt-8 pb-16">
+      <JsonLd
+        schema={[getPostSchema(post), getBreadcrumbSchema(breadcrumbItems)]}
+      />
       <PageClient />
 
       <PayloadRedirects disableNotFound url={url} />
@@ -131,5 +167,5 @@ export async function generateMetadata({
   const { slug = "" } = await paramsPromise;
   const post = await queryPostBySlug({ slug });
 
-  return generateMeta({ doc: post });
+  return generateMeta({ collection: "posts", doc: post });
 }

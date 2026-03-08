@@ -1,5 +1,25 @@
 import canUseDOM from "./canUseDOM";
 
+const collectionPrefixMap = {
+  pages: "",
+  posts: "/posts",
+} as const;
+
+export type RoutableCollection = keyof typeof collectionPrefixMap;
+
+const normalizeSlug = (slug?: string | null) =>
+  (slug || "").trim().replace(/^\/+|\/+$/g, "");
+
+const normalizePath = (path?: string | null) => {
+  const normalizedPath = (path || "").trim();
+
+  if (!normalizedPath || normalizedPath === "/") {
+    return "/";
+  }
+
+  return `/${normalizedPath.replace(/^\/+|\/+$/g, "")}`;
+};
+
 /**
  * Utility functions for getting the application's URL in different environments.
  * These functions help maintain consistent URL generation across server and client contexts.
@@ -35,6 +55,36 @@ export const getServerSideURL = () => {
   }
 
   return url;
+};
+
+export const getAbsoluteURL = (path = "/") => {
+  return new URL(normalizePath(path), getServerSideURL()).toString();
+};
+
+export const getCollectionPath = (
+  collection: RoutableCollection,
+  slug?: string | null
+) => {
+  const normalizedSlug = normalizeSlug(slug);
+
+  if (collection === "pages") {
+    if (!normalizedSlug || normalizedSlug === "home") {
+      return "/";
+    }
+
+    return normalizePath(normalizedSlug);
+  }
+
+  return normalizedSlug
+    ? `${collectionPrefixMap[collection]}/${normalizedSlug}`
+    : collectionPrefixMap[collection];
+};
+
+export const getCollectionURL = (
+  collection: RoutableCollection,
+  slug?: string | null
+) => {
+  return getAbsoluteURL(getCollectionPath(collection, slug));
 };
 
 /**

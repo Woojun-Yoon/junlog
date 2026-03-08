@@ -144,7 +144,23 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  /**
+   * Author name shown on posts and structured data.
+   */
   name?: string | null;
+  /**
+   * Short public bio used for author structured data.
+   */
+  bio?: string | null;
+  /**
+   * Public profile image for author rich results and bylines.
+   */
+  profileImage?: (string | null) | Media;
+  /**
+   * Public website URL for this author.
+   */
+  website?: string | null;
+  githubUrl?: string | null;
   totpSecret?: string | null;
   hasTotp?: boolean | null;
   updatedAt: string;
@@ -171,7 +187,10 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt?: string | null;
+  /**
+   * Describe what appears in the image. Required for SEO and accessibility.
+   */
+  alt: string;
   caption?: {
     root: {
       type: string;
@@ -384,6 +403,10 @@ export interface Post {
     | {
         id?: string | null;
         name?: string | null;
+        bio?: string | null;
+        website?: string | null;
+        githubUrl?: string | null;
+        profileImage?: (string | null) | Media;
       }[]
     | null;
   slug?: string | null;
@@ -857,6 +880,10 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  bio?: T;
+  profileImage?: T;
+  website?: T;
+  githubUrl?: T;
   totpSecret?: T;
   hasTotp?: T;
   updatedAt?: T;
@@ -1177,6 +1204,10 @@ export interface PostsSelect<T extends boolean = true> {
     | {
         id?: T;
         name?: T;
+        bio?: T;
+        website?: T;
+        githubUrl?: T;
+        profileImage?: T;
       };
   slug?: T;
   slugLock?: T;

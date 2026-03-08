@@ -10,7 +10,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 // improved pagination with auto page number in URL path
@@ -22,7 +22,6 @@ export const Pagination: React.FC<{
   previousHref?: string;
   nextHref?: string;
 }> = (props) => {
-  const router = useRouter();
   const pathname = usePathname();
 
   const { className, page, totalPages, previousHref, pageHref, nextHref } =
@@ -44,6 +43,14 @@ export const Pagination: React.FC<{
     return `${basePath}/page/${pageNumber}`;
   };
 
+  const resolvedPageHref = pageHref || createPageUrl(page);
+  const resolvedPreviousHref = hasPrevPage
+    ? previousHref || createPageUrl(page - 1)
+    : undefined;
+  const resolvedNextHref = hasNextPage
+    ? nextHref || createPageUrl(page + 1)
+    : undefined;
+
   return (
     <div className={cn("py-2", className)}>
       <PaginationComponent>
@@ -51,9 +58,7 @@ export const Pagination: React.FC<{
           <PaginationItem>
             <PaginationPrevious
               disabled={!hasPrevPage}
-              onClick={() => {
-                router.push(previousHref || createPageUrl(page - 1));
-              }}
+              href={resolvedPreviousHref}
             />
           </PaginationItem>
 
@@ -65,34 +70,21 @@ export const Pagination: React.FC<{
 
           {hasPrevPage && (
             <PaginationItem>
-              <PaginationLink
-                onClick={() => {
-                  router.push(previousHref || createPageUrl(page - 1));
-                }}
-              >
+              <PaginationLink href={resolvedPreviousHref}>
                 {page - 1}
               </PaginationLink>
             </PaginationItem>
           )}
 
           <PaginationItem>
-            <PaginationLink
-              isActive
-              onClick={() => {
-                router.push(pageHref || createPageUrl(page));
-              }}
-            >
+            <PaginationLink isActive href={resolvedPageHref}>
               {page}
             </PaginationLink>
           </PaginationItem>
 
           {hasNextPage && (
             <PaginationItem>
-              <PaginationLink
-                onClick={() => {
-                  router.push(nextHref || createPageUrl(page + 1));
-                }}
-              >
+              <PaginationLink href={resolvedNextHref}>
                 {page + 1}
               </PaginationLink>
             </PaginationItem>
@@ -107,9 +99,7 @@ export const Pagination: React.FC<{
           <PaginationItem>
             <PaginationNext
               disabled={!hasNextPage}
-              onClick={() => {
-                router.push(nextHref || createPageUrl(page + 1));
-              }}
+              href={resolvedNextHref}
             />
           </PaginationItem>
         </PaginationContent>

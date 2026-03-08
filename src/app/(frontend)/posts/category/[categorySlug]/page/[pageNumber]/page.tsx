@@ -2,10 +2,12 @@ import type { Metadata } from "next/types";
 
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import PageClient from "./page.client";
 import { Category } from "@/payload-types";
 import { PostsPageLayout } from "../../../../_components/PostsPageLayout";
+import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
+import { getAbsoluteURL } from "@/lib/utils/getURL";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
@@ -28,6 +30,9 @@ export default async function CategoryPagePaginated({
 
   if (!Number.isInteger(sanitizedPageNumber) || sanitizedPageNumber < 1) {
     notFound();
+  }
+  if (sanitizedPageNumber === 1) {
+    redirect(`/posts/category/${categorySlug}`);
   }
 
   // Get all categories for the filter
@@ -63,7 +68,7 @@ export default async function CategoryPagePaginated({
   });
 
   // If page number is out of range, show 404
-  if (sanitizedPageNumber > posts.totalPages && posts.totalPages > 0) {
+  if (posts.totalPages === 0 || sanitizedPageNumber > posts.totalPages) {
     notFound();
   }
 
@@ -139,17 +144,25 @@ export async function generateMetadata({
 
   const category = categoriesResult.docs[0];
   const title = category?.title || categorySlug;
+  const metaTitle = `${title} Posts - Page ${pageNumber} | junlog`;
+  const canonicalURL = getAbsoluteURL(
+    `/posts/category/${categorySlug}/page/${pageNumber}`
+  );
 
   return {
-    title: `${title} - Junlog Posts (Page ${pageNumber})`,
+    title: metaTitle,
     description: `${title} 카테고리의 게시물 목록 - ${pageNumber}페이지`,
-    openGraph: {
-      title: `${title} - Junlog Posts (Page ${pageNumber})`,
-      description: `${title} 카테고리의 게시물 목록 - ${pageNumber}페이지`,
-      url: `https://junlog.com/posts/category/${categorySlug}/page/${pageNumber}`,
+    robots: {
+      index: false,
+      follow: true,
     },
+    openGraph: mergeOpenGraph({
+      title: metaTitle,
+      description: `${title} 카테고리의 게시물 목록 - ${pageNumber}페이지`,
+      url: canonicalURL,
+    }),
     alternates: {
-      canonical: `https://junlog.com/posts/category/${categorySlug}/page/${pageNumber}`,
+      canonical: canonicalURL,
     },
   };
 }

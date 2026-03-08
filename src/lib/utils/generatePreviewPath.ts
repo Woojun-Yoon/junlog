@@ -1,16 +1,9 @@
-import { PayloadRequest, CollectionSlug } from "payload";
+import { PayloadRequest } from "payload";
 
-/**
- * Maps collection slugs to their corresponding URL prefixes.
- * This determines the URL structure for different content types.
- */
-const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
-  posts: "/posts",
-  pages: "",
-};
+import { getCollectionPath, RoutableCollection } from "./getURL";
 
 type Props = {
-  collection: keyof typeof collectionPrefixMap;
+  collection: RoutableCollection;
   slug: string;
   req: PayloadRequest;
 };
@@ -65,7 +58,7 @@ type Props = {
  * ```
  */
 export const generatePreviewPath = ({ collection, slug, req }: Props) => {
-  const path = `${collectionPrefixMap[collection]}/${slug}`;
+  const path = getCollectionPath(collection, slug);
 
   const params = {
     slug,

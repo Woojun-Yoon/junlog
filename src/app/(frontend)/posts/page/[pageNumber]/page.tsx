@@ -4,8 +4,10 @@ import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import React from "react";
 import PageClient from "./page.client";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { PostsPageLayout } from "../../_components/PostsPageLayout";
+import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
+import { getAbsoluteURL } from "@/lib/utils/getURL";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
@@ -24,6 +26,8 @@ export default async function Page({ params: paramsPromise }: Args) {
   const sanitizedPageNumber = Number(pageNumber);
 
   if (!Number.isInteger(sanitizedPageNumber)) notFound();
+  if (sanitizedPageNumber === 1) redirect("/posts");
+  if (sanitizedPageNumber < 1) notFound();
 
   // Get all categories for the filter
   const categoriesResult = await payload.find({
@@ -41,6 +45,10 @@ export default async function Page({ params: paramsPromise }: Args) {
     overrideAccess: false,
     sort: "-publishedAt",
   });
+
+  if (posts.totalPages === 0 || sanitizedPageNumber > posts.totalPages) {
+    notFound();
+  }
 
   return (
     <>
@@ -68,7 +76,7 @@ export async function generateStaticParams() {
 
   const pages: { pageNumber: string }[] = [];
 
-  for (let i = 1; i <= totalPages; i++) {
+  for (let i = 2; i <= totalPages; i++) {
     pages.push({ pageNumber: String(i) });
   }
 
@@ -79,16 +87,23 @@ export async function generateMetadata({
   params: paramsPromise,
 }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise;
+  const canonicalURL = getAbsoluteURL(`/posts/page/${pageNumber}`);
+  const title = `Posts - Page ${pageNumber} | junlog`;
+
   return {
-    title: `Junlog Posts Page ${pageNumber || ""}`,
+    title,
     description: "배우고 익힌 내용을 정리합니다",
-    openGraph: {
-      title: `Junlog Posts Page ${pageNumber || ""}`,
-      description: "배우고 익힌 내용을 정리합니다",
-      url: `https://junlog.com/posts/page/${pageNumber}`,
+    robots: {
+      index: false,
+      follow: true,
     },
+    openGraph: mergeOpenGraph({
+      title,
+      description: "배우고 익힌 내용을 정리합니다",
+      url: canonicalURL,
+    }),
     alternates: {
-      canonical: `https://junlog.com/posts/page/${pageNumber}`,
+      canonical: canonicalURL,
     },
   };
 }

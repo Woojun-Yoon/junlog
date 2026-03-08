@@ -3,6 +3,10 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '@/payload/auth/anyone'
 import { authenticated } from '@/payload/auth/authenticated'
 import { slugField } from '@/payload/fields/slug'
+import {
+  revalidateCategory,
+  revalidateDelete,
+} from '@/payload/collections/Categories/hooks/revalidateCategory'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -23,4 +27,8 @@ export const Categories: CollectionConfig = {
     },
     ...slugField(),
   ],
+  hooks: {
+    afterChange: [revalidateCategory],
+    afterDelete: [revalidateDelete],
+  },
 }

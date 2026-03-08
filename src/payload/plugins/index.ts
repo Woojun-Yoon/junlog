@@ -3,9 +3,15 @@ import { redirectsPlugin } from "@payloadcms/plugin-redirects";
 import { seoPlugin } from "@payloadcms/plugin-seo";
 import { Plugin } from "payload";
 
-import { getServerSideURL } from "@/lib/utils/getURL";
+import { getCollectionURL, getServerSideURL, RoutableCollection } from "@/lib/utils/getURL";
 import { Page, Post } from "@/payload-types";
 import { revalidateRedirects } from "../hooks/revalidateRedirects";
+
+const isRoutableCollection = (
+  collectionSlug?: string
+): collectionSlug is RoutableCollection => {
+  return collectionSlug === "pages" || collectionSlug === "posts";
+};
 
 export const plugins: Plugin[] = [
   // storage-adapter-placeholder,
@@ -37,12 +43,28 @@ export const plugins: Plugin[] = [
   seoPlugin({
     generateTitle: ({ doc }: { doc: Post | Page }) => {
       return doc?.title
-        ? `${doc.title} | junlog Website Template`
-        : "junlog Website Template";
+        ? `${doc.title} | junlog`
+        : "junlog";
     },
-    generateURL: ({ doc }: { doc: Post | Page }) => {
-      const url = getServerSideURL();
-      return doc?.slug ? `${url}/${doc.slug}` : url;
+    generateDescription: ({ doc }: { doc: Post | Page }) => {
+      if ("summary" in doc && typeof doc.summary === "string") {
+        return doc.summary;
+      }
+
+      return "";
+    },
+    generateURL: ({
+      collectionConfig,
+      doc,
+    }: {
+      collectionConfig?: { slug?: string };
+      doc: Post | Page;
+    }) => {
+      if (isRoutableCollection(collectionConfig?.slug)) {
+        return getCollectionURL(collectionConfig.slug, doc?.slug);
+      }
+
+      return getServerSideURL();
     },
   }),
 

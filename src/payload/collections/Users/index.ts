@@ -20,6 +20,37 @@ export const Users: CollectionConfig = {
     {
       name: "name",
       type: "text",
+      admin: {
+        description: "Author name shown on posts and structured data.",
+      },
+    },
+    {
+      name: "bio",
+      type: "textarea",
+      admin: {
+        description: "Short public bio used for author structured data.",
+      },
+    },
+    {
+      name: "profileImage",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        description:
+          "Public profile image for author rich results and bylines.",
+      },
+    },
+    {
+      name: "website",
+      type: "text",
+      admin: {
+        description: "Public website URL for this author.",
+      },
+    },
+    {
+      name: "githubUrl",
+      type: "text",
+      label: "GitHub URL",
     },
   ],
   timestamps: true,

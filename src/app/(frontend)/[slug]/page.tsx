@@ -9,7 +9,10 @@ import { cache } from "react";
 import type { Page as PageType } from "@/payload-types";
 
 import { LivePreviewListener } from "@/components/LivePreviewListener";
+import { JsonLd } from "@/components/Seo/JsonLd";
 import { generateMeta } from "@/lib/utils/generateMeta";
+import { getAbsoluteURL, getCollectionURL } from "@/lib/utils/getURL";
+import { getBreadcrumbSchema, getPageSchema } from "@/lib/seo/schema";
 import { RenderBlocks } from "@/payload/blocks/RenderBlocks";
 import PageClient from "./page.client";
 
@@ -57,9 +60,25 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { blocks } = page;
+  const canonicalURL = page.meta?.canonicalUrl || getCollectionURL("pages", page.slug);
 
   return (
     <article className="pt-16 pb-24">
+      <JsonLd
+        schema={[
+          getPageSchema(page),
+          getBreadcrumbSchema([
+            {
+              name: "Home",
+              item: getAbsoluteURL("/"),
+            },
+            {
+              name: page.title,
+              item: canonicalURL,
+            },
+          ]),
+        ]}
+      />
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
@@ -100,5 +119,5 @@ export async function generateMetadata({
     slug,
   });
 
-  return generateMeta({ doc: page });
+  return generateMeta({ collection: "pages", doc: page });
 }

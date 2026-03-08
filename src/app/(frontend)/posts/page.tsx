@@ -4,6 +4,14 @@ import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import PageClient from "./page.client";
 import { PostsPageLayout } from "./_components/PostsPageLayout";
+import { JsonLd } from "@/components/Seo/JsonLd";
+import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
+import { getAbsoluteURL, getCollectionURL } from "@/lib/utils/getURL";
+import {
+  getBreadcrumbSchema,
+  getCollectionPageSchema,
+  getItemListSchema,
+} from "@/lib/seo/schema";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
@@ -30,8 +38,43 @@ export default async function PostPage() {
     sort: "-publishedAt",
   });
 
+  const canonicalURL = getCollectionURL("posts");
+  const schemas = [
+    getCollectionPageSchema({
+      name: "Posts",
+      description: "배우고 익힌 내용을 정리합니다",
+      url: canonicalURL,
+    }),
+    getBreadcrumbSchema([
+      {
+        name: "Home",
+        item: getAbsoluteURL("/"),
+      },
+      {
+        name: "Posts",
+        item: canonicalURL,
+      },
+    ]),
+  ];
+  const archiveItems = posts.docs
+    .filter((post) => Boolean(post.slug) && Boolean(post.title))
+    .map((post) => ({
+      name: post.title,
+      url: getAbsoluteURL(`/posts/${post.slug}`),
+    }));
+
+  if (archiveItems.length > 0) {
+    schemas.push(
+      getItemListSchema({
+        name: "Posts Archive",
+        items: archiveItems,
+      })
+    );
+  }
+
   return (
     <>
+      <JsonLd schema={schemas} />
       <PageClient />
       <PostsPageLayout
         categories={categoriesResult.docs}
@@ -46,16 +89,18 @@ export default async function PostPage() {
 }
 
 export function generateMetadata(): Metadata {
+  const canonicalURL = getCollectionURL("posts");
+
   return {
-    title: `Junlog Posts`,
+    title: `Posts | junlog`,
     description: "배우고 익힌 내용을 정리합니다",
-    openGraph: {
-      title: `Junlog Posts`,
+    openGraph: mergeOpenGraph({
+      title: `Posts | junlog`,
       description: "배우고 익힌 내용을 정리합니다",
-      url: "https://junlog.com/posts",
-    },
+      url: canonicalURL,
+    }),
     alternates: {
-      canonical: "https://junlog.com/posts",
+      canonical: canonicalURL,
     },
   };
 }

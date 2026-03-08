@@ -56,7 +56,9 @@ export const Card: React.FC<{
         ) : (
           <Image
             src="/junlog-og.webp"
-            alt="Default Image"
+            alt={
+              titleToUse ? `${titleToUse} 대표 이미지` : "junlog 기본 대표 이미지"
+            }
             width={192}
             height={128}
             priority

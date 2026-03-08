@@ -1,6 +1,12 @@
 import type { CollectionAfterReadHook } from 'payload'
 import { User } from '@/payload-types'
 
+const sanitizeText = (value?: string | null) => {
+  const trimmed = value?.trim()
+
+  return trimmed ? trimmed : undefined
+}
+
 // The `user` collection has access control locked so that users are not publicly accessible
 // This means that we need to populate the authors manually here to protect user privacy
 // GraphQL will not return mutated user data that differs from the underlying schema
@@ -13,7 +19,7 @@ export const populateAuthors: CollectionAfterReadHook = async ({ doc, req, req: 
       const authorDoc = await payload.findByID({
         id: typeof author === 'object' ? author?.id : author,
         collection: 'users',
-        depth: 0,
+        depth: 1,
         req,
       })
 
@@ -25,6 +31,10 @@ export const populateAuthors: CollectionAfterReadHook = async ({ doc, req, req: 
     doc.populatedAuthors = authorDocs.map((authorDoc) => ({
       id: authorDoc.id,
       name: authorDoc.name,
+      bio: sanitizeText(authorDoc.bio),
+      website: sanitizeText(authorDoc.website),
+      githubUrl: sanitizeText(authorDoc.githubUrl),
+      profileImage: authorDoc.profileImage,
     }))
   }
 

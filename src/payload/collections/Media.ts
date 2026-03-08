@@ -26,7 +26,19 @@ export const Media: CollectionConfig = {
     {
       name: "alt",
       type: "text",
-      //required: true,
+      required: true,
+      admin: {
+        description: "Describe what appears in the image. Required for SEO and accessibility.",
+      },
+      validate: (value, { data }) => {
+        const hasAlt = typeof value === "string" && value.trim().length > 0;
+
+        if (data?.mimeType?.startsWith("image/") && !hasAlt) {
+          return "Alt text is required for images.";
+        }
+
+        return true;
+      },
     },
     {
       name: "caption",

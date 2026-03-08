@@ -5,8 +5,16 @@ import PageClient from "./page.client";
 import Link from "next/link";
 import Image from "next/image";
 import { Media } from "@/components/Media";
+import { JsonLd } from "@/components/Seo/JsonLd";
 import { formatDateTime } from "@/lib/utils/formatDateTime";
 import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
+import { getAbsoluteURL } from "@/lib/utils/getURL";
+import {
+  getBreadcrumbSchema,
+  getItemListSchema,
+  getWebPageSchema,
+  getWebSiteSchema,
+} from "@/lib/seo/schema";
 
 export const dynamic = "force-static";
 export const revalidate = 600;
@@ -32,8 +40,40 @@ export default async function HomePage() {
     },
   });
 
+  const schemas = [
+    getWebSiteSchema(),
+    getWebPageSchema({
+      name: "junlog",
+      description:
+        "기술과 개념을 직관적이고, 논리적으로, 그리고 쉽게 이해할 수 있도록 풀어갑니다.",
+      url: getAbsoluteURL("/"),
+    }),
+    getBreadcrumbSchema([
+      {
+        name: "Home",
+        item: getAbsoluteURL("/"),
+      },
+    ]),
+  ];
+  const latestPostItems = posts
+    .filter((post) => Boolean(post.slug) && Boolean(post.title))
+    .map((post) => ({
+      name: post.title,
+      url: getAbsoluteURL(`/posts/${post.slug}`),
+    }));
+
+  if (latestPostItems.length > 0) {
+    schemas.push(
+      getItemListSchema({
+        name: "Latest Posts",
+        items: latestPostItems,
+      }),
+    );
+  }
+
   return (
     <>
+      <JsonLd schema={schemas} />
       <PageClient />
 
       {/* Latest Section */}
@@ -76,7 +116,11 @@ export default async function HomePage() {
                   ) : (
                     <Image
                       src="/junlog-og.webp"
-                      alt="Default Image"
+                      alt={
+                        post.title
+                          ? `${post.title} 대표 이미지`
+                          : "junlog 기본 대표 이미지"
+                      }
                       fill
                       priority
                       sizes="50%"
@@ -94,14 +138,16 @@ export default async function HomePage() {
 }
 
 export function generateMetadata(): Metadata {
+  const canonicalURL = getAbsoluteURL("/");
+
   return {
     title: `junlog`,
     description: `기술과 개념을 직관적이고, 논리적으로, 그리고 쉽게 이해할 수 있도록 풀어갑니다.`,
     openGraph: mergeOpenGraph({
-      url: `https://junlog.com`,
+      url: canonicalURL,
     }),
     alternates: {
-      canonical: `https://junlog.com`,
+      canonical: canonicalURL,
     },
   };
 }
