@@ -1,0 +1,57 @@
+name: Deploy Junlog
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install WireGuard
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wireguard-tools resolvconf
+
+      - name: Write WireGuard config
+        shell: bash
+        env:
+          WG_CONF: ${{ secrets.WG_CONF }}
+        run: |
+          printf '%s' "$WG_CONF" > wg0.conf
+          chmod 600 wg0.conf
+
+      - name: Connect WireGuard
+        run: |
+          sudo sysctl -w net.ipv4.conf.all.src_valid_mark=1
+          sudo wg-quick up ./wg0.conf
+
+      - name: Deploy to Coolify
+        env:
+          COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+        run: |
+          curl --fail --show-error --silent \
+            --request GET "$COOLIFY_WEBHOOK" \
+            --header "Authorization: Bearer $COOLIFY_TOKEN"
+
+      - name: Disconnect Wireguard VPN
+        if: always()
+        run: |
+          sudo wg-quick down ./wg0.conf
+
+      - name: Remove temporary secret files
+        if: always()
+        run: rm -f .env.production.build wg0.conf
