@@ -1,113 +1,164 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
+
+const LOGIN_FORM_SELECTOR = "form.login__form";
+const SUBMIT_BUTTON_SELECTOR = `${LOGIN_FORM_SELECTOR} button[type="submit"]`;
 
 const AfterLogin: React.FC = () => {
   const [turnstileToken, setTurnstileToken] = useState<string>("");
-  const [turnstileRef, setTurnstileRef] = useState<any>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const submitButtonRef = useRef<HTMLButtonElement | null>(null);
+  const turnstileRef = useRef<{ reset?: () => void } | null>(null);
+  const turnstileTokenRef = useRef("");
+  const allowNextSubmitRef = useRef(false);
+  const isVerifyingRef = useRef(false);
+
+  const syncSubmitButtonState = () => {
+    const submitButton = submitButtonRef.current;
+
+    if (!submitButton) {
+      return;
+    }
+
+    const isDisabled =
+      !turnstileTokenRef.current || isVerifyingRef.current;
+
+    submitButton.disabled = isDisabled;
+    submitButton.style.opacity = isDisabled ? "0.6" : "1";
+    submitButton.style.cursor = isDisabled ? "not-allowed" : "pointer";
+  };
+
+  const resetTurnstile = () => {
+    turnstileRef.current?.reset?.();
+    turnstileTokenRef.current = "";
+    setTurnstileToken("");
+  };
+
+  const submitLoginForm = () => {
+    const loginForm = formRef.current;
+
+    if (!loginForm) {
+      return;
+    }
+
+    if (typeof loginForm.requestSubmit === "function") {
+      loginForm.requestSubmit();
+      return;
+    }
+
+    loginForm.dispatchEvent(
+      new Event("submit", {
+        bubbles: true,
+        cancelable: true,
+      })
+    );
+  };
 
   useEffect(() => {
-    const interceptLoginForm = () => {
-      const loginForm = document.querySelector("form") as HTMLFormElement;
-      const submitButton = document.querySelector(
-        'button[type="submit"]'
-      ) as HTMLButtonElement;
+    turnstileTokenRef.current = turnstileToken;
+    syncSubmitButtonState();
+  }, [turnstileToken]);
 
-      if (loginForm && submitButton) {
-        loginForm.onsubmit = async (e) => {
-          e.preventDefault();
+  useEffect(() => {
+    const handleSubmit = async (event: Event) => {
+      if (allowNextSubmitRef.current) {
+        allowNextSubmitRef.current = false;
+        return;
+      }
 
-          if (!turnstileToken) {
-            return false;
-          }
+      event.preventDefault();
 
-          try {
-            const captchaResponse = await fetch("/next/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ token: turnstileToken }),
-            });
+      if (!turnstileTokenRef.current || isVerifyingRef.current) {
+        return;
+      }
 
-            if (!captchaResponse.ok) {
-              turnstileRef?.reset();
-              setTurnstileToken("");
-              return false;
-            }
+      isVerifyingRef.current = true;
+      syncSubmitButtonState();
 
-            const formData = new FormData(loginForm);
-            formData.append("turnstileToken", turnstileToken);
+      try {
+        const captchaResponse = await fetch("/next/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: turnstileTokenRef.current }),
+        });
 
-            const loginResponse = await fetch("/api/users/login", {
-              method: "POST",
-              body: formData,
-            });
-
-            if (loginResponse.ok) {
-              window.location.reload();
-            } else {
-              turnstileRef?.reset();
-              setTurnstileToken("");
-            }
-          } catch (error) {
-            turnstileRef?.reset();
-            setTurnstileToken("");
-          }
-
-          return false;
-        };
-
-        submitButton.onclick = (e) => {
-          if (!turnstileToken) {
-            e.preventDefault();
-            return false;
-          }
-        };
-
-        submitButton.disabled = !turnstileToken;
-        if (!turnstileToken) {
-          submitButton.style.opacity = "0.6";
-          submitButton.style.cursor = "not-allowed";
-        } else {
-          submitButton.style.opacity = "1";
-          submitButton.style.cursor = "pointer";
+        if (!captchaResponse.ok) {
+          resetTurnstile();
+          return;
         }
+
+        allowNextSubmitRef.current = true;
+        submitLoginForm();
+      } catch {
+        resetTurnstile();
+      } finally {
+        isVerifyingRef.current = false;
+        syncSubmitButtonState();
       }
     };
 
-    setTimeout(interceptLoginForm, 100);
+    const handleClick = (event: MouseEvent) => {
+      if (!turnstileTokenRef.current || isVerifyingRef.current) {
+        event.preventDefault();
+      }
+    };
 
-    const observer = new MutationObserver(interceptLoginForm);
+    const bindLoginForm = () => {
+      const loginForm = document.querySelector(LOGIN_FORM_SELECTOR);
+      const submitButton = document.querySelector(SUBMIT_BUTTON_SELECTOR);
+
+      if (loginForm instanceof HTMLFormElement && loginForm !== formRef.current) {
+        formRef.current?.removeEventListener("submit", handleSubmit, true);
+        formRef.current = loginForm;
+        formRef.current.addEventListener("submit", handleSubmit, true);
+      }
+
+      if (
+        submitButton instanceof HTMLButtonElement &&
+        submitButton !== submitButtonRef.current
+      ) {
+        submitButtonRef.current?.removeEventListener("click", handleClick);
+        submitButtonRef.current = submitButton;
+        submitButtonRef.current.addEventListener("click", handleClick);
+      }
+
+      syncSubmitButtonState();
+    };
+
+    bindLoginForm();
+
+    const timeoutId = window.setTimeout(bindLoginForm, 100);
+
+    const observer = new MutationObserver(bindLoginForm);
     observer.observe(document.body, {
       childList: true,
       subtree: true,
     });
 
-    return () => observer.disconnect();
-  }, [turnstileToken, turnstileRef]);
-
-  useEffect(() => {
-    const submitButton = document.querySelector(
-      'button[type="submit"]'
-    ) as HTMLButtonElement;
-    if (submitButton) {
-      submitButton.disabled = !turnstileToken;
-      submitButton.style.opacity = turnstileToken ? "1" : "0.6";
-      submitButton.style.cursor = turnstileToken ? "pointer" : "not-allowed";
-    }
-  }, [turnstileToken]);
+    return () => {
+      window.clearTimeout(timeoutId);
+      observer.disconnect();
+      formRef.current?.removeEventListener("submit", handleSubmit, true);
+      submitButtonRef.current?.removeEventListener("click", handleClick);
+    };
+  }, []);
 
   return (
     <Turnstile
-      ref={setTurnstileRef}
+      ref={(instance) => {
+        turnstileRef.current = instance ?? null;
+      }}
       siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
       onSuccess={(token) => {
+        turnstileTokenRef.current = token;
         setTurnstileToken(token);
       }}
       onError={() => {
-        setTurnstileToken("");
+        resetTurnstile();
       }}
       options={{
         action: "submit-form",
@@ -115,7 +166,7 @@ const AfterLogin: React.FC = () => {
         size: "flexible",
       }}
       onExpire={() => {
-        setTurnstileToken("");
+        resetTurnstile();
       }}
     />
   );
