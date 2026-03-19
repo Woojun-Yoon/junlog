@@ -56,14 +56,15 @@ export default async function Post({ params: paramsPromise }: Args) {
   const { slug = "" } = await paramsPromise;
   const url = "/posts/" + slug;
   const post = await queryPostBySlug({ slug });
+
+  if (!post) return <PayloadRedirects url={url} />;
+
   const headings: [string, string][] =
-    post.content?.root?.children
+    post.content.root.children
       .filter((node: any) => node.type === "heading")
       .map((heading: any) => [heading.children[0]?.text || "", heading.tag]) ||
     [];
   const tocHeadings: HeadingItem[] = parseToc(headings);
-
-  if (!post) return <PayloadRedirects url={url} />;
 
   const primaryCategory = post.categories?.find(
     (category) =>
