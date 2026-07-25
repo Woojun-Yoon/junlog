@@ -14,6 +14,12 @@
   }
 
   :root {
+    --font-pretendard:
+      "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+      system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+      "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol", sans-serif;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -47,8 +53,6 @@
     --success: 196 52% 74%;
     --warning: 34 89% 85%;
     --error: 10 100% 86%;
-
-    --font-jetbrains-mono: "JetBrains Mono", monospace;
   }
 
   [data-theme="dark"] {
@@ -87,6 +91,10 @@
 }
 
 @layer base {
+  html {
+    font-family: var(--font-pretendard);
+  }
+
   * {
     @apply border-border;
   }

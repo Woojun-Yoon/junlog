@@ -32,7 +32,7 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
           </Link>
 
           <p className="text-sm text-black/60 dark:text-white/60 text-center">
-            © 2025 Junlog. All rights reserved.
+            © 2026 Junlog. All rights reserved.
           </p>
 
           <div className="flex flex-row justify-end items-center gap-4">

@@ -12,6 +12,7 @@ import {
 } from "@payloadcms/richtext-lexical/react";
 
 import { CodeBlock, CodeBlockProps } from "@/payload/blocks/Code/Component";
+import { JetBrainsMono } from "@/payload/blocks/Code/font";
 
 import type {
   BannerBlock as BannerBlockProps,
@@ -97,6 +98,7 @@ export default function RichText(props: Props) {
     <RichTextWithoutBlocks
       converters={jsxConverters}
       className={cn(
+        JetBrainsMono.variable,
         {
           "container ": enableGutter,
           "max-w-none": !enableGutter,

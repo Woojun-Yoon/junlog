@@ -54,7 +54,7 @@ export const Code: React.FC<Props> = ({ code, language = "text" }) => {
             lineHeight: "1.6",
             background: "transparent",
             fontFamily:
-              "ui-mono, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+              "var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace",
           }}
         >
           {code}

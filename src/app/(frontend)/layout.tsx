@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import React from "react";
-import { Pretendard } from "./font";
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 
 import { Footer } from "@/payload/globals/Footer/Component";
 import { Header } from "@/payload/globals/Header/Component";
@@ -19,11 +19,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      className={`${Pretendard.className}`}
-      lang="ko"
-      suppressHydrationWarning
-    >
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <meta
           name="theme-color"

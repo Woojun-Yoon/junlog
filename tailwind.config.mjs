@@ -91,8 +91,15 @@ export default {
         warning: "hsl(var(--warning))",
       },
       fontFamily: {
-        mono: ["var(--font-jetbrains-mono)", "monospace"],
-        sans: ["var(--font-geist-sans)"],
+        mono: [
+          "var(--font-jetbrains-mono, ui-monospace)",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "monospace",
+        ],
+        sans: ["var(--font-pretendard)", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {

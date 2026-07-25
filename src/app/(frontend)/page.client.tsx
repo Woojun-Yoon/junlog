@@ -2,9 +2,7 @@
 
 import { useHeaderTheme } from "@/components/ThemeProvider/HeaderTheme";
 import React, { useEffect } from "react";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { BackgroundLines } from "@/components/ui/background-lines";
 
 const PageClient = () => {
   const { setHeaderTheme } = useHeaderTheme();
@@ -16,37 +14,12 @@ const PageClient = () => {
 
   return (
     <div className="relative mx-auto flex max-w-7xl flex-col items-center justify-center">
-      <div className="pointer-events-none absolute inset-0 w-full overflow-hidden">
-        <BackgroundLines svgOptions={{ duration: 20 }} />
-      </div>
-
       <div className="px-4 py-8 md:py-12">
         <h1 className="relative z-10 mx-auto max-w-4xl text-center text-3xl font-bold md:text-5xl lg:text-7xl">
-          {"Understand everything like scratch"
-            .split(" ")
-            .map((word, index) => (
-              <motion.span
-                key={index}
-                initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
-                animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-                transition={{
-                  duration: 0.3,
-                  delay: index * 0.1,
-                  ease: "easeInOut",
-                }}
-                className="mr-2 inline-block"
-              >
-                {word}
-              </motion.span>
-            ))}
+          Understand everything like scratch
         </h1>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.6 }}
-          className="relative z-10 mx-auto max-w-xl py-4 text-center text-sm sm:text-base md:text-lg font-normal word-break: break-keep text-neutral-600 dark:text-neutral-400"
-        >
+        <p className="relative z-10 mx-auto max-w-xl py-4 text-center text-sm sm:text-base md:text-lg font-normal word-break: break-keep text-neutral-600 dark:text-neutral-400">
           기술과 개념을{" "}
           <a
             href="https://scratch.mit.edu/about"
@@ -61,14 +34,9 @@ const PageClient = () => {
             <br />
           </span>
           그리고 쉽게 이해할 수 있도록 풀어갑니다.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 1 }}
-          className="relative z-10 mt-4 flex flex-wrap items-center justify-center gap-4"
-        >
+        <div className="relative z-10 mt-4 flex flex-wrap items-center justify-center gap-4">
           <button
             onClick={() => router.push("/posts")}
             className="w-full sm:w-48 md:w-60 transform rounded-lg bg-black px-6 py-2 text-sm sm:text-base md:text-lg font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
@@ -81,7 +49,7 @@ const PageClient = () => {
           >
             Contact Me
           </button>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
