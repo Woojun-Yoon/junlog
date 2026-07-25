@@ -17,3 +17,9 @@ public/media/
 
 public/robots.txt
 public/sitemap*.xml
+
+# Local SEO audit cache
+.seo-cache/
+/screenshots
+ACTION-PLAN.md
+FULL-AUDIT-REPORT.md
