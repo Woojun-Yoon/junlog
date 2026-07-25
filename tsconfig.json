@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "esModuleInterop": true,
     "target": "ES2022",
     "lib": [
@@ -14,6 +13,7 @@
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "noUncheckedSideEffectImports": true,
     "incremental": true,
     "jsx": "preserve",
     "module": "esnext",
@@ -27,6 +27,9 @@
       }
     ],
     "paths": {
+      "next-sitemap.config.cjs": [
+        "./next-sitemap.config.cjs"
+      ],
       "@payload-config": [
         "./src/payload.config.ts"
       ],

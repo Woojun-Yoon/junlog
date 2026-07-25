@@ -99,7 +99,7 @@ export default {
           "Consolas",
           "monospace",
         ],
-        sans: ["var(--font-geist-sans)"],
+        sans: ["var(--font-pretendard)", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
