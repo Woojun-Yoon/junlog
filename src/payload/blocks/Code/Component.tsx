@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Code } from "./Component.client";
+import { JetBrainsMono } from "./font";
 
 export type CodeBlockProps = {
   code: string;
@@ -14,7 +15,11 @@ type Props = CodeBlockProps & {
 
 export const CodeBlock: React.FC<Props> = ({ className, code, language }) => {
   return (
-    <div className={[className, "not-prose"].filter(Boolean).join(" ")}>
+    <div
+      className={[className, "not-prose", JetBrainsMono.variable]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <Code code={code} language={language} />
     </div>
   );
