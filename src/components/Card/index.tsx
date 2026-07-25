@@ -18,14 +18,18 @@ export const Card: React.FC<{
   doc?: CardPostData & { publishedAt?: string | null };
   relationTo?: "posts";
   showCategories?: boolean;
+  priority?: boolean;
+  sizes: string;
   title?: string;
 }> = (props) => {
   const { card, link } = useClickableCard({});
   const {
     className,
     doc,
+    priority,
     relationTo,
     showCategories,
+    sizes,
     title: titleFromProps,
   } = props;
 
@@ -52,6 +56,8 @@ export const Card: React.FC<{
           <Media
             resource={metaImage}
             imgClassName="object-cover object-center w-full h-full"
+            priority={priority}
+            sizes={sizes}
           />
         ) : (
           <Image
@@ -61,7 +67,8 @@ export const Card: React.FC<{
             }
             width={192}
             height={128}
-            priority
+            priority={priority}
+            sizes={sizes}
             className="object-cover object-center w-full h-full"
           />
         )}

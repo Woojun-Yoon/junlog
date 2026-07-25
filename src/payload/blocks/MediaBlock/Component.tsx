@@ -30,6 +30,10 @@ export const MediaBlock: React.FC<Props> = (props) => {
   let caption
   if (media && typeof media === 'object') caption = media.caption
 
+  const imageSizes = enableGutter
+    ? '(max-width: 639px) calc(100vw - 2rem), (max-width: 767px) 608px, (max-width: 1023px) 704px, (max-width: 1279px) 960px, (max-width: 1375px) 1216px, 1312px'
+    : '(max-width: 639px) calc(100vw - 2rem), (max-width: 767px) 608px, (max-width: 1023px) 704px, 768px'
+
   return (
     <div
       className={cn(
@@ -44,6 +48,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
         <Media
           imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
           resource={media}
+          sizes={imageSizes}
           src={staticImage}
         />
       )}

@@ -45,7 +45,7 @@ export function PostsPageLayout({
         />
       </div>
 
-      <CollectionArchive posts={posts} />
+      <CollectionArchive posts={posts} priorityFirstImage />
 
       <div className="container mt-8">
         {totalPages > 1 && page && (

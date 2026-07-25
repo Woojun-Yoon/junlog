@@ -5,10 +5,14 @@ import { Card, CardPostData } from "@/components/Card";
 
 export type Props = {
   posts: CardPostData[];
+  priorityFirstImage?: boolean;
 };
 
 export const CollectionArchive: React.FC<Props> = (props) => {
-  const { posts } = props;
+  const { posts, priorityFirstImage = false } = props;
+
+  const archiveCardImageSizes =
+    "(max-width: 639px) calc(100vw - 2rem), (max-width: 767px) 292px, (max-width: 1023px) 340px, (max-width: 1279px) 277px, (max-width: 1375px) 347px, 379px";
 
   return (
     <div className={cn("container py-4")}>
@@ -21,8 +25,10 @@ export const CollectionArchive: React.FC<Props> = (props) => {
                   <Card
                     className="h-full"
                     doc={result}
+                    priority={priorityFirstImage && index === 0}
                     relationTo="posts"
                     showCategories
+                    sizes={archiveCardImageSizes}
                   />
                 </div>
               );

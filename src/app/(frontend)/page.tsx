@@ -83,54 +83,66 @@ export default async function HomePage() {
         </h2>
 
         <div className="divide-y divide-border">
-          {posts.map((post) => (
-            <Link
-              key={post.id}
-              href={`/posts/${post.slug}`}
-              className="block group transition-all duration-300 hover:bg-muted/80 hover:shadow-sm rounded-md px-2 sm:px-4 -mx-2 sm:-mx-4"
-            >
-              <div className="py-6 flex items-center space-x-4 text-left">
-                {/* 텍스트 섹션 */}
-                <div className="flex-1 space-y-2">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold break-keep text-foreground">
-                    {post.title}
-                  </h3>
+          {posts.map((post, index) => {
+            const isPriorityImage = index === 0;
+            const metaImage = post.meta?.image;
 
-                  <p className="text-xs sm:text-sm text-muted-foreground">
-                    <time dateTime={post.publishedAt ?? undefined}>
-                      {formatDateTime(post.publishedAt || post.createdAt)}
-                    </time>
-                  </p>
+            return (
+              <Link
+                key={post.id}
+                href={`/posts/${post.slug}`}
+                className="block group transition-all duration-300 hover:bg-muted/80 hover:shadow-sm rounded-md px-2 sm:px-4 -mx-2 sm:-mx-4"
+              >
+                <div className="py-6 flex items-center space-x-4 text-left">
+                  {/* 텍스트 섹션 */}
+                  <div className="flex-1 space-y-2">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold break-keep text-foreground">
+                      {post.title}
+                    </h3>
 
-                  {post.summary && (
-                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground break-keep line-clamp-3">
-                      {post.summary}
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      <time dateTime={post.publishedAt ?? undefined}>
+                        {formatDateTime(post.publishedAt || post.createdAt)}
+                      </time>
                     </p>
-                  )}
-                </div>
 
-                {/* 이미지 섹션 */}
-                <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-md hidden md:block">
-                  {post.meta?.image ? (
-                    <Media resource={post.meta.image} />
-                  ) : (
-                    <Image
-                      src="/junlog-og.webp"
-                      alt={
-                        post.title
-                          ? `${post.title} 대표 이미지`
-                          : "junlog 기본 대표 이미지"
-                      }
-                      fill
-                      priority
-                      sizes="50%"
-                      className="object-cover rounded-md"
-                    />
-                  )}
+                    {post.summary && (
+                      <p className="text-sm sm:text-base md:text-lg text-muted-foreground break-keep line-clamp-3">
+                        {post.summary}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* 이미지 섹션 */}
+                  <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-md hidden md:block">
+                    {metaImage && typeof metaImage === "object" ? (
+                      <Media
+                        fill
+                        htmlElement={null}
+                        imgClassName="object-cover rounded-md"
+                        priority={isPriorityImage}
+                        resource={metaImage}
+                        sizes="192px"
+                      />
+                    ) : (
+                      <Image
+                        src="/junlog-og.webp"
+                        alt={
+                          post.title
+                            ? `${post.title} 대표 이미지`
+                            : "junlog 기본 대표 이미지"
+                        }
+                        fill
+                        priority={isPriorityImage}
+                        sizes="192px"
+                        className="object-cover rounded-md"
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
     </>

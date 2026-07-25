@@ -15,7 +15,7 @@ export interface Props {
   priority?: boolean // for NextImage only
   ref?: Ref<HTMLImageElement | HTMLVideoElement | null>
   resource?: MediaType | string | number // for Payload media
-  size?: string // for NextImage only
+  sizes?: string // CSS length list for NextImage, e.g. "(max-width: 640px) 100vw, 50vw"
   src?: StaticImageData // for static media
   videoClassName?: string
 }

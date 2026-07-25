@@ -31,6 +31,7 @@ export const MediumImpactHero = ({ links, media, richText }: MediumImpactHeroBlo
               imgClassName=""
               priority
               resource={media}
+              sizes="(max-width: 639px) 100vw, (max-width: 767px) 640px, (max-width: 1023px) 768px, (max-width: 1279px) 1024px, (max-width: 1375px) 1280px, (max-width: 1535px) 1376px, 1440px"
             />
             {media?.caption && (
               <div className="mt-3">

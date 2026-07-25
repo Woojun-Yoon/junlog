@@ -15,6 +15,8 @@ export type RelatedPostsProps = {
 
 export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
   const { className, docs, introContent } = props;
+  const relatedCardImageSizes =
+    "(max-width: 639px) calc(100vw - 2rem), (max-width: 767px) 608px, 336px";
 
   return (
     <div className={clsx("lg:container", className)}>
@@ -31,6 +33,7 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
                 doc={doc}
                 relationTo="posts"
                 showCategories
+                sizes={relatedCardImageSizes}
               />
             </div>
           );

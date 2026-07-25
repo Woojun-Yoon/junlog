@@ -37,7 +37,13 @@ export const HighImpactHero = ({ links, media, richText }: HighImpactHeroBlock) 
       </div>
       <div className="min-h-[80vh] select-none">
         {media && typeof media === 'object' && (
-          <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
+          <Media
+            fill
+            imgClassName="-z-10 object-cover"
+            priority
+            resource={media}
+            sizes="100vw"
+          />
         )}
       </div>
     </div>
