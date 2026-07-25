@@ -1,16 +1,14 @@
-import Script from "next/script";
 import React from "react";
 
 import { defaultTheme, themeLocalStorageKey } from "../ThemeSelector/types";
 
-export const InitTheme: React.FC = () => {
-  return (
-    // eslint-disable-next-line @next/next/no-before-interactive-script-outside-document
-    <Script
-      dangerouslySetInnerHTML={{
-        __html: `
+const initThemeScript = `
   (function () {
     function getImplicitPreference() {
+      if (typeof window.matchMedia !== 'function') {
+        return null
+      }
+
       var mediaQuery = '(prefers-color-scheme: dark)'
       var mql = window.matchMedia(mediaQuery)
       var hasImplicitPreference = typeof mql.matches === 'boolean'
@@ -27,7 +25,13 @@ export const InitTheme: React.FC = () => {
     }
 
     var themeToSet = '${defaultTheme}'
-    var preference = window.localStorage.getItem('${themeLocalStorageKey}')
+    var preference = null
+
+    try {
+      preference = window.localStorage.getItem('${themeLocalStorageKey}')
+    } catch (_) {
+      // Fall back to the system preference when storage is unavailable.
+    }
 
     if (themeIsValid(preference)) {
       themeToSet = preference
@@ -39,12 +43,19 @@ export const InitTheme: React.FC = () => {
       }
     }
 
-    document.documentElement.setAttribute('data-theme', themeToSet)
+    var root = document.documentElement
+    root.setAttribute('data-theme', themeToSet)
+    root.style.colorScheme = themeToSet
   })();
-  `,
+`;
+
+export const InitTheme: React.FC = () => {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: initThemeScript,
       }}
       id="theme-script"
-      strategy="beforeInteractive"
     />
   );
 };
