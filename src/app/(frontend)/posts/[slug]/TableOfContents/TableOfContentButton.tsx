@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowUpToLine, MessageSquareText } from "lucide-react";
+import { GISCUS_CONTAINER_ID, GISCUS_LOAD_EVENT } from "../Comment/constants";
 
 interface ButtonProps {
   size?: number;
@@ -35,12 +36,19 @@ export const ScrollTop = ({ size = 16, className }: ButtonProps) => {
 };
 
 export const ScrollToComment = ({ size = 16, className }: ButtonProps) => {
-  const scrollToGiscus = () =>
-    document.querySelector(".giscus")?.scrollIntoView();
+  const scrollToGiscus = () => {
+    const commentSection = document.getElementById(GISCUS_CONTAINER_ID);
+
+    if (!commentSection) return;
+
+    window.dispatchEvent(new Event(GISCUS_LOAD_EVENT));
+    commentSection.scrollIntoView({ block: "start" });
+  };
 
   return (
     <ClientOnly>
       <Button
+        aria-label="댓글로 이동"
         variant="outline"
         size="icon"
         onClick={scrollToGiscus}
