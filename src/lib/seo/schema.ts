@@ -137,7 +137,7 @@ export const getItemListSchema = ({
 }): SchemaObject => ({
   "@type": "ItemList",
   name,
-  itemListOrder: "https://schema.org/ItemListOrderAscending",
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
   numberOfItems: items.length,
   itemListElement: items.map((item, index) => ({
     "@type": "ListItem",
