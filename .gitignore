@@ -11,6 +11,7 @@ node_modules
 
 # Custom Files
 TODO.md
+AGENTS.md
 
 # Payload default media upload directory
 public/media/
