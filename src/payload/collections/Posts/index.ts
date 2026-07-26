@@ -31,6 +31,7 @@ import { generatePreviewPath } from "@/lib/utils/generatePreviewPath";
 import { getCollectionURL } from "@/lib/utils/getURL";
 import { populateAuthors } from "./hooks/populateAuthors";
 import { revalidateDelete, revalidatePost } from "./hooks/revalidatePost";
+import { setContentUpdatedAt } from "./hooks/setContentUpdatedAt";
 
 import {
   MetaDescriptionField,
@@ -279,6 +280,18 @@ export const Posts: CollectionConfig<"posts"> = {
       },
     },
     {
+      name: "contentUpdatedAt",
+      type: "date",
+      label: "Content updated at",
+      admin: {
+        date: {
+          pickerAppearance: "dayAndTime",
+        },
+        position: "sidebar",
+        readOnly: true,
+      },
+    },
+    {
       name: "authors",
       type: "relationship",
       admin: {
@@ -343,11 +356,12 @@ export const Posts: CollectionConfig<"posts"> = {
     afterChange: [revalidatePost],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
+    beforeChange: [setContentUpdatedAt],
   },
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 30000,
       },
       schedulePublish: true,
     },
