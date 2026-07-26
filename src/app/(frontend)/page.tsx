@@ -114,7 +114,7 @@ export default async function HomePage() {
                   </div>
 
                   {/* 이미지 섹션 */}
-                  <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-md hidden md:block">
+                  <div className="relative hidden aspect-[40/21] w-48 flex-shrink-0 overflow-hidden rounded-md md:block">
                     {metaImage && typeof metaImage === "object" ? (
                       <Media
                         fill
