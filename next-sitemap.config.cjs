@@ -1,48 +1,86 @@
 const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL || "https://junlog.com";
 
-const AI_CRAWLERS = [
-  "EtaoSpider",
-  "GPTBot",
-  "CCBot",
+const PRIVATE_PATHS = ["/admin", "/admin/*", "/api/*"];
+
+// Search/index crawlers that can surface and cite public content in AI answers.
+const AI_SEARCH_CRAWLERS = [
+  "Googlebot",
+  "bingbot",
+  "OAI-SearchBot",
   "PerplexityBot",
-  "Google-Extended",
+  "Claude-SearchBot",
+  "DuckAssistBot",
+  "MistralAI-Index",
+  "YouBot",
+  "Applebot",
+];
+
+// Fetchers that retrieve public content in response to a user or agent request.
+const AI_USER_FETCHERS = [
+  "ChatGPT-User",
+  "Perplexity-User",
+  "Claude-User",
+  "MistralAI-User",
+  "meta-externalfetcher",
+  "Google-Agent",
+  "Google-GeminiNotebook",
+  "Google-NotebookLM",
   "GoogleAgent-Mariner",
   "GoogleAgent-Shopping",
   "Google-CloudVertexBot",
-  "Google-NotebookLM",
+  "Gemini-Deep-Research",
+  "Copilot",
+  "facebookexternalhit",
+];
+
+// Training and dataset crawlers are controlled independently from AI search.
+const AI_TRAINING_CRAWLERS = [
+  "GPTBot",
+  "CCBot",
+  "Google-Extended",
   "ClaudeBot",
   "meta-externalagent",
-  "meta-externalfetcher",
   "FacebookBot",
   "Bytespider",
-  "Scrapy",
-  "PetalBot",
-  "Devin",
   "omgili",
   "AI2Bot",
   "Ai2Bot-Dolma",
-  "Gemini-Deep-Research",
   "PanguBot",
-  "MistralAI-User",
-  "Diffbot",
-  "Sidetrade indexer bot",
-  "DuckAssistBot",
-  "Copilot",
-  "iaskspider",
-  "wpbot",
-  "aiHitBot",
   "cohere-ai",
-  "FriendlyCrawler",
   "img2dataset",
   "VelenPublicWebCrawler",
-  "YouBot",
-  "Brightbot",
-  "ISSCyberRiskCrawler",
   "anthropic-ai",
   "Amazonbot",
   "Applebot-Extended",
-  "facebookexternalhit",
 ];
+
+// Other automated collectors remain blocked because they do not support the
+// intended AI search or user-request visibility policy.
+const OTHER_BLOCKED_CRAWLERS = [
+  "EtaoSpider",
+  "Scrapy",
+  "PetalBot",
+  "Devin",
+  "Diffbot",
+  "Sidetrade indexer bot",
+  "iaskspider",
+  "wpbot",
+  "aiHitBot",
+  "FriendlyCrawler",
+  "Brightbot",
+  "ISSCyberRiskCrawler",
+];
+
+const allowPublicContent = (userAgent) => ({
+  userAgent,
+  allow: "/",
+  disallow: PRIVATE_PATHS,
+});
+
+const blockAllContent = (userAgent) => ({
+  userAgent,
+  disallow: "/",
+});
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
@@ -59,15 +97,11 @@ module.exports = {
   ],
   robotsTxtOptions: {
     policies: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/admin", "/admin/*", "/api/*"],
-      },
-      ...AI_CRAWLERS.map((bot) => ({
-        userAgent: bot,
-        disallow: "/",
-      })),
+      allowPublicContent("*"),
+      ...AI_SEARCH_CRAWLERS.map(allowPublicContent),
+      ...AI_USER_FETCHERS.map(allowPublicContent),
+      ...AI_TRAINING_CRAWLERS.map(blockAllContent),
+      ...OTHER_BLOCKED_CRAWLERS.map(blockAllContent),
     ],
     additionalSitemaps: [
       `${SITE_URL}/pages-sitemap.xml`,

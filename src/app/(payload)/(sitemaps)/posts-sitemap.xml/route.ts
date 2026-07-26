@@ -2,7 +2,6 @@ import { getServerSideSitemap } from "next-sitemap";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { unstable_cache } from "next/cache";
-import { priority } from "next-sitemap.config.cjs";
 
 const getPostsSitemap = unstable_cache(
   async () => {
@@ -23,19 +22,19 @@ const getPostsSitemap = unstable_cache(
       },
       select: {
         slug: true,
-        updatedAt: true,
+        contentUpdatedAt: true,
+        publishedAt: true,
+        createdAt: true,
       },
     });
-
-    const dateFallback = new Date().toISOString();
 
     const sitemap = results.docs
       ? results.docs
           .filter((post) => Boolean(post?.slug))
           .map((post) => ({
             loc: `${SITE_URL}/posts/${post?.slug}`,
-            lastmod: post.updatedAt || dateFallback,
-            priority: 0.8,
+            lastmod:
+              post.contentUpdatedAt || post.publishedAt || post.createdAt,
           }))
       : [];
 
@@ -44,7 +43,7 @@ const getPostsSitemap = unstable_cache(
   ["posts-sitemap"],
   {
     tags: ["posts-sitemap"],
-  }
+  },
 );
 
 export async function GET() {

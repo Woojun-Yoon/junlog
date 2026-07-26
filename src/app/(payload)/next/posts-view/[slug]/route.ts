@@ -32,6 +32,7 @@ export async function POST(req: NextRequest, context: any) {
     id: post.id,
     context: {
       disableRevalidate: true,
+      skipContentUpdatedAt: true,
     },
     data: {
       views: newViews,

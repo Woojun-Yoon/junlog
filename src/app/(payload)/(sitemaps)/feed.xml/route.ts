@@ -12,7 +12,7 @@ export async function GET() {
   if (feedXml) {
     return new Response(feedXml, {
       headers: {
-        "Content-Type": "application/atom+xml; charset=utf-8",
+        "Content-Type": "application/rss+xml; charset=utf-8",
       },
     });
   } else {
@@ -25,7 +25,14 @@ const generateRssFeed = async () => {
 
   const posts = await payload.find({
     collection: "posts",
+    overrideAccess: false,
+    draft: false,
     limit: 50,
+    where: {
+      _status: {
+        equals: "published",
+      },
+    },
   });
 
   try {
@@ -58,7 +65,7 @@ const generateRssFeed = async () => {
     );
 
     return feed.xml({ indent: true });
-  } catch (error) {
+  } catch {
     return null;
   }
 };
