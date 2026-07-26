@@ -14,11 +14,13 @@ type Props = {
 
 export const Code: React.FC<Props> = ({ code, language = "text" }) => {
   const { theme } = useTheme();
-  const isDark =
-    theme === "dark" ||
-    (!theme &&
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const [hasMounted, setHasMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  const isDark = hasMounted && theme === "dark";
 
   if (!code) return null;
 
