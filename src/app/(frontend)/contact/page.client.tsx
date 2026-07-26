@@ -82,42 +82,62 @@ export default function ContactPage() {
             }}
           >
             <div className="space-y-4">
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                placeholder="name"
-                className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
-              />
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                placeholder="email"
-                className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
-              />
-              <input
-                id="subject"
-                name="subject"
-                type="text"
-                autoComplete="off"
-                required
-                placeholder="subject"
-                className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
-              />
-              <textarea
-                id="message"
-                name="message"
-                autoComplete="off"
-                rows={5}
-                required
-                placeholder="message"
-                className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
-              />
+              <div className="space-y-2">
+                <label htmlFor="name" className="block text-sm font-medium">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  placeholder="name"
+                  className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-sm font-medium">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  placeholder="email"
+                  className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="subject" className="block text-sm font-medium">
+                  Subject
+                </label>
+                <input
+                  id="subject"
+                  name="subject"
+                  type="text"
+                  autoComplete="off"
+                  required
+                  placeholder="subject"
+                  className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="message" className="block text-sm font-medium">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  autoComplete="off"
+                  rows={5}
+                  required
+                  placeholder="message"
+                  className="w-full px-4 py-2 border rounded-md bg-background border-primary/20"
+                />
+              </div>
             </div>
 
             <div className="flex justify-start">
