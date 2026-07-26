@@ -39,6 +39,11 @@ export const Pages: CollectionConfig<"pages"> = {
     slug: true,
   },
   admin: {
+    components: {
+      edit: {
+        beforeDocumentControls: ["@/components/DocumentSidebarToggle"],
+      },
+    },
     defaultColumns: ["title", "slug", "updatedAt"],
     livePreview: {
       url: ({ data, req }) => {

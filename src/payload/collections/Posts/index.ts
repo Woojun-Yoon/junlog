@@ -62,8 +62,14 @@ export const Posts: CollectionConfig<"posts"> = {
       description: true,
     },
   },
+  defaultSort: "-updatedAt",
   admin: {
-    defaultColumns: ["title", "slug", "updatedAt"],
+    components: {
+      edit: {
+        beforeDocumentControls: ["@/components/DocumentSidebarToggle"],
+      },
+    },
+    defaultColumns: ["title", "slug", "views", "updatedAt"],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -98,8 +104,15 @@ export const Posts: CollectionConfig<"posts"> = {
     {
       name: "views",
       type: "number",
+      label: "조회수",
       defaultValue: 0,
+      access: {
+        create: () => false,
+        update: () => false,
+      },
       admin: {
+        description: "자동 집계되며 직접 수정할 수 없습니다.",
+        position: "sidebar",
         readOnly: true,
       },
     },

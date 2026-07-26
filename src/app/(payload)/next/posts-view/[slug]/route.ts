@@ -13,6 +13,7 @@ export async function POST(req: NextRequest, context: any) {
 
   const posts = await payload.find({
     collection: "posts",
+    overrideAccess: false,
     where: {
       slug: {
         equals: slug,
@@ -30,6 +31,8 @@ export async function POST(req: NextRequest, context: any) {
   await payload.update({
     collection: "posts",
     id: post.id,
+    // 외부 API에서는 views 쓰기를 막고 이 서버 경로에서만 갱신한다.
+    overrideAccess: true,
     context: {
       disableRevalidate: true,
       skipContentUpdatedAt: true,

@@ -368,6 +368,9 @@ export interface Post {
   id: string;
   title: string;
   summary: string;
+  /**
+   * 자동 집계되며 직접 수정할 수 없습니다.
+   */
   views?: number | null;
   heroImage?: (string | null) | Media;
   content: {

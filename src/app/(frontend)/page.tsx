@@ -91,6 +91,7 @@ export default async function HomePage() {
               <Link
                 key={post.id}
                 href={`/posts/${post.slug}`}
+                prefetch={false}
                 className="block group transition-all duration-300 hover:bg-muted/80 hover:shadow-sm rounded-md px-2 sm:px-4 -mx-2 sm:-mx-4"
               >
                 <div className="py-6 flex items-center space-x-4 text-left">
