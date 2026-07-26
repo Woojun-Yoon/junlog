@@ -7,6 +7,7 @@ import { Footer } from "@/payload/globals/Footer/Component";
 import { Header } from "@/payload/globals/Header/Component";
 import { InitTheme } from "@/components/ThemeProvider/Theme/InitTheme";
 import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
+import { JetBrainsMono } from "@/payload/blocks/Code/font";
 
 import { getServerSideURL } from "@/lib/utils/getURL";
 import "./globals.css";
@@ -41,7 +42,7 @@ export default async function RootLayout({
         <InitTheme />
         <InitFavicon />
       </head>
-      <body>
+      <body className={JetBrainsMono.variable}>
         <Providers>
           <Header />
           {children}
