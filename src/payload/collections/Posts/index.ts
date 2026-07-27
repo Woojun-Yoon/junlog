@@ -128,12 +128,16 @@ export const Posts: CollectionConfig<"posts"> = {
             {
               name: "content",
               type: "richText",
+              admin: {
+                description:
+                  "게시글 제목이 H1입니다. 본문은 H2부터 시작하세요.",
+              },
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
                   return [
                     ...rootFeatures,
                     HeadingFeature({
-                      enabledHeadingSizes: ["h1", "h2", "h3", "h4"],
+                      enabledHeadingSizes: ["h2", "h3", "h4"],
                     }),
                     StrikethroughFeature(),
                     SubscriptFeature(),
@@ -269,9 +273,6 @@ export const Posts: CollectionConfig<"posts"> = {
     {
       name: "publishedAt",
       type: "date",
-      timezone: {
-        defaultTimezone: "Asia/Seoul",
-      },
       admin: {
         date: {
           pickerAppearance: "dayAndTime",

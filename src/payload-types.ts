@@ -12,54 +12,7 @@
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "supportedTimezones".
  */
-export type SupportedTimezones =
-  | 'Pacific/Midway'
-  | 'Pacific/Niue'
-  | 'Pacific/Honolulu'
-  | 'Pacific/Rarotonga'
-  | 'America/Anchorage'
-  | 'Pacific/Gambier'
-  | 'America/Los_Angeles'
-  | 'America/Tijuana'
-  | 'America/Denver'
-  | 'America/Phoenix'
-  | 'America/Chicago'
-  | 'America/Guatemala'
-  | 'America/New_York'
-  | 'America/Bogota'
-  | 'America/Caracas'
-  | 'America/Santiago'
-  | 'America/Buenos_Aires'
-  | 'America/Sao_Paulo'
-  | 'Atlantic/South_Georgia'
-  | 'Atlantic/Azores'
-  | 'Atlantic/Cape_Verde'
-  | 'Europe/London'
-  | 'Europe/Berlin'
-  | 'Africa/Lagos'
-  | 'Europe/Athens'
-  | 'Africa/Cairo'
-  | 'Europe/Moscow'
-  | 'Asia/Riyadh'
-  | 'Asia/Dubai'
-  | 'Asia/Baku'
-  | 'Asia/Karachi'
-  | 'Asia/Tashkent'
-  | 'Asia/Calcutta'
-  | 'Asia/Dhaka'
-  | 'Asia/Almaty'
-  | 'Asia/Jakarta'
-  | 'Asia/Bangkok'
-  | 'Asia/Shanghai'
-  | 'Asia/Singapore'
-  | 'Asia/Tokyo'
-  | 'Asia/Seoul'
-  | 'Australia/Brisbane'
-  | 'Australia/Sydney'
-  | 'Pacific/Guam'
-  | 'Pacific/Noumea'
-  | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+export type SupportedTimezones = 'Asia/Seoul';
 
 export interface Config {
   auth: {
@@ -373,6 +326,9 @@ export interface Post {
    */
   views?: number | null;
   heroImage?: (string | null) | Media;
+  /**
+   * 게시글 제목이 H1입니다. 본문은 H2부터 시작하세요.
+   */
   content: {
     root: {
       type: string;
@@ -399,7 +355,6 @@ export interface Post {
     description?: string | null;
   };
   publishedAt?: string | null;
-  publishedAt_tz?: SupportedTimezones;
   contentUpdatedAt?: string | null;
   authors?: (string | User)[] | null;
   categories?: (string | Category)[] | null;
@@ -1200,7 +1155,6 @@ export interface PostsSelect<T extends boolean = true> {
         description?: T;
       };
   publishedAt?: T;
-  publishedAt_tz?: T;
   contentUpdatedAt?: T;
   authors?: T;
   categories?: T;

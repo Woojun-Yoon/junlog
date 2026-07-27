@@ -3,6 +3,7 @@ import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { buildConfig } from "payload";
 import { payloadTotp } from "payload-totp";
 import { s3Storage } from "@payloadcms/storage-s3";
+import { ko } from "@payloadcms/translations/languages/ko";
 import sharp from "sharp";
 
 import { Categories } from "@/payload/collections/Categories";
@@ -32,6 +33,16 @@ export default buildConfig({
     },
   }),
   admin: {
+    dateFormat: "yyyy-MM-dd HH:mm",
+    timezones: {
+      defaultTimezone: "Asia/Seoul",
+      supportedTimezones: [
+        {
+          label: "한국 표준시 (Asia/Seoul)",
+          value: "Asia/Seoul",
+        },
+      ],
+    },
     meta: {
       titleSuffix: " | junlog Admin",
       icons: [
@@ -79,6 +90,10 @@ export default buildConfig({
   collections: [Users, Media, Pages, Posts, Categories],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
+  i18n: {
+    fallbackLanguage: "ko",
+    supportedLanguages: { ko },
+  },
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
