@@ -47,13 +47,15 @@ export const Code: React.FC<Props> = ({ code, language = "text" }) => {
           isDark ? "border-gray-700 bg-[#282c34]" : "border-gray-300 bg-gray-50"
         }`}
       >
-        <div className="flex overflow-x-auto">
+        <div className="flex overflow-x-auto text-[10px] md:text-xs">
           <span
             aria-hidden="true"
-            className="m-0 min-w-[4rem] shrink-0 select-none whitespace-pre border-r border-border bg-transparent p-4 text-right text-base text-muted-foreground"
+            className="m-0 hidden min-w-[4rem] shrink-0 select-none whitespace-pre border-r border-border bg-transparent p-4 text-right text-muted-foreground md:block"
             style={{
               fontFamily: codeFontFamily,
               lineHeight: "1.6",
+              userSelect: "none",
+              WebkitUserSelect: "none",
             }}
           >
             {lineNumbers}
@@ -64,6 +66,7 @@ export const Code: React.FC<Props> = ({ code, language = "text" }) => {
             wrapLines
             codeTagProps={{
               style: {
+                fontSize: "inherit",
                 lineHeight: "1.6",
                 tabSize: 4,
               },
@@ -76,7 +79,7 @@ export const Code: React.FC<Props> = ({ code, language = "text" }) => {
               padding: "1rem",
               borderWidth: 0,
               borderRadius: 0,
-              fontSize: "1rem",
+              fontSize: "inherit",
               lineHeight: "1.6",
               background: "transparent",
               fontFamily: codeFontFamily,

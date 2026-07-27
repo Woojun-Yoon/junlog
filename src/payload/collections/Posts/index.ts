@@ -61,14 +61,14 @@ export const Posts: CollectionConfig<"posts"> = {
       description: true,
     },
   },
-  defaultSort: "-updatedAt",
+  defaultSort: "-createdAt",
   admin: {
     components: {
       edit: {
         beforeDocumentControls: ["@/components/DocumentSidebarToggle"],
       },
     },
-    defaultColumns: ["title", "slug", "views", "updatedAt"],
+    defaultColumns: ["title", "slug", "views", "createdAt", "updatedAt"],
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
