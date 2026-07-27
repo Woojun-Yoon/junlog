@@ -21,7 +21,6 @@ import TableOfContent from "./TableOfContents";
 import TableOfContentTop from "./TableOfContents/TableOfContentTop";
 import FloatingButton from "./FloatingButton";
 import Giscus from "./Comment/Giscus";
-import ViewCounter from "./ViewCounter";
 import { getAbsoluteURL } from "@/lib/utils/getURL";
 import { getBreadcrumbSchema, getPostSchema } from "@/lib/seo/schema";
 
@@ -107,8 +106,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <ViewCounter slug={slug} />
-      <PostHero post={post} />
+      <PostHero post={post} slug={slug} />
 
       <div className="relative container flex justify-center">
         <div className="max-w-[48rem] w-full">

@@ -2,18 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
-export async function POST(req: NextRequest, context: any) {
+type RouteContext = {
+  params: Promise<{
+    slug?: string;
+  }>;
+};
+
+const responseHeaders = {
+  "Cache-Control": "no-store",
+};
+
+const findPost = async (slug: string) => {
   const payload = await getPayload({ config: configPromise });
-
-  const { slug } = await context.params;
-
-  if (!slug) {
-    return NextResponse.json({ error: "Missing slug" }, { status: 400 });
-  }
 
   const posts = await payload.find({
     collection: "posts",
+    depth: 0,
+    limit: 1,
     overrideAccess: false,
+    pagination: false,
+    select: {
+      views: true,
+    },
     where: {
       slug: {
         equals: slug,
@@ -21,11 +31,56 @@ export async function POST(req: NextRequest, context: any) {
     },
   });
 
-  if (!posts.docs.length) {
-    return NextResponse.json({ error: "Post not found" }, { status: 404 });
+  return {
+    payload,
+    post: posts.docs[0],
+  };
+};
+
+export async function GET(_req: NextRequest, context: RouteContext) {
+  const { slug } = await context.params;
+
+  if (!slug) {
+    return NextResponse.json(
+      { error: "Missing slug" },
+      { status: 400, headers: responseHeaders },
+    );
   }
 
-  const post = posts.docs[0];
+  const { post } = await findPost(slug);
+
+  if (!post) {
+    return NextResponse.json(
+      { error: "Post not found" },
+      { status: 404, headers: responseHeaders },
+    );
+  }
+
+  return NextResponse.json(
+    { views: post.views ?? 0 },
+    { headers: responseHeaders },
+  );
+}
+
+export async function POST(_req: NextRequest, context: RouteContext) {
+  const { slug } = await context.params;
+
+  if (!slug) {
+    return NextResponse.json(
+      { error: "Missing slug" },
+      { status: 400, headers: responseHeaders },
+    );
+  }
+
+  const { payload, post } = await findPost(slug);
+
+  if (!post) {
+    return NextResponse.json(
+      { error: "Post not found" },
+      { status: 404, headers: responseHeaders },
+    );
+  }
+
   const newViews = (post.views || 0) + 1;
 
   await payload.update({
@@ -42,5 +97,5 @@ export async function POST(req: NextRequest, context: any) {
     },
   });
 
-  return NextResponse.json({ views: newViews });
+  return NextResponse.json({ views: newViews }, { headers: responseHeaders });
 }

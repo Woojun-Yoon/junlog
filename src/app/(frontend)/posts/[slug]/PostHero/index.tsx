@@ -4,11 +4,12 @@ import React from "react";
 import type { Post } from "@/payload-types";
 
 import { formatAuthors } from "@/lib/utils/formatAuthors";
-import { Eye } from "lucide-react";
+import ViewCounter from "../ViewCounter";
 
 export const PostHero: React.FC<{
   post: Post;
-}> = ({ post }) => {
+  slug: string;
+}> = ({ post, slug }) => {
   const { populatedAuthors, publishedAt, title, views } = post;
 
   const hasAuthors =
@@ -42,11 +43,7 @@ export const PostHero: React.FC<{
           </div>
         )}
         {publishedAt && <span className="text-gray-400">·</span>}
-        {/* Views */}
-        <div className="flex items-center gap-1">
-          <Eye size={16} className="text-gray-400" />
-          <span>{views ?? 0}</span>
-        </div>
+        <ViewCounter key={slug} initialViews={views ?? 0} slug={slug} />
       </div>
     </div>
   );
