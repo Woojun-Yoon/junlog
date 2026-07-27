@@ -4,8 +4,7 @@ import { Code } from "./Component.client";
 
 export type CodeBlockProps = {
   code: string;
-  language?: string;
-  blockType: "code";
+  language?: string | null;
 };
 
 type Props = CodeBlockProps & {
@@ -15,7 +14,7 @@ type Props = CodeBlockProps & {
 export const CodeBlock: React.FC<Props> = ({ className, code, language }) => {
   return (
     <div className={[className, "not-prose"].filter(Boolean).join(" ")}>
-      <Code code={code} language={language} />
+      <Code code={code} language={language ?? undefined} />
     </div>
   );
 };

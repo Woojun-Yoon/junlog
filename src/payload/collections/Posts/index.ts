@@ -5,6 +5,7 @@ import {
   BlockquoteFeature,
   BlocksFeature,
   ChecklistFeature,
+  CodeBlock,
   FixedToolbarFeature,
   HeadingFeature,
   HorizontalRuleFeature,
@@ -24,7 +25,6 @@ import {
 import { authenticated } from "@/payload/auth/authenticated";
 import { authenticatedOrPublished } from "@/payload/auth/authenticatedOrPublished";
 import { Banner } from "@/payload/blocks/Banner/config";
-import { Code } from "@/payload/blocks/Code/config";
 import { MediaBlock } from "@/payload/blocks/MediaBlock/config";
 import { generatePreviewPath } from "@/lib/utils/generatePreviewPath";
 import { getCollectionURL } from "@/lib/utils/getURL";
@@ -168,8 +168,32 @@ export const Posts: CollectionConfig<"posts"> = {
                         },
                       },
                     }),
-                    // Custom Blocks
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    // Blocks
+                    BlocksFeature({
+                      blocks: [
+                        Banner,
+                        MediaBlock,
+                        CodeBlock({
+                          defaultLanguage: "java",
+                          languages: {
+                            plaintext: "Plain Text",
+                            javascript: "JavaScript",
+                            typescript: "TypeScript",
+                            tsx: "TSX",
+                            jsx: "JSX",
+                            python: "Python",
+                            java: "Java",
+                            kotlin: "Kotlin",
+                            groovy: "Groovy",
+                            bash: "Bash",
+                            yaml: "YAML",
+                            css: "CSS",
+                            html: "HTML",
+                            json: "JSON",
+                          },
+                        }),
+                      ],
+                    }),
                     // Toolbars
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),

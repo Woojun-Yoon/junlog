@@ -23,10 +23,17 @@ import { CallToActionBlock } from "@/payload/blocks/CallToAction/Component";
 import { cn } from "@/lib/utils";
 import React, { JSX } from "react";
 
+type BuiltInCodeBlockProps = CodeBlockProps & {
+  blockType: "Code";
+};
+
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps
+      | CTABlockProps
+      | MediaBlockProps
+      | BannerBlockProps
+      | BuiltInCodeBlockProps
     >;
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -57,7 +64,14 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
         // disableInnerContainer={true}
       />
     ),
-    code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
+    Code: ({ node }) => (
+      <div className="col-start-2 not-prose">
+        <CodeBlock
+          code={node.fields.code}
+          language={node.fields.language}
+        />
+      </div>
+    ),
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
   },
   heading: ({ node, nodesToJSX }) => {
