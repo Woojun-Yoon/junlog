@@ -12,6 +12,9 @@ type Props = {
   language?: string;
 };
 
+const codeFontFamily =
+  "var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+
 export const Code: React.FC<Props> = ({ code, language = "text" }) => {
   const { theme } = useTheme();
   const [hasMounted, setHasMounted] = React.useState(false);
@@ -21,8 +24,15 @@ export const Code: React.FC<Props> = ({ code, language = "text" }) => {
   }, []);
 
   const isDark = hasMounted && theme === "dark";
+  const syntaxTheme = isDark ? oneDark : oneLight;
 
   if (!code) return null;
+
+  const lineNumbers = code
+    .replace(/\n$/, "")
+    .split("\n")
+    .map((_, index) => index + 1)
+    .join("\n");
 
   return (
     <div className="relative group not-prose">
@@ -37,30 +47,45 @@ export const Code: React.FC<Props> = ({ code, language = "text" }) => {
           isDark ? "border-gray-700 bg-[#282c34]" : "border-gray-300 bg-gray-50"
         }`}
       >
-        <SyntaxHighlighter
-          language={language}
-          style={isDark ? oneDark : oneLight}
-          showLineNumbers
-          wrapLines
-          lineNumberStyle={{
-            minWidth: "2rem",
-            paddingRight: "1rem",
-            color: isDark ? "#6b7280" : "#9ca3af",
-            borderRight: isDark ? "1px solid #374151" : "1px solid #d1d5db",
-            marginRight: "1rem",
-          }}
-          customStyle={{
-            margin: 0,
-            padding: "1rem",
-            fontSize: "1rem",
-            lineHeight: "1.6",
-            background: "transparent",
-            fontFamily:
-              "var(--font-jetbrains-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-          }}
-        >
-          {code}
-        </SyntaxHighlighter>
+        <div className="flex overflow-x-auto">
+          <span
+            aria-hidden="true"
+            className="m-0 min-w-[4rem] shrink-0 select-none whitespace-pre border-r border-border bg-transparent p-4 text-right text-base text-muted-foreground"
+            style={{
+              fontFamily: codeFontFamily,
+              lineHeight: "1.6",
+            }}
+          >
+            {lineNumbers}
+          </span>
+          <SyntaxHighlighter
+            language={language}
+            style={syntaxTheme}
+            wrapLines
+            codeTagProps={{
+              style: {
+                lineHeight: "1.6",
+                tabSize: 4,
+              },
+            }}
+            customStyle={{
+              flex: "1 0 auto",
+              minWidth: "max-content",
+              overflow: "visible",
+              margin: 0,
+              padding: "1rem",
+              borderWidth: 0,
+              borderRadius: 0,
+              fontSize: "1rem",
+              lineHeight: "1.6",
+              background: "transparent",
+              fontFamily: codeFontFamily,
+              tabSize: 4,
+            }}
+          >
+            {code}
+          </SyntaxHighlighter>
+        </div>
       </div>
     </div>
   );
