@@ -5,7 +5,6 @@ import {
   BlockquoteFeature,
   BlocksFeature,
   ChecklistFeature,
-  CodeBlock,
   FixedToolbarFeature,
   HeadingFeature,
   HorizontalRuleFeature,
@@ -169,34 +168,8 @@ export const Posts: CollectionConfig<"posts"> = {
                         },
                       },
                     }),
-                    // Custom Blocks (기존 Code 블록 유지)
-                    BlocksFeature({
-                      blocks: [
-                        Banner,
-                        Code,
-                        MediaBlock,
-                        // Payload 내장 CodeBlock Feature
-                        CodeBlock({
-                          defaultLanguage: "java",
-                          languages: {
-                            plaintext: "Plain Text",
-                            javascript: "JavaScript",
-                            typescript: "TypeScript",
-                            tsx: "TSX",
-                            jsx: "JSX",
-                            python: "Python",
-                            java: "Java",
-                            kotlin: "Kotlin",
-                            groovy: "Groovy",
-                            bash: "Bash",
-                            yaml: "YAML",
-                            css: "CSS",
-                            html: "HTML",
-                            json: "JSON",
-                          },
-                        }),
-                      ],
-                    }),
+                    // Custom Blocks
+                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
                     // Toolbars
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
