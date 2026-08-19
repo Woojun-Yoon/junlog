@@ -55,6 +55,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                 contains: query,
               },
             },
+            {
+              headings: {
+                contains: query,
+              },
+            },
           ],
         },
       })
@@ -104,7 +109,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             검색
           </h1>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            게시글 제목과 요약을 바탕으로 검색합니다.
+            게시글 제목, 요약, 본문 소제목을 바탕으로 검색합니다.
           </p>
         </header>
 
@@ -173,13 +178,13 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
 export const metadata: Metadata = {
   title: "검색 | junlog",
-  description: "junlog 게시글의 제목과 요약을 검색합니다.",
+  description: "junlog 게시글의 제목, 요약, 본문 소제목을 검색합니다.",
   alternates: {
     canonical: getAbsoluteURL("/search"),
   },
   openGraph: mergeOpenGraph({
     title: "검색 | junlog",
-    description: "junlog 게시글의 제목과 요약을 검색합니다.",
+    description: "junlog 게시글의 제목, 요약, 본문 소제목을 검색합니다.",
     url: getAbsoluteURL("/search"),
   }),
   robots: {

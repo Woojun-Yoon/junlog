@@ -11,6 +11,7 @@ import {
 } from "@/lib/utils/getURL";
 import { Page, Post } from "@/payload-types";
 import { revalidateRedirects } from "../hooks/revalidateRedirects";
+import { extractSearchHeadings } from "./search/extractSearchHeadings";
 
 const isRoutableCollection = (
   collectionSlug?: string,
@@ -26,6 +27,7 @@ export const plugins: Plugin[] = [
     beforeSync: ({ originalDoc, searchDoc }) => {
       return {
         ...searchDoc,
+        headings: extractSearchHeadings(originalDoc.content),
         slug: typeof originalDoc.slug === "string" ? originalDoc.slug : "",
         summary:
           typeof originalDoc.summary === "string" ? originalDoc.summary : "",
@@ -38,7 +40,7 @@ export const plugins: Plugin[] = [
       },
       admin: {
         description:
-          "공개 게시글의 제목과 요약으로 자동 생성되는 검색 인덱스입니다.",
+          "공개 게시글의 제목, 요약, H2~H4 소제목으로 자동 생성되는 검색 인덱스입니다.",
       },
       fields: ({ defaultFields }) => [
         ...defaultFields,
@@ -46,6 +48,14 @@ export const plugins: Plugin[] = [
           name: "summary",
           type: "textarea",
           label: "요약",
+          admin: {
+            readOnly: true,
+          },
+        },
+        {
+          name: "headings",
+          type: "textarea",
+          label: "본문 소제목 (H2~H4)",
           admin: {
             readOnly: true,
           },

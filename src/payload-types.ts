@@ -832,7 +832,7 @@ export interface ArchiveBlock {
   blockType: 'archive';
 }
 /**
- * 공개 게시글의 제목과 요약으로 자동 생성되는 검색 인덱스입니다.
+ * 공개 게시글의 제목, 요약, H2~H4 소제목으로 자동 생성되는 검색 인덱스입니다.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "search".
@@ -846,6 +846,7 @@ export interface Search {
     value: string | Post;
   };
   summary?: string | null;
+  headings?: string | null;
   slug: string;
   updatedAt: string;
   createdAt: string;
@@ -1423,6 +1424,7 @@ export interface SearchSelect<T extends boolean = true> {
   priority?: T;
   doc?: T;
   summary?: T;
+  headings?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
