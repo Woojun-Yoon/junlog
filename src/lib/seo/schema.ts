@@ -201,7 +201,7 @@ export const getPostSchema = (post: Partial<Post>): SchemaObject => {
     image: [
       {
         "@type": "ImageObject",
-        url: getImageURL(post.meta?.image),
+        url: getImageURL(post.meta?.image || post.heroImage),
       },
     ],
     ...(post.publishedAt

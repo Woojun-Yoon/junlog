@@ -91,14 +91,20 @@ export const generateMeta = async (args: {
     };
   }
 
-  const ogImage = getImageURL(doc?.meta?.image);
+  const fallbackImage = "heroImage" in doc ? doc.heroImage : null;
+  const ogImage = getImageURL(doc?.meta?.image || fallbackImage);
   const fallbackDescription =
     "summary" in doc && typeof doc.summary === "string" ? doc.summary : undefined;
   const description = doc?.meta?.description || fallbackDescription;
   const canonicalURL =
     doc?.meta?.canonicalUrl || getCollectionURL(collection, doc?.slug);
   const title =
-    doc?.meta?.title || (doc?.title ? `${doc.title} | junlog` : "junlog");
+    doc?.meta?.title ||
+    (doc?.title
+      ? collection === "posts"
+        ? doc.title
+        : `${doc.title} | junlog`
+      : "junlog");
 
   const openGraph = mergeOpenGraph({
     title,

@@ -27,7 +27,6 @@ import { authenticatedOrPublished } from "@/payload/auth/authenticatedOrPublishe
 import { Banner } from "@/payload/blocks/Banner/config";
 import { MediaBlock } from "@/payload/blocks/MediaBlock/config";
 import { generatePreviewPath } from "@/lib/utils/generatePreviewPath";
-import { getCollectionURL } from "@/lib/utils/getURL";
 import { populateAuthors } from "./hooks/populateAuthors";
 import { revalidateDelete, revalidatePost } from "./hooks/revalidatePost";
 import { setContentUpdatedAt } from "./hooks/setContentUpdatedAt";
@@ -156,7 +155,7 @@ export const Posts: CollectionConfig<"posts"> = {
               relationTo: "media",
               admin: {
                 description:
-                  "게시글에 연결할 대표 이미지입니다. 검색·공유 카드 이미지는 SEO 탭에서 별도로 지정하세요.",
+                  "게시글에 연결할 대표 이미지입니다. SEO 탭의 검색·공유 이미지 자동 생성에도 사용됩니다.",
               },
             },
             {
@@ -308,21 +307,18 @@ export const Posts: CollectionConfig<"posts"> = {
               description: "비워 두면 게시글 제목으로 자동 생성됩니다.",
               hasGenerateFn: true,
             }),
-            createMetaImageField("media"),
+            createMetaImageField("media", true),
             {
               type: "text",
               name: "canonicalUrl",
               label: "대표 URL",
               admin: {
+                components: {
+                  Field: "@/payload/fields/CanonicalURLField#CanonicalURLField",
+                },
                 description:
-                  "일반적으로 자동 URL을 사용합니다. 외부 원문이 있을 때만 직접 지정하세요.",
+                  "자동 생성하면 현재 URL 슬러그를 사용합니다. 외부 원문이 있을 때는 직접 입력하세요.",
                 placeholder: "https://example.com/original-post",
-              },
-              hooks: {
-                beforeChange: [
-                  async ({ data, value }) =>
-                    !value ? getCollectionURL("posts", data?.slug) : value,
-                ],
               },
             },
             createMetaDescriptionField({
