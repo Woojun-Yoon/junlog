@@ -73,9 +73,16 @@ export const generatePreviewPath = ({ collection, slug, req }: Props) => {
   });
 
   const isProduction = process.env.NODE_ENV === "production";
-  const url = isProduction
-    ? `${process.env.NEXT_PUBLIC_SERVER_URL}/next/preview?${encodedParams.toString()}`
-    : `${req.protocol}://${req.host}/next/preview?${encodedParams.toString()}`;
+  const baseURL = isProduction
+    ? process.env.NEXT_PUBLIC_SERVER_URL
+    : req.origin || `${req.protocol}//${req.host}`;
 
-  return url;
+  if (!baseURL) {
+    throw new Error("Preview URL을 생성할 서버 주소가 설정되지 않았습니다.");
+  }
+
+  const url = new URL("/next/preview", baseURL);
+  url.search = encodedParams.toString();
+
+  return url.toString();
 };

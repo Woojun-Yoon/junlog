@@ -93,6 +93,18 @@ export default buildConfig({
   i18n: {
     fallbackLanguage: "ko",
     supportedLanguages: { ko },
+    translations: {
+      ko: {
+        "plugin-redirects": {
+          customUrl: "직접 입력 URL",
+          documentToRedirect: "이동할 문서",
+          fromUrl: "이전 URL",
+          internalLink: "내부 링크",
+          redirectType: "리디렉션 유형",
+          toUrlType: "이동 대상 유형",
+        },
+      },
+    },
   },
   secret: process.env.PAYLOAD_SECRET,
   sharp,
