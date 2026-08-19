@@ -130,6 +130,10 @@
     @apply border-border my-8;
   }
 
+  .prose.post-content hr {
+    @apply border-foreground/20;
+  }
+
   .prose blockquote {
     @apply border-l-4 border-primary/30 pl-4 italic;
   }

@@ -110,17 +110,17 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <div className="relative container flex justify-center">
         <div className="max-w-[48rem] w-full">
-          <hr className="my-8" />
+          <hr className="my-8 border-foreground/20" />
           <FloatingButton />
           <TableOfContentTop toc={tocHeadings} />
           <RichText
-            className="mx-auto break-words overflow-x-hidden"
+            className="post-content mx-auto break-words overflow-x-hidden"
             data={post.content}
             enableGutter={false}
           />
-          <hr className="my-8" />
+          <hr className="my-8 border-foreground/20" />
           <Giscus />
-          <hr className="my-8" />
+          <hr className="my-8 border-foreground/20" />
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
               className="mt-6"
