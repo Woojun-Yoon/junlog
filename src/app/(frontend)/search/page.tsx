@@ -97,18 +97,23 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       : [];
 
   return (
-    <main className="container min-h-[70vh] pb-20 pt-24 sm:pt-28">
+    <main className="container min-h-[70vh] pb-20 pt-20 sm:pt-24">
       <div className="mx-auto max-w-4xl">
         <header className="mb-8">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             검색
           </h1>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            게시글 제목과 요약에서 키워드를 찾습니다.
+            게시글 제목과 요약을 바탕으로 검색합니다.
           </p>
         </header>
 
-        <form action="/search" className="flex gap-2" role="search">
+        <form
+          action="/search"
+          autoComplete="off"
+          className="flex gap-2"
+          role="search"
+        >
           <label className="sr-only" htmlFor="search-query">
             검색어
           </label>
@@ -116,6 +121,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             id="search-query"
             name="q"
             type="search"
+            autoComplete="off"
             defaultValue={query}
             maxLength={MAX_QUERY_LENGTH}
             placeholder="검색어를 입력하세요"
