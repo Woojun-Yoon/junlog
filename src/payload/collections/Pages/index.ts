@@ -12,19 +12,22 @@ import { generatePreviewPath } from "@/lib/utils/generatePreviewPath";
 import { getCollectionURL } from "@/lib/utils/getURL";
 import { revalidateDelete, revalidatePage } from "./hooks/revalidatePage";
 
+import { OverviewField, PreviewField } from "@payloadcms/plugin-seo/fields";
 import {
-  MetaDescriptionField,
-  MetaImageField,
-  MetaTitleField,
-  OverviewField,
-  PreviewField,
-} from "@payloadcms/plugin-seo/fields";
+  createMetaDescriptionField,
+  createMetaImageField,
+  createMetaTitleField,
+} from "@/payload/fields/seo";
 import { HighImpactHero } from "@/payload/blocks/HighImpact/config";
 import { MediumImpactHero } from "@/payload/blocks/MediumImpact/config";
 import { LowImpactHero } from "@/payload/blocks/LowImpact/config";
 
 export const Pages: CollectionConfig<"pages"> = {
   slug: "pages",
+  labels: {
+    singular: "페이지",
+    plural: "페이지",
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -68,21 +71,34 @@ export const Pages: CollectionConfig<"pages"> = {
     {
       name: "title",
       type: "text",
+      label: "페이지 제목",
       required: true,
+      admin: {
+        description:
+          "브라우저 제목과 구조화 데이터의 기준입니다. 화면에 보이는 제목은 히어로 블록에서 작성하세요.",
+        placeholder: "예: Junlog 소개",
+      },
+      validate: (value) => {
+        if (typeof value === "string" && value.trim().length > 0) {
+          return true;
+        }
+
+        return "페이지를 구분할 제목을 입력하세요.";
+      },
     },
     {
       type: "tabs",
       tabs: [
         {
-          label: "Content",
+          label: "콘텐츠",
           fields: [
             {
               type: "blocks",
               name: "blocks",
-              label: false,
+              label: "페이지 구성",
               labels: {
-                singular: "block",
-                plural: "blocks",
+                singular: "블록",
+                plural: "블록",
               },
               blocks: [
                 HighImpactHero,
@@ -94,13 +110,14 @@ export const Pages: CollectionConfig<"pages"> = {
                 Archive,
               ],
               admin: {
+                description: "위에서 아래 순서대로 공개 페이지에 표시됩니다.",
                 initCollapsed: true,
               },
             },
           ],
         },
         {
-          label: "SEO",
+          label: "검색·공유 (SEO)",
           name: "meta",
           fields: [
             OverviewField({
@@ -108,16 +125,20 @@ export const Pages: CollectionConfig<"pages"> = {
               descriptionPath: "meta.description",
               imagePath: "meta.image",
             }),
-            MetaTitleField({
+            createMetaTitleField({
+              description: "비워 두면 페이지 제목으로 자동 생성됩니다.",
               hasGenerateFn: true,
             }),
-            MetaImageField({
-              relationTo: "media",
-            }),
+            createMetaImageField("media"),
             {
               type: "text",
               name: "canonicalUrl",
-              label: "Canonical URL",
+              label: "대표 URL",
+              admin: {
+                description:
+                  "일반적으로 자동 URL을 사용합니다. 외부 원문이 있을 때만 직접 지정하세요.",
+                placeholder: "https://example.com/original-page",
+              },
               hooks: {
                 beforeChange: [
                   async ({ data, value }) =>
@@ -125,7 +146,10 @@ export const Pages: CollectionConfig<"pages"> = {
                 ],
               },
             },
-            MetaDescriptionField({}),
+            createMetaDescriptionField({
+              description:
+                "비워 두면 사이트 기본 설명을 사용합니다. 검색 결과용 문구를 따로 쓸 때만 입력하세요.",
+            }),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,
@@ -140,7 +164,10 @@ export const Pages: CollectionConfig<"pages"> = {
     {
       name: "publishedAt",
       type: "date",
+      label: "발행 일시",
       admin: {
+        description:
+          "비워 두고 발행하면 현재 시각이 기록됩니다. 예약 발행은 별도 예약 기능을 사용하세요.",
         position: "sidebar",
       },
     },

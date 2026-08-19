@@ -16,6 +16,10 @@ const dirname = path.dirname(filename);
 
 export const Media: CollectionConfig = {
   slug: "media",
+  labels: {
+    singular: "미디어",
+    plural: "미디어",
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -26,15 +30,18 @@ export const Media: CollectionConfig = {
     {
       name: "alt",
       type: "text",
+      label: "대체 텍스트",
       required: true,
       admin: {
-        description: "Describe what appears in the image. Required for SEO and accessibility.",
+        description:
+          "이미지를 볼 수 없어도 같은 정보를 이해할 수 있게 핵심 의미를 설명하세요.",
+        placeholder: "예: 예약 발행 일시를 선택하는 Payload Admin 화면",
       },
       validate: (value, { data }) => {
         const hasAlt = typeof value === "string" && value.trim().length > 0;
 
         if (data?.mimeType?.startsWith("image/") && !hasAlt) {
-          return "Alt text is required for images.";
+          return "이미지가 전달하는 핵심 의미를 대체 텍스트로 입력하세요.";
         }
 
         return true;
@@ -43,7 +50,14 @@ export const Media: CollectionConfig = {
     {
       name: "caption",
       type: "richText",
+      label: "캡션",
+      admin: {
+        description: "이미지 출처, 맥락, 추가 설명이 필요할 때 입력하세요.",
+      },
       editor: lexicalEditor({
+        admin: {
+          placeholder: "예: Payload 공식 문서의 Admin 화면",
+        },
         features: ({ rootFeatures }) => {
           return [
             ...rootFeatures,

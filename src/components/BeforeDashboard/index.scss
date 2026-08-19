@@ -1,11 +1,102 @@
 @import "~@payloadcms/ui/scss";
 
 .dashboard .before-dashboard {
-  margin-bottom: base(1.5);
+  margin-bottom: base(2);
 
-  &__banner {
-    & h4 {
-      margin: 0;
+  &__header {
+    margin-bottom: base(1.5);
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__description {
+    margin-top: base(0.35);
+    color: var(--theme-elevation-600);
+    font-size: base(0.7);
+    line-height: base(1);
+  }
+
+  &__section-title {
+    margin: 0 0 base(0.75);
+    color: var(--theme-elevation-700);
+    font-size: base(0.8);
+    line-height: base(1);
+  }
+
+  &__actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: base(0.75);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__action {
+    min-width: 0;
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    gap: base(0.25);
+    height: 100%;
+    min-width: 0;
+    padding: base(0.9);
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: var(--style-radius-m);
+    background: var(--theme-elevation-50);
+    color: var(--theme-text);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition:
+      background-color 120ms ease,
+      border-color 120ms ease;
+
+    &:hover {
+      border-color: var(--theme-elevation-300);
+      background: var(--theme-elevation-100);
+    }
+
+    &:focus-visible {
+      border-color: var(--theme-text);
+      outline: var(--accessibility-outline);
+      outline-offset: var(--accessibility-outline-offset);
+    }
+  }
+
+  &__link-label {
+    font-size: base(0.75);
+    font-weight: 600;
+    line-height: base(1);
+  }
+
+  &__link-description {
+    color: var(--theme-elevation-600);
+    line-height: base(0.9);
+  }
+
+  @include large-break {
+    &__actions {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @include mid-break {
+    &__actions {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @include small-break {
+    &__header {
+      margin-bottom: base(1.25);
+    }
+
+    &__link {
+      padding: base(0.75);
     }
   }
 }

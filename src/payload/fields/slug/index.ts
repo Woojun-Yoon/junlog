@@ -9,7 +9,7 @@ type Overrides = {
 
 type Slug = (
   fieldToUse?: string,
-  overrides?: Overrides
+  overrides?: Overrides,
 ) => [TextField, CheckboxField];
 
 export const slugField: Slug = (fieldToUse = "title", overrides = {}) => {
@@ -31,7 +31,7 @@ export const slugField: Slug = (fieldToUse = "title", overrides = {}) => {
     name: "slug",
     type: "text",
     index: true,
-    label: "Slug",
+    label: "URL 슬러그",
     unique: true,
     ...(slugOverrides || {}),
     hooks: {
@@ -39,6 +39,9 @@ export const slugField: Slug = (fieldToUse = "title", overrides = {}) => {
       beforeValidate: [formatSlugHook(fieldToUse)],
     },
     admin: {
+      description:
+        "공개 URL 경로에 사용됩니다. 직접 수정하려면 잠금을 해제하세요.",
+      placeholder: "예: payload-admin-korean",
       position: "sidebar",
       ...(slugOverrides?.admin || {}),
       components: {

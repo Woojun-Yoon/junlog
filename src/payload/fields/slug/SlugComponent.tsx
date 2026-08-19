@@ -1,8 +1,16 @@
 'use client'
 import React, { useCallback, useEffect } from 'react'
-import { TextFieldClientProps } from 'payload'
+import type { TextFieldClientProps } from 'payload'
 
-import { useField, Button, TextInput, FieldLabel, useFormFields, useForm } from '@payloadcms/ui'
+import {
+  Button,
+  FieldDescription,
+  FieldLabel,
+  TextInput,
+  useField,
+  useForm,
+  useFormFields,
+} from '@payloadcms/ui'
 
 import { formatSlug } from './formatSlug'
 import './index.scss'
@@ -19,7 +27,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   path,
   readOnly: readOnlyFromProps,
 }) => {
-  const { label } = field
+  const { admin, label } = field
 
   const checkboxFieldPath = path?.includes('.')
     ? `${path}.${checkboxFieldPathFromProps}`
@@ -73,15 +81,20 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
         <FieldLabel htmlFor={`field-${path}`} label={label} />
 
         <Button className="lock-button" buttonStyle="none" onClick={handleLock}>
-          {checkboxValue ? 'Unlock' : 'Lock'}
+          {checkboxValue ? '잠금 해제' : '잠금'}
         </Button>
       </div>
 
       <TextInput
-        value={value}
         onChange={setValue}
         path={path || field.name}
+        placeholder={admin?.placeholder}
         readOnly={Boolean(readOnly)}
+        value={value}
+      />
+      <FieldDescription
+        description={admin?.description}
+        path={path || field.name}
       />
     </div>
   )

@@ -30,6 +30,9 @@ export const defaultLexical: Config['editor'] = lexicalEditor({
               type: 'text',
               admin: {
                 condition: ({ linkType }) => linkType !== 'internal',
+                description:
+                  '외부 사이트 주소 또는 직접 관리하는 경로를 입력하세요.',
+                placeholder: 'https://example.com',
               },
               label: ({ t }) => t('fields:enterURL'),
               required: true,

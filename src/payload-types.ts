@@ -141,9 +141,12 @@ export interface User {
 export interface Media {
   id: string;
   /**
-   * Describe what appears in the image. Required for SEO and accessibility.
+   * 이미지를 볼 수 없어도 같은 정보를 이해할 수 있게 핵심 의미를 설명하세요.
    */
   alt: string;
+  /**
+   * 이미지 출처, 맥락, 추가 설명이 필요할 때 입력하세요.
+   */
   caption?: {
     root: {
       type: string;
@@ -236,7 +239,13 @@ export interface Media {
  */
 export interface Page {
   id: string;
+  /**
+   * 브라우저 제목과 구조화 데이터의 기준입니다. 화면에 보이는 제목은 히어로 블록에서 작성하세요.
+   */
   title: string;
+  /**
+   * 위에서 아래 순서대로 공개 페이지에 표시됩니다.
+   */
   blocks?:
     | (
         | HighImpactHeroBlock
@@ -251,13 +260,22 @@ export interface Page {
   meta?: {
     title?: string | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * 검색 결과와 공유 카드에 표시됩니다. 1200×630 비율의 이미지를 권장합니다.
      */
     image?: (string | null) | Media;
+    /**
+     * 일반적으로 자동 URL을 사용합니다. 외부 원문이 있을 때만 직접 지정하세요.
+     */
     canonicalUrl?: string | null;
     description?: string | null;
   };
+  /**
+   * 비워 두고 발행하면 현재 시각이 기록됩니다. 예약 발행은 별도 예약 기능을 사용하세요.
+   */
   publishedAt?: string | null;
+  /**
+   * 공개 URL 경로에 사용됩니다. 직접 수정하려면 잠금을 해제하세요.
+   */
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -269,6 +287,9 @@ export interface Page {
  * via the `definition` "HighImpactHeroBlock".
  */
 export interface HighImpactHeroBlock {
+  /**
+   * 페이지 최상단의 배경 이미지 위에 제목과 소개 문구로 표시됩니다.
+   */
   richText?: {
     root: {
       type: string;
@@ -284,11 +305,26 @@ export interface HighImpactHeroBlock {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * 히어로 문구 아래에 표시할 버튼을 최대 2개 추가하세요.
+   */
   links?:
     | {
+        /**
+         * 독자가 이동할 대상과 화면에 보이는 문구를 설정합니다.
+         */
         link: {
+          /**
+           * 사이트 내부 문서인지 직접 입력할 URL인지 선택하세요.
+           */
           type?: ('reference' | 'custom') | null;
+          /**
+           * 현재 페이지를 유지해야 하는 외부 링크에 사용하세요.
+           */
           newTab?: boolean | null;
+          /**
+           * 사이트 안의 페이지나 게시글로 연결합니다.
+           */
           reference?:
             | ({
                 relationTo: 'pages';
@@ -298,16 +334,25 @@ export interface HighImpactHeroBlock {
                 relationTo: 'posts';
                 value: string | Post;
               } | null);
+          /**
+           * 외부 사이트 주소 또는 직접 관리하는 경로를 입력하세요.
+           */
           url?: string | null;
+          /**
+           * 버튼이나 텍스트 링크에 독자가 보는 문구입니다.
+           */
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * 공개 페이지에서 링크가 보이는 스타일을 선택하세요.
            */
           appearance?: ('default' | 'outline') | null;
         };
         id?: string | null;
       }[]
     | null;
+  /**
+   * 페이지 최상단 전체 너비에 표시됩니다. 문구가 읽히는 이미지를 선택하세요.
+   */
   media: string | Media;
   id?: string | null;
   blockName?: string | null;
@@ -319,12 +364,21 @@ export interface HighImpactHeroBlock {
  */
 export interface Post {
   id: string;
+  /**
+   * 게시글 목록, 브라우저 제목, 공유 카드 생성의 기준입니다.
+   */
   title: string;
+  /**
+   * 목록과 검색 설명에 사용할 1~2문장 요약입니다. 결론과 대상 독자를 포함하세요.
+   */
   summary: string;
   /**
    * 자동 집계되며 직접 수정할 수 없습니다.
    */
   views?: number | null;
+  /**
+   * 게시글에 연결할 대표 이미지입니다. 검색·공유 카드 이미지는 SEO 탭에서 별도로 지정하세요.
+   */
   heroImage?: (string | null) | Media;
   /**
    * 게시글 제목이 H1입니다. 본문은 H2부터 시작하세요.
@@ -344,19 +398,37 @@ export interface Post {
     };
     [k: string]: unknown;
   };
+  /**
+   * 본문을 읽은 뒤 이어서 볼 글을 최대 3개 선택하세요.
+   */
   relatedPosts?: (string | Post)[] | null;
   meta?: {
     title?: string | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * 검색 결과와 공유 카드에 표시됩니다. 1200×630 비율의 이미지를 권장합니다.
      */
     image?: (string | null) | Media;
+    /**
+     * 일반적으로 자동 URL을 사용합니다. 외부 원문이 있을 때만 직접 지정하세요.
+     */
     canonicalUrl?: string | null;
     description?: string | null;
   };
+  /**
+   * 비워 두고 발행하면 현재 시각이 기록됩니다. 예약 발행은 별도 예약 기능을 사용하세요.
+   */
   publishedAt?: string | null;
+  /**
+   * 독자에게 의미 있는 본문 변경일이며 자동으로 관리됩니다.
+   */
   contentUpdatedAt?: string | null;
+  /**
+   * 공개 바이라인과 구조화 데이터에 표시됩니다.
+   */
   authors?: (string | User)[] | null;
+  /**
+   * 가장 관련성이 높은 카테고리만 선택하세요.
+   */
   categories?: (string | Category)[] | null;
   populatedAuthors?:
     | {
@@ -368,6 +440,9 @@ export interface Post {
         profileImage?: (string | null) | Media;
       }[]
     | null;
+  /**
+   * 공개 URL 경로에 사용됩니다. 직접 수정하려면 잠금을 해제하세요.
+   */
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -381,6 +456,9 @@ export interface Post {
 export interface Category {
   id: string;
   title: string;
+  /**
+   * 공개 URL 경로에 사용됩니다. 직접 수정하려면 잠금을 해제하세요.
+   */
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -391,6 +469,9 @@ export interface Category {
  * via the `definition` "MediumImpactHeroBlock".
  */
 export interface MediumImpactHeroBlock {
+  /**
+   * 페이지 상단에서 대표 이미지 위에 제목과 소개 문구로 표시됩니다.
+   */
   richText?: {
     root: {
       type: string;
@@ -406,11 +487,26 @@ export interface MediumImpactHeroBlock {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * 히어로 문구 아래에 표시할 버튼을 최대 2개 추가하세요.
+   */
   links?:
     | {
+        /**
+         * 독자가 이동할 대상과 화면에 보이는 문구를 설정합니다.
+         */
         link: {
+          /**
+           * 사이트 내부 문서인지 직접 입력할 URL인지 선택하세요.
+           */
           type?: ('reference' | 'custom') | null;
+          /**
+           * 현재 페이지를 유지해야 하는 외부 링크에 사용하세요.
+           */
           newTab?: boolean | null;
+          /**
+           * 사이트 안의 페이지나 게시글로 연결합니다.
+           */
           reference?:
             | ({
                 relationTo: 'pages';
@@ -420,16 +516,25 @@ export interface MediumImpactHeroBlock {
                 relationTo: 'posts';
                 value: string | Post;
               } | null);
+          /**
+           * 외부 사이트 주소 또는 직접 관리하는 경로를 입력하세요.
+           */
           url?: string | null;
+          /**
+           * 버튼이나 텍스트 링크에 독자가 보는 문구입니다.
+           */
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * 공개 페이지에서 링크가 보이는 스타일을 선택하세요.
            */
           appearance?: ('default' | 'outline') | null;
         };
         id?: string | null;
       }[]
     | null;
+  /**
+   * 히어로 문구 아래에 페이지 대표 이미지로 표시됩니다.
+   */
   media: string | Media;
   id?: string | null;
   blockName?: string | null;
@@ -440,6 +545,9 @@ export interface MediumImpactHeroBlock {
  * via the `definition` "LowImpactHeroBlock".
  */
 export interface LowImpactHeroBlock {
+  /**
+   * 페이지 상단의 좁은 본문 영역에 제목과 소개 문구로 표시됩니다.
+   */
   richText?: {
     root: {
       type: string;
@@ -455,11 +563,26 @@ export interface LowImpactHeroBlock {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * 공개 페이지에 표시할 순서대로 링크를 추가하세요.
+   */
   links?:
     | {
+        /**
+         * 독자가 이동할 대상과 화면에 보이는 문구를 설정합니다.
+         */
         link: {
+          /**
+           * 사이트 내부 문서인지 직접 입력할 URL인지 선택하세요.
+           */
           type?: ('reference' | 'custom') | null;
+          /**
+           * 현재 페이지를 유지해야 하는 외부 링크에 사용하세요.
+           */
           newTab?: boolean | null;
+          /**
+           * 사이트 안의 페이지나 게시글로 연결합니다.
+           */
           reference?:
             | ({
                 relationTo: 'pages';
@@ -469,10 +592,16 @@ export interface LowImpactHeroBlock {
                 relationTo: 'posts';
                 value: string | Post;
               } | null);
+          /**
+           * 외부 사이트 주소 또는 직접 관리하는 경로를 입력하세요.
+           */
           url?: string | null;
+          /**
+           * 버튼이나 텍스트 링크에 독자가 보는 문구입니다.
+           */
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * 공개 페이지에서 링크가 보이는 스타일을 선택하세요.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -488,6 +617,9 @@ export interface LowImpactHeroBlock {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
+  /**
+   * 독자의 다음 행동을 안내하는 문구로 버튼 옆에 표시됩니다.
+   */
   richText?: {
     root: {
       type: string;
@@ -503,11 +635,26 @@ export interface CallToActionBlock {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * 공개 페이지에 표시할 버튼을 최대 2개 추가하세요.
+   */
   links?:
     | {
+        /**
+         * 독자가 이동할 대상과 화면에 보이는 문구를 설정합니다.
+         */
         link: {
+          /**
+           * 사이트 내부 문서인지 직접 입력할 URL인지 선택하세요.
+           */
           type?: ('reference' | 'custom') | null;
+          /**
+           * 현재 페이지를 유지해야 하는 외부 링크에 사용하세요.
+           */
           newTab?: boolean | null;
+          /**
+           * 사이트 안의 페이지나 게시글로 연결합니다.
+           */
           reference?:
             | ({
                 relationTo: 'pages';
@@ -517,10 +664,16 @@ export interface CallToActionBlock {
                 relationTo: 'posts';
                 value: string | Post;
               } | null);
+          /**
+           * 외부 사이트 주소 또는 직접 관리하는 경로를 입력하세요.
+           */
           url?: string | null;
+          /**
+           * 버튼이나 텍스트 링크에 독자가 보는 문구입니다.
+           */
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * 공개 페이지에서 링크가 보이는 스타일을 선택하세요.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -536,9 +689,18 @@ export interface CallToActionBlock {
  * via the `definition` "ContentBlock".
  */
 export interface ContentBlock {
+  /**
+   * 데스크톱에서는 선택한 너비로 배치되고 모바일에서는 세로로 이어집니다.
+   */
   columns?:
     | {
+        /**
+         * 데스크톱 화면에서 이 열이 차지할 너비입니다.
+         */
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        /**
+         * 해당 열의 본문으로 공개 페이지에 표시됩니다.
+         */
         richText?: {
           root: {
             type: string;
@@ -554,10 +716,25 @@ export interface ContentBlock {
           };
           [k: string]: unknown;
         } | null;
+        /**
+         * 이 열 아래에 이동 링크를 표시할 때 선택하세요.
+         */
         enableLink?: boolean | null;
+        /**
+         * 열의 내용을 읽은 뒤 이동할 대상을 설정합니다.
+         */
         link?: {
+          /**
+           * 사이트 내부 문서인지 직접 입력할 URL인지 선택하세요.
+           */
           type?: ('reference' | 'custom') | null;
+          /**
+           * 현재 페이지를 유지해야 하는 외부 링크에 사용하세요.
+           */
           newTab?: boolean | null;
+          /**
+           * 사이트 안의 페이지나 게시글로 연결합니다.
+           */
           reference?:
             | ({
                 relationTo: 'pages';
@@ -567,10 +744,16 @@ export interface ContentBlock {
                 relationTo: 'posts';
                 value: string | Post;
               } | null);
+          /**
+           * 외부 사이트 주소 또는 직접 관리하는 경로를 입력하세요.
+           */
           url?: string | null;
+          /**
+           * 버튼이나 텍스트 링크에 독자가 보는 문구입니다.
+           */
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * 공개 페이지에서 링크가 보이는 스타일을 선택하세요.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -586,6 +769,9 @@ export interface ContentBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
+  /**
+   * 선택한 미디어와 캡션이 본문 또는 페이지의 한 구역으로 표시됩니다.
+   */
   media: string | Media;
   id?: string | null;
   blockName?: string | null;
@@ -596,6 +782,9 @@ export interface MediaBlock {
  * via the `definition` "ArchiveBlock".
  */
 export interface ArchiveBlock {
+  /**
+   * 선택한 글 목록 바로 위에 표시됩니다.
+   */
   introContent?: {
     root: {
       type: string;
@@ -611,10 +800,25 @@ export interface ArchiveBlock {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * 조건으로 자동 구성하거나 글을 직접 선택할 수 있습니다.
+   */
   populateBy?: ('collection' | 'selection') | null;
+  /**
+   * 현재는 게시글 목록만 지원합니다.
+   */
   relationTo?: 'posts' | null;
+  /**
+   * 선택한 카테고리에 속한 글만 표시합니다. 비워 두면 모든 카테고리를 대상으로 합니다.
+   */
   categories?: (string | Category)[] | null;
+  /**
+   * 공개 페이지에 표시할 최대 글 개수입니다.
+   */
   limit?: number | null;
+  /**
+   * 선택한 순서대로 공개 페이지에 표시됩니다.
+   */
   selectedDocs?:
     | {
         relationTo: 'posts';
@@ -1280,9 +1484,21 @@ export interface Header {
   id: string;
   navItems?:
     | {
+        /**
+         * 독자가 이동할 대상과 화면에 보이는 문구를 설정합니다.
+         */
         link: {
+          /**
+           * 사이트 내부 문서인지 직접 입력할 URL인지 선택하세요.
+           */
           type?: ('reference' | 'custom') | null;
+          /**
+           * 현재 페이지를 유지해야 하는 외부 링크에 사용하세요.
+           */
           newTab?: boolean | null;
+          /**
+           * 사이트 안의 페이지나 게시글로 연결합니다.
+           */
           reference?:
             | ({
                 relationTo: 'pages';
@@ -1292,7 +1508,13 @@ export interface Header {
                 relationTo: 'posts';
                 value: string | Post;
               } | null);
+          /**
+           * 외부 사이트 주소 또는 직접 관리하는 경로를 입력하세요.
+           */
           url?: string | null;
+          /**
+           * 버튼이나 텍스트 링크에 독자가 보는 문구입니다.
+           */
           label: string;
         };
         id?: string | null;
@@ -1309,9 +1531,21 @@ export interface Footer {
   id: string;
   navItems?:
     | {
+        /**
+         * 독자가 이동할 대상과 화면에 보이는 문구를 설정합니다.
+         */
         link: {
+          /**
+           * 사이트 내부 문서인지 직접 입력할 URL인지 선택하세요.
+           */
           type?: ('reference' | 'custom') | null;
+          /**
+           * 현재 페이지를 유지해야 하는 외부 링크에 사용하세요.
+           */
           newTab?: boolean | null;
+          /**
+           * 사이트 안의 페이지나 게시글로 연결합니다.
+           */
           reference?:
             | ({
                 relationTo: 'pages';
@@ -1321,7 +1555,13 @@ export interface Footer {
                 relationTo: 'posts';
                 value: string | Post;
               } | null);
+          /**
+           * 외부 사이트 주소 또는 직접 관리하는 경로를 입력하세요.
+           */
           url?: string | null;
+          /**
+           * 버튼이나 텍스트 링크에 독자가 보는 문구입니다.
+           */
           label: string;
         };
         id?: string | null;
@@ -1403,7 +1643,13 @@ export interface TaskSchedulePublish {
  * via the `definition` "BannerBlock".
  */
 export interface BannerBlock {
+  /**
+   * 공개 본문에서 의미에 맞는 아이콘과 색상으로 표시됩니다.
+   */
   style: 'info' | 'warning' | 'error' | 'success';
+  /**
+   * 본문에서 독자가 놓치지 않아야 할 내용을 강조해 표시합니다.
+   */
   content: {
     root: {
       type: string;
