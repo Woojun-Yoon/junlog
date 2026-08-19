@@ -1,4 +1,6 @@
-@import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset";
+// A single font file keeps the caret metrics stable while composing Korean text.
+// Dynamic subsets can swap glyph fonts as new Hangul syllables are entered.
+@import "pretendard/dist/web/variable/pretendardvariable";
 
 :root {
   --font-body:
