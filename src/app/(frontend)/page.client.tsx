@@ -25,7 +25,7 @@ const PageClient = () => {
             href="https://scratch.mit.edu/about"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline underline-offset-4 hover:text-black dark:hover:text-white transition-colors"
+            className="underline decoration-primary decoration-2 underline-offset-4 transition-colors hover:text-foreground"
           >
             Scratch
           </a>
@@ -39,13 +39,13 @@ const PageClient = () => {
         <div className="relative z-10 mt-4 flex flex-wrap items-center justify-center gap-4">
           <button
             onClick={() => router.push("/posts")}
-            className="w-full sm:w-48 md:w-60 transform rounded-lg bg-black px-6 py-2 text-sm sm:text-base md:text-lg font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            className="w-full sm:w-48 md:w-60 transform rounded-lg bg-primary px-6 py-2 text-sm sm:text-base md:text-lg font-medium text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary/90"
           >
             Explore Now
           </button>
           <button
             onClick={() => router.push("/contact")}
-            className="w-full sm:w-48 md:w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 text-sm sm:text-base md:text-lg font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900"
+            className="w-full sm:w-48 md:w-60 transform rounded-lg border border-border bg-background px-6 py-2 text-sm sm:text-base md:text-lg font-medium text-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-muted"
           >
             Contact Me
           </button>

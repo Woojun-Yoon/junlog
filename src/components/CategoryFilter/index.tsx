@@ -130,7 +130,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                 {isActive && (
                   <motion.span
                     layoutId="activeIndicator"
-                    className="absolute inset-0 rounded-lg bg-neutral-900 dark:bg-white"
+                    className="absolute inset-0 rounded-lg bg-primary"
                     transition={{
                       type: "spring",
                       stiffness: 400,
@@ -142,7 +142,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
                 <span
                   className={cn(
                     "relative z-10 transition-colors duration-150",
-                    isActive && "text-white dark:text-neutral-900",
+                    isActive && "text-primary-foreground",
                   )}
                 >
                   {category.title}
@@ -153,7 +153,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
         </div>
 
         {/* Fade effect for mobile scroll indication */}
-        <div className="absolute right-0 top-0 bottom-2 md:bottom-0 w-8 bg-gradient-to-l from-white dark:from-neutral-950 pointer-events-none md:hidden" />
+        <div className="absolute right-0 top-0 bottom-2 md:bottom-0 w-8 bg-gradient-to-l from-background pointer-events-none md:hidden" />
       </div>
     </div>
   );

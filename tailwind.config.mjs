@@ -53,6 +53,11 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        brand: {
+          black: "hsl(var(--brand-black) / <alpha-value>)",
+          turquoise: "hsl(var(--brand-turquoise) / <alpha-value>)",
+          "white-smoke": "hsl(var(--brand-white-smoke) / <alpha-value>)",
+        },
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",

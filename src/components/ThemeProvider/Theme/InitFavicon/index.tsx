@@ -55,9 +55,9 @@ export const InitFavicon: React.FC = () => {
         href="/favicon-16x16.png"
       />
       <link rel="manifest" href="/manifest.json" />
-      <meta name="msapplication-TileColor" content="#ffffff" />
+      <meta name="msapplication-TileColor" content="#F5F5F5" />
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-      <meta name="theme-color" content="#ffffff" />
+      <meta name="theme-color" content="#F5F5F5" />
     </>
   );
 };

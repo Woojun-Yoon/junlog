@@ -34,7 +34,7 @@ const TableOfContent = ({ toc }: Props) => {
                   isH3 && "ml-4 text-muted-foreground",
                   isH4 && "ml-8 text-muted-foreground",
                   isActive
-                    ? "text-blue-400 font-medium"
+                    ? "text-foreground font-medium underline decoration-primary decoration-2 underline-offset-4"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >

@@ -24,12 +24,12 @@ const TableOfContentTop = ({ toc }: Props) => {
             key={item.link}
             className={cn(
               item.indent === 1 && "ml-4",
-              "py-1 text-sm text-muted-foreground hover:text-blue-400 transition-colors break-words line-clamp-1 overflow-x-hidden"
+              "py-1 text-sm text-muted-foreground transition-colors break-words line-clamp-1 overflow-x-hidden"
             )}
           >
             <Link
               href={item.link}
-              className="block underline-offset-4 hover:underline"
+              className="block decoration-primary decoration-2 underline-offset-4 hover:text-foreground hover:underline"
             >
               {item.text}
             </Link>

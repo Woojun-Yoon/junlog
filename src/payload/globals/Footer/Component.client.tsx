@@ -31,7 +31,7 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
             <Logo className="invert dark:invert-0" />
           </Link>
 
-          <p className="text-sm text-black/60 dark:text-white/60 text-center">
+          <p className="text-sm text-foreground/60 text-center">
             © 2026 Junlog. All rights reserved.
           </p>
 
@@ -43,11 +43,7 @@ export const FooterClient: React.FC<FooterClientProps> = ({ data }) => {
             <nav className="flex gap-4">
               {navItems.map(({ link }, i) => {
                 return (
-                  <CMSLink
-                    className="text-black dark:text-white"
-                    key={i}
-                    {...link}
-                  />
+                  <CMSLink className="text-foreground" key={i} {...link} />
                 );
               })}
             </nav>
