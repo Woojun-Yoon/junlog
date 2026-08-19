@@ -97,8 +97,8 @@ export const generateMeta = async (args: {
   const description = doc?.meta?.description || fallbackDescription;
   const canonicalURL =
     doc?.meta?.canonicalUrl || getCollectionURL(collection, doc?.slug);
-  const pageTitle = doc?.meta?.title || doc?.title || "junlog";
-  const title = pageTitle === "junlog" ? pageTitle : `${pageTitle} | junlog`;
+  const title =
+    doc?.meta?.title || (doc?.title ? `${doc.title} | junlog` : "junlog");
 
   const openGraph = mergeOpenGraph({
     title,
