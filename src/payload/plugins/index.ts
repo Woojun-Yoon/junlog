@@ -1,20 +1,71 @@
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { redirectsPlugin } from "@payloadcms/plugin-redirects";
+import { searchPlugin } from "@payloadcms/plugin-search";
 import { seoPlugin } from "@payloadcms/plugin-seo";
-import { Plugin } from "payload";
+import type { Plugin } from "payload";
 
-import { getCollectionURL, getServerSideURL, RoutableCollection } from "@/lib/utils/getURL";
+import {
+  getCollectionURL,
+  getServerSideURL,
+  RoutableCollection,
+} from "@/lib/utils/getURL";
 import { Page, Post } from "@/payload-types";
 import { revalidateRedirects } from "../hooks/revalidateRedirects";
 
 const isRoutableCollection = (
-  collectionSlug?: string
+  collectionSlug?: string,
 ): collectionSlug is RoutableCollection => {
   return collectionSlug === "pages" || collectionSlug === "posts";
 };
 
 export const plugins: Plugin[] = [
   // storage-adapter-placeholder,
+
+  searchPlugin({
+    collections: ["posts"],
+    beforeSync: ({ originalDoc, searchDoc }) => {
+      return {
+        ...searchDoc,
+        slug: typeof originalDoc.slug === "string" ? originalDoc.slug : "",
+        summary:
+          typeof originalDoc.summary === "string" ? originalDoc.summary : "",
+      };
+    },
+    searchOverrides: {
+      labels: {
+        singular: "검색 인덱스",
+        plural: "검색 인덱스",
+      },
+      admin: {
+        description:
+          "공개 게시글의 제목과 요약으로 자동 생성되는 검색 인덱스입니다.",
+      },
+      fields: ({ defaultFields }) => [
+        ...defaultFields,
+        {
+          name: "summary",
+          type: "textarea",
+          label: "요약",
+          admin: {
+            readOnly: true,
+          },
+        },
+        {
+          name: "slug",
+          type: "text",
+          label: "Slug",
+          index: true,
+          required: true,
+          admin: {
+            readOnly: true,
+          },
+        },
+      ],
+    },
+    skipSync: ({ doc }) =>
+      typeof doc.slug !== "string" || doc.slug.trim().length === 0,
+    syncDrafts: false,
+  }),
 
   redirectsPlugin({
     collections: ["pages", "posts"],
@@ -41,14 +92,31 @@ export const plugins: Plugin[] = [
   }),
 
   seoPlugin({
-    generateTitle: ({ doc }: { doc: Post | Page }) => {
-      return doc?.title
-        ? `${doc.title} | junlog`
-        : "junlog";
+    generateTitle: ({
+      collectionConfig,
+      doc,
+    }: {
+      collectionConfig?: { slug?: string };
+      doc: Post | Page;
+    }) => {
+      if (!doc?.title) {
+        return "junlog";
+      }
+
+      return collectionConfig?.slug === "posts"
+        ? doc.title
+        : `${doc.title} | junlog`;
     },
     generateDescription: ({ doc }: { doc: Post | Page }) => {
       if ("summary" in doc && typeof doc.summary === "string") {
         return doc.summary;
+      }
+
+      return "";
+    },
+    generateImage: ({ doc }: { doc: Post | Page }) => {
+      if ("heroImage" in doc) {
+        return doc.heroImage || "";
       }
 
       return "";

@@ -25,6 +25,7 @@ export interface Config {
     pages: Page;
     posts: Post;
     categories: Category;
+    search: Search;
     redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -39,6 +40,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    search: SearchSelect<false> | SearchSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -377,7 +379,7 @@ export interface Post {
    */
   views?: number | null;
   /**
-   * 게시글에 연결할 대표 이미지입니다. 검색·공유 카드 이미지는 SEO 탭에서 별도로 지정하세요.
+   * 게시글에 연결할 대표 이미지입니다. SEO 탭의 검색·공유 이미지 자동 생성에도 사용됩니다.
    */
   heroImage?: (string | null) | Media;
   /**
@@ -405,11 +407,11 @@ export interface Post {
   meta?: {
     title?: string | null;
     /**
-     * 검색 결과와 공유 카드에 표시됩니다. 1200×630 비율의 이미지를 권장합니다.
+     * 자동 생성하면 게시글의 대표 이미지를 사용합니다. 직접 다른 이미지를 선택할 수도 있습니다.
      */
     image?: (string | null) | Media;
     /**
-     * 일반적으로 자동 URL을 사용합니다. 외부 원문이 있을 때만 직접 지정하세요.
+     * 자동 생성하면 현재 URL 슬러그를 사용합니다. 외부 원문이 있을 때는 직접 입력하세요.
      */
     canonicalUrl?: string | null;
     description?: string | null;
@@ -830,6 +832,25 @@ export interface ArchiveBlock {
   blockType: 'archive';
 }
 /**
+ * 공개 게시글의 제목과 요약으로 자동 생성되는 검색 인덱스입니다.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search".
+ */
+export interface Search {
+  id: string;
+  title?: string | null;
+  priority?: number | null;
+  doc: {
+    relationTo: 'posts';
+    value: string | Post;
+  };
+  summary?: string | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -990,6 +1011,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'search';
+        value: string | Search;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1386,6 +1411,19 @@ export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search_select".
+ */
+export interface SearchSelect<T extends boolean = true> {
+  title?: T;
+  priority?: T;
+  doc?: T;
+  summary?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }

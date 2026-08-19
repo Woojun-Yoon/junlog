@@ -2,11 +2,8 @@ import type { Metadata } from "next/types";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import PageClient from "./page.client";
-import Link from "next/link";
-import Image from "next/image";
-import { Media } from "@/components/Media";
 import { JsonLd } from "@/components/Seo/JsonLd";
-import { formatDateTime } from "@/lib/utils/formatDateTime";
+import { PostListItem } from "@/components/PostListItem";
 import { mergeOpenGraph } from "@/lib/utils/mergeOpenGraph";
 import { getAbsoluteURL } from "@/lib/utils/getURL";
 import {
@@ -84,64 +81,8 @@ export default async function HomePage() {
 
         <div className="divide-y divide-border">
           {posts.map((post, index) => {
-            const isPriorityImage = index === 0;
-            const metaImage = post.meta?.image;
-
             return (
-              <Link
-                key={post.id}
-                href={`/posts/${post.slug}`}
-                prefetch={false}
-                className="block group transition-all duration-300 hover:bg-muted/80 hover:shadow-sm rounded-md px-2 sm:px-4 -mx-2 sm:-mx-4"
-              >
-                <div className="py-6 flex items-center space-x-4 text-left">
-                  {/* 텍스트 섹션 */}
-                  <div className="flex-1 space-y-2">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold break-keep text-foreground">
-                      {post.title}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-muted-foreground">
-                      <time dateTime={post.publishedAt ?? undefined}>
-                        {formatDateTime(post.publishedAt || post.createdAt)}
-                      </time>
-                    </p>
-
-                    {post.summary && (
-                      <p className="text-sm sm:text-base md:text-lg text-muted-foreground break-keep line-clamp-3">
-                        {post.summary}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* 이미지 섹션 */}
-                  <div className="relative hidden aspect-[40/21] w-48 flex-shrink-0 overflow-hidden rounded-md md:block">
-                    {metaImage && typeof metaImage === "object" ? (
-                      <Media
-                        fill
-                        htmlElement={null}
-                        imgClassName="object-cover rounded-md"
-                        priority={isPriorityImage}
-                        resource={metaImage}
-                        sizes="192px"
-                      />
-                    ) : (
-                      <Image
-                        src="/junlog-og.webp"
-                        alt={
-                          post.title
-                            ? `${post.title} 대표 이미지`
-                            : "junlog 기본 대표 이미지"
-                        }
-                        fill
-                        priority={isPriorityImage}
-                        sizes="192px"
-                        className="object-cover rounded-md"
-                      />
-                    )}
-                  </div>
-                </div>
-              </Link>
+              <PostListItem key={post.id} post={post} priority={index === 0} />
             );
           })}
         </div>

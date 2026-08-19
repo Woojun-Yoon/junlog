@@ -34,6 +34,9 @@ import { InlineCodeFeatureClient as InlineCodeFeatureClient_e70f5e05f09f93e00b99
 import { SuperscriptFeatureClient as SuperscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { SubscriptFeatureClient as SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { CanonicalURLField as CanonicalURLField_69eca7576c30302377a5a69030eaf4ac } from '@/payload/fields/CanonicalURLField'
+import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
+import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { RowLabel as RowLabel_19e8a9033e6a2d5d6a04b3762ec81d80 } from '@/payload/globals/Header/RowLabel'
 import { RowLabel as RowLabel_d2aff3abcb7b90b04c6a0836d1455041 } from '@/payload/globals/Footer/RowLabel'
 import { default as default_380afaeea2d45f396e81f036010b9e99 } from '@/components/AfterLogin'
@@ -82,6 +85,9 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#SuperscriptFeatureClient": SuperscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#SubscriptFeatureClient": SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#StrikethroughFeatureClient": StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/payload/fields/CanonicalURLField#CanonicalURLField": CanonicalURLField_69eca7576c30302377a5a69030eaf4ac,
+  "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
+  "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@/payload/globals/Header/RowLabel#RowLabel": RowLabel_19e8a9033e6a2d5d6a04b3762ec81d80,
   "@/payload/globals/Footer/RowLabel#RowLabel": RowLabel_d2aff3abcb7b90b04c6a0836d1455041,
   "@/components/AfterLogin#default": default_380afaeea2d45f396e81f036010b9e99,
