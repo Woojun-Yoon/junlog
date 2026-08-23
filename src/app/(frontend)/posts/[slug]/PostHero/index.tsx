@@ -3,6 +3,7 @@ import React from "react";
 
 import type { Post } from "@/payload-types";
 
+import { Media } from "@/components/Media";
 import { formatAuthors } from "@/lib/utils/formatAuthors";
 import ViewCounter from "../ViewCounter";
 
@@ -10,7 +11,7 @@ export const PostHero: React.FC<{
   post: Post;
   slug: string;
 }> = ({ post, slug }) => {
-  const { populatedAuthors, publishedAt, title, views } = post;
+  const { heroImage, populatedAuthors, publishedAt, title, views } = post;
 
   const hasAuthors =
     populatedAuthors &&
@@ -19,6 +20,19 @@ export const PostHero: React.FC<{
 
   return (
     <div className="relative flex flex-col items-center text-center pb-1 px-4 md:px-6">
+      {heroImage && typeof heroImage === "object" && (
+        <div className="relative mb-8 aspect-[40/21] w-full max-w-[48rem] overflow-hidden rounded-lg md:hidden">
+          <Media
+            fill
+            htmlElement={null}
+            imgClassName="object-cover"
+            priority
+            resource={heroImage}
+            sizes="(max-width: 767px) calc(100vw - 2rem), 1px"
+          />
+        </div>
+      )}
+
       {/* Title */}
       <div className="max-w-[48rem] w-full">
         <h1 className="text-4xl md:text-4xl lg:text-5xl font-bold leading-tight mb-8 break-keep">
