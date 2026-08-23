@@ -23,6 +23,7 @@ import FloatingButton from "./FloatingButton";
 import Giscus from "./Comment/Giscus";
 import { getAbsoluteURL } from "@/lib/utils/getURL";
 import { getBreadcrumbSchema, getPostSchema } from "@/lib/seo/schema";
+import { Toaster } from "@/components/ui/toaster";
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
@@ -101,6 +102,7 @@ export default async function Post({ params: paramsPromise }: Args) {
         schema={[getPostSchema(post), getBreadcrumbSchema(breadcrumbItems)]}
       />
       <PageClient />
+      <Toaster position="bottom-center" richColors />
 
       <PayloadRedirects disableNotFound url={url} />
 

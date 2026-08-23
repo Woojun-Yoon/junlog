@@ -18,7 +18,7 @@ const TableOfContentTop = ({ toc }: Props) => {
       >
         On this page
       </h2>
-      <ul className="space-y-1 border-l pl-4">
+      <ul className="space-y-1 border-l border-foreground/20 pl-4">
         {toc.map((item) => (
           <li
             key={item.link}
