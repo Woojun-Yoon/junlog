@@ -17,9 +17,14 @@ const ClientOnly = ({ children }: { children: React.ReactNode }) => {
   return mounted ? <>{children}</> : null;
 };
 
+const getScrollBehavior = (): ScrollBehavior =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth";
+
 export const ScrollTop = ({ size = 16, className }: ButtonProps) => {
   const scrollTop = () => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0, behavior: getScrollBehavior() });
   };
 
   return (
@@ -44,7 +49,10 @@ export const ScrollToComment = ({ size = 16, className }: ButtonProps) => {
     if (!commentSection) return;
 
     window.dispatchEvent(new Event(GISCUS_LOAD_EVENT));
-    commentSection.scrollIntoView({ block: "start" });
+    commentSection.scrollIntoView({
+      block: "start",
+      behavior: getScrollBehavior(),
+    });
   };
 
   return (
